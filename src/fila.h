@@ -1,5 +1,3 @@
-
-
 #ifndef FILA_H
 #define FILA_H
 
@@ -25,7 +23,7 @@ void insere_fila(FILA f, ITEM i);
 
 /// @pre fila não deve ser nula 
 /// @brief remove um elemento da fila
-/// @paral f fila
+/// @param f fila
 /// @return retorna o item removido
 ITEM remove_fila(FILA f);
 
