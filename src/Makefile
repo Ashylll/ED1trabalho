@@ -1,7 +1,7 @@
 PROJ_NAME=testes_fila
 ALUNO=Ashley
 LIBS=
-OBJETOS=fila.o test_fila.o unity.o
+OBJETOS=fila.o t_fila.o unity.o
 
 CC=gcc
 CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -I. -I./unity
@@ -19,8 +19,8 @@ unity.o: unity/unity.c unity/unity.h
 fila.o: fila.c fila.h
 	$(CC) -c $(CFLAGS) fila.c -o fila.o
 
-test_fila.o: test_fila.c fila.h unity/unity.h
-	$(CC) -c $(CFLAGS) test_fila.c -o test_fila.o
+t_fila.o: t_fila.c fila.h unity/unity.h
+	$(CC) -c $(CFLAGS) t_fila.c -o t_fila.o
 
 clean:
 	rm -rf *.o $(PROJ_NAME)
