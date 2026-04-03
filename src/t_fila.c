@@ -10,7 +10,7 @@ void teste_cria_fila(void) {
     TEST_ASSERT_NOT_NULL(f);
     TEST_ASSERT_TRUE(vazia_fila(f));
     TEST_ASSERT_EQUAL_INT(0, tamanho_fila(f));
-    libera_fila(f);
+    libera_fila(&f);
 }
 
 void teste_insere_fila(void) {
@@ -22,27 +22,31 @@ void teste_insere_fila(void) {
     TEST_ASSERT_FALSE(vazia_fila(f));
     TEST_ASSERT_EQUAL_INT(1, tamanho_fila(f));
     
-    libera_fila(f);
+    libera_fila(&f);
 }
 
 void teste_remove_fila(void) {
     FILA f = cria_fila();
     int x = 10, y = 20;
+    void *removido1 = NULL;
+    
 
-    TEST_ASSERT_NULL(remove_fila(f));
+    remove_fila(f, &removido1);
+    TEST_ASSERT_NULL(removido1);
 
     insere_fila(f, &x);
     insere_fila(f, &y);
 
-    int* removido1 = (int*)remove_fila(f);
+    remove_fila(f, &removido1);
     TEST_ASSERT_EQUAL_PTR(&x, removido1);
     TEST_ASSERT_EQUAL_INT(1, tamanho_fila(f));
 
-    int* removido2 = (int*)remove_fila(f);
+    void *removido2 = NULL;
+    remove_fila(f, &removido2);
     TEST_ASSERT_EQUAL_PTR(&y, removido2);
     TEST_ASSERT_TRUE(vazia_fila(f));
 
-    libera_fila(f);
+    libera_fila(&f);
 }
 
 void teste_tamanho_fila(void) {
@@ -55,10 +59,10 @@ void teste_tamanho_fila(void) {
 
     TEST_ASSERT_EQUAL_INT(5, tamanho_fila(f));
     
-    remove_fila(f);
+    remove_fila(f, NULL);
     TEST_ASSERT_EQUAL_INT(4, tamanho_fila(f));
 
-    libera_fila(f);
+    libera_fila(&f);
 }
 
 int main(void) {

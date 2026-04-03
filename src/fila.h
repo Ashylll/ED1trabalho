@@ -24,8 +24,8 @@ void insere_fila(FILA f, ITEM i);
 /// @pre fila não deve ser nula 
 /// @brief remove um elemento da fila
 /// @param f fila
-/// @return retorna o item removido
-ITEM remove_fila(FILA f);
+/// @param fora ponteiro que recebe o item removido
+void remove_fila(FILA f, ITEM *fora);
 
 /// @pre fila não deve ser nula
 /// @brief checa se a fila está vazia
@@ -39,9 +39,9 @@ bool vazia_fila(FILA f);
 int tamanho_fila(FILA f);
 
 /// @pre fila não deve ser nula
-/// @brief libera a memória de uma fila
-/// @param f fila
-void libera_fila(FILA f);
+/// @brief libera a memória da fila
+/// @param f ponteiro para a fila
+void libera_fila(FILA *f);
 
 
 
