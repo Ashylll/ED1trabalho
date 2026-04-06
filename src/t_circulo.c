@@ -53,13 +53,13 @@ void teste_area_circulo(void){
 void teste_getId_circulo(void){
     CIRCULO c = cria_circulo(id, x, y, r, corb, corp);
 
-    int id_teste = getX_circulo(c);
+    int id_teste = getId_circulo(c);
 
     TEST_ASSERT_EQUAL_INT(id, id_teste);
     libera_circulo(&c);
 
     c = cria_circulo(-18, x, y, r, corb, corp);
-    id_teste = getX_circulo(c);
+    id_teste = getId_circulo(c);
 
     TEST_ASSERT_EQUAL_INT(-18, id_teste);
     libera_circulo(&c);
