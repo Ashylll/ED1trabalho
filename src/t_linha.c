@@ -230,3 +230,22 @@ void teste_setCOR_linha(void){
 
     libera_linha(&l);
 }
+
+int main(void) {
+    UNITY_BEGIN();
+    RUN_TEST(teste_cria_linha);
+    RUN_TEST(teste_getId_linha);
+    RUN_TEST(teste_comprimento_linha);
+    RUN_TEST(teste_getX1_linha);
+    RUN_TEST(teste_getY1_linha);
+    RUN_TEST(teste_getX2_linha);
+    RUN_TEST(teste_getY2_linha);
+    RUN_TEST(teste_getCOR_linha);
+    RUN_TEST(teste_setId_linha);
+    RUN_TEST(teste_setX1_linha);
+    RUN_TEST(teste_setY1_linha);
+    RUN_TEST(teste_setX2_linha);
+    RUN_TEST(teste_setY2_linha);
+    RUN_TEST(teste_setCOR_linha);
+    return UNITY_END();
+}

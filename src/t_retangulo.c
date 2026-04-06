@@ -266,3 +266,24 @@ void teste_setCORP_retangulo(void){
 
     libera_retangulo(&r);
 }
+
+int main(void) {
+    UNITY_BEGIN();
+    RUN_TEST(teste_cria_retangulo);
+    RUN_TEST(teste_area_retangulo);
+    RUN_TEST(teste_getId_retangulo);
+    RUN_TEST(teste_getX_retangulo);
+    RUN_TEST(teste_getY_retangulo);
+    RUN_TEST(teste_getW_retangulo);
+    RUN_TEST(teste_getH_retangulo);
+    RUN_TEST(teste_getCORB_retangulo);
+    RUN_TEST(teste_getCORP_retangulo);
+    RUN_TEST(teste_setId_retangulo);
+    RUN_TEST(teste_setX_retangulo);
+    RUN_TEST(teste_setY_retangulo);
+    RUN_TEST(teste_setW_retangulo);
+    RUN_TEST(teste_setH_retangulo);
+    RUN_TEST(teste_setCORB_retangulo);
+    RUN_TEST(teste_setCORP_retangulo);
+    return UNITY_END();
+}

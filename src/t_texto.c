@@ -5,7 +5,7 @@
 void setUp(void) {}
 void tearDown(void) {}
 
-// Parâmetros gerais do círculo para teste:
+// Parâmetros gerais do texto para teste:
     int id = 1;
     double x = 10.4;
     double y = 8.26;
@@ -248,7 +248,7 @@ void teste_setA_texto(void){
     libera_texto(&t);
 }
 
-void test_setTXTO_texto(void){
+void teste_setTXTO_texto(void){
     TEXTO t = cria_texto(id, x, y, corb, corp, a, txto);
 
     TEST_ASSERT_FALSE(setTXTO_texto(NULL, "Tchau"));
@@ -320,4 +320,28 @@ void teste_mudar_estilo(void){
     TEST_ASSERT_EQUAL_DOUBLE(20, getFSize_texto(t));
 
     libera_texto(t);
+}
+
+int main(void) {
+    UNITY_BEGIN();
+    RUN_TEST(teste_cria_texto);
+    RUN_TEST(teste_getId_texto);
+    RUN_TEST(teste_getX_texto);
+    RUN_TEST(teste_getY_texto);
+    RUN_TEST(teste_getCORB_texto);
+    RUN_TEST(teste_getCORP_texto);
+    RUN_TEST(teste_getA_texto);
+    RUN_TEST(teste_getTXTO_texto);
+    RUN_TEST(teste_setId_texto);
+    RUN_TEST(teste_setX_texto);
+    RUN_TEST(teste_setY_texto);
+    RUN_TEST(teste_setCORB_texto);
+    RUN_TEST(teste_setCORP_texto);
+    RUN_TEST(teste_setA_texto);
+    RUN_TEST(teste_setTXTO_texto);
+    RUN_TEST(teste_getFFamily_texto);
+    RUN_TEST(teste_getFWeight_texto);
+    RUN_TEST(teste_getFSize_texto);
+    RUN_TEST(teste_mudar_estilo);
+    return UNITY_END();
 }

@@ -225,3 +225,22 @@ void teste_setCORP_circulo(void){
 
     libera_circulo(&c);
 }
+
+int main(void) {
+    UNITY_BEGIN();
+    RUN_TEST(teste_cria_circulo);
+    RUN_TEST(teste_area_circulo);
+    RUN_TEST(teste_getId_circulo);
+    RUN_TEST(teste_getX_circulo);
+    RUN_TEST(teste_getY_circulo);
+    RUN_TEST(teste_getR_circulo);
+    RUN_TEST(teste_getCORB_circulo);
+    RUN_TEST(teste_getCORP_circulo);
+    RUN_TEST(teste_setId_circulo);
+    RUN_TEST(teste_setX_circulo);
+    RUN_TEST(teste_setY_circulo);
+    RUN_TEST(teste_setR_circulo);
+    RUN_TEST(teste_setCORB_circulo);
+    RUN_TEST(teste_setCORP_circulo);
+    return UNITY_END();
+}
