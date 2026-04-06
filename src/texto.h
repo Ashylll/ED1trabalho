@@ -5,11 +5,19 @@
 
 /*
     texto.h
-    Módulo responsável pela criação e gerenciamento de textos
+    Módulo responsável pela implementação do texto e operações relacionadas
+
+    Convenções:
+   -    Sistema de coordenadas com (0,0) no canto superior esquerdo;
+   -    x cresce para a direita; y cresce para baixo;
+   -    A âncora do texto pode estar no início, no meio, ou no fim.
 
 */
 
 typedef void* TEXTO;
+#define FFAMILY_PADRAO "sans-serif"
+#define FWEIGHT_PADRAO "normal"
+#define FSIZE_PADRAO 20.0
 
 /// @brief cria um texto com identificador, coordenadas, cores de borda e de preenchimento e estilo padrão (family: sans-serif | weight: normal | size: 20)
 /// @param id identificador
