@@ -107,7 +107,7 @@ void teste_getCORB_circulo(void){
     libera_circulo(&c);
 
     c = cria_circulo(id, x, y, r, "purple", corp);
-    char* corb_teste = getCORB_circulo(c);
+    corb_teste = getCORB_circulo(c);
     TEST_ASSERT_EQUAL_STRING("purple", corb_teste);
     libera_circulo(&c);
 }
@@ -119,7 +119,7 @@ void teste_getCORP_circulo(void){
     libera_circulo(&c);
 
     c = cria_circulo(id, x, y, r, corb, "black");
-    char* corp_teste = getCORP_circulo(c);
+    corp_teste = getCORP_circulo(c);
     TEST_ASSERT_EQUAL_STRING("black", corp_teste);
     libera_circulo(&c);
 }
@@ -215,10 +215,10 @@ void teste_setCORP_circulo(void){
     CIRCULO c = cria_circulo(id, x, y, r, corb, corp);
 
     TEST_ASSERT_FALSE(setCORP_circulo(NULL, "white"));
-    TEST_ASSERT_EQUAL_STRING(corb, getCORP_circulo(c));
+    TEST_ASSERT_EQUAL_STRING(corp, getCORP_circulo(c));
 
     TEST_ASSERT_FALSE(setCORP_circulo(c, NULL));
-    TEST_ASSERT_EQUAL_STRING(corb, getCORP_circulo(c));
+    TEST_ASSERT_EQUAL_STRING(corp, getCORP_circulo(c));
 
     TEST_ASSERT_TRUE(setCORP_circulo(c, "gray"));
     TEST_ASSERT_EQUAL_STRING("gray", getCORP_circulo(c));

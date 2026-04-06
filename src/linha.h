@@ -83,10 +83,10 @@ const char* getCOR_linha(LINHA l);
 
 /// @brief atribui um identificador à linha
 /// @param l linha
-/// @param i identificador
+/// @param id identificador
 /// @pre l != NULL
 /// @return true se a operação foi bem sucedida; false se não
-bool setI_linha(LINHA l, int i);
+bool setId_linha(LINHA l, int id);
 
 /// @brief atribui uma coordenada x1 à linha
 /// @param l linha 

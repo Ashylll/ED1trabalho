@@ -130,7 +130,7 @@ void teste_getCORB_retangulo(void){
     libera_retangulo(&r);
 
     r = cria_retangulo(id, x, y, w, h, "purple", corp);
-    char* corb_teste = getCORB_retangulo(r);
+    corb_teste = getCORB_retangulo(r);
     TEST_ASSERT_EQUAL_STRING("purple", corb_teste);
     libera_retangulo(&r);
 }
@@ -142,7 +142,7 @@ void teste_getCORP_retangulo(void){
     libera_retangulo(&r);
 
     r = cria_retangulo(id, x, y, w, h, corb, "black");
-    char* corp_teste = getCORP_retangulo(r);
+    corp_teste = getCORP_retangulo(r);
     TEST_ASSERT_EQUAL_STRING("black", corp_teste);
     libera_retangulo(&r);
 }
@@ -256,10 +256,10 @@ void teste_setCORP_retangulo(void){
     RETANGULO r = cria_retangulo(id, x, y, w, h, corb, corp);
 
     TEST_ASSERT_FALSE(setCORP_retangulo(NULL, "white"));
-    TEST_ASSERT_EQUAL_STRING(corb, getCORP_retangulo(r));
+    TEST_ASSERT_EQUAL_STRING(corp, getCORP_retangulo(r));
 
     TEST_ASSERT_FALSE(setCORP_retangulo(r, NULL));
-    TEST_ASSERT_EQUAL_STRING(corb, getCORP_retangulo(r));
+    TEST_ASSERT_EQUAL_STRING(corp, getCORP_retangulo(r));
 
     TEST_ASSERT_TRUE(setCORP_retangulo(r, "gray"));
     TEST_ASSERT_EQUAL_STRING("gray", getCORP_retangulo(r));
