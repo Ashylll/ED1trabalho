@@ -9,11 +9,15 @@ typedef void* CIRCULO;
 /*
     circulo.h
     Módulo responsável pela implementação do círculo e operações relacionadas
-    
+
+    -   O círculo é formado por um ponto central no plano cartesiano e um raio que determina o limite da função (borda);
+    -   Possui identificador de número inteiro;
+    -   Possui coloração para a borda e o seu preenchimento (dentro dos limites do círculo).
+
     Convenções:
-   -    Sistema de coordenadas com (0,0) no canto superior esquerdo;
-   -    x cresce para a direita; y cresce para baixo;
-   -    A âncora do círculo é seu centro.
+    -   Sistema de coordenadas no domínio dos números reais com (0,0) no canto superior esquerdo;
+    -   x cresce para a direita; y cresce para baixo;
+    -   A âncora do círculo é seu centro.
 
 */
 

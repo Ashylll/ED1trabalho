@@ -6,10 +6,13 @@
 /*
     linha.h
     Módulo responsável pela implementação da linha e operações relaciondas
-    
+
+    -   A linha é formada por dois pontos no plano cartesiano, sendo traçado um segmento de reta;
+    -   Possui identificador de número inteiro;
+    -   O segmento gerado possui coloração.
 
     Convenções:
-    -   Sistema de coordenadas com (0,0) no canto superior esquerdo;
+    -   Sistema de coordenadas no domínio dos número reais com (0,0) no canto superior esquerdo;
     -   x cresce para a direita; y cresce para baixo;
     -   A linha possui duas âncoras (nas extremidades), sendo elas o pares (x1,y1) e (x2,y2).
     -   (x1,y1) é a âncora de menor x. Em caso de empate, (x1,y1) é a âncora de menor y.

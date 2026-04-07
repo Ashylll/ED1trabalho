@@ -4,8 +4,13 @@
 #include <stdbool.h>
 
 /*
+	fila.h
 	Módulo responsável pela implementação da fila e operações relacionadas
 
+	A fila é uma forma abstrata de se manusear elementos, seguindo a lógica convencional de uma fila (FIFO).
+	First In, First Out: os elementos são inseridos no fim da fila e retirados em seu início.
+
+	Cada elemento carrega um ponteiro genérico que pode ser utilizado para armazenar estruturas (círculos, polígonos, etc.).
 */
 
 typedef void* FILA;

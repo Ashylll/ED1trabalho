@@ -7,10 +7,15 @@
     texto.h
     Módulo responsável pela implementação do texto e operações relacionadas
 
+    -   O texto é uma sequência de caracteres (palavra) partindo de um ponto no plano cartesiano;
+    -   O ponto pode representar o início da palavra, seu meio ou seu fim;
+    -   Possui identificador de número inteiro;
+    -   Possui cor de borda e de preenchimento para os caracteres.   
+
     Convenções:
-   -    Sistema de coordenadas com (0,0) no canto superior esquerdo;
-   -    x cresce para a direita; y cresce para baixo;
-   -    A âncora do texto pode estar no início, no meio, ou no fim.
+    -   Sistema de coordenadas com (0,0) no canto superior esquerdo;
+    -   x cresce para a direita; y cresce para baixo;
+    -   A âncora do texto pode estar no início, no meio, ou no fim.
 
 */
 
