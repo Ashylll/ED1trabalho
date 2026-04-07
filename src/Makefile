@@ -4,7 +4,7 @@ LIBS=
 OBJETOS=fila.o t_fila.o unity.o
 
 CC=gcc
-CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -I. -I./unity
+CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -I. -I./unity -DUNITY_INCLUDE_DOUBLE
 LDFLAGS=-O0
 
 $(PROJ_NAME): $(OBJETOS)
