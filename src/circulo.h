@@ -68,13 +68,13 @@ double getR_circulo(CIRCULO c);
 /// @param c círculo
 /// @pre c != NULL
 /// @return ponteiro para string com a cor da borda (apenas leitura)
-const char* getCORB_circulo(CIRCULO c);
+char* getCORB_circulo(CIRCULO c);
 
 /// @brief retorna a cor de preenchimento do círculo
 /// @param c círculo
 /// @pre c != NULL
 /// @return ponteiro para string com a cor de preenchimento (apenas leitura)
-const char* getCORP_circulo(CIRCULO c);
+char* getCORP_circulo(CIRCULO c);
 
 /* Funções set */
 

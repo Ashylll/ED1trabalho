@@ -59,13 +59,13 @@ double getY_texto(TEXTO t);
 /// @param t texto
 /// @pre t != NULL
 /// @return ponteiro para string com a cor da borda (apenas leitura)
-const char* getCORB_texto(TEXTO t);
+char* getCORB_texto(TEXTO t);
 
 /// @brief retorna a cor de preenchimento do texto
 /// @param t texto
 /// @pre t != NULL
 /// @return ponteiro para string com a cor de preenchimento (apenas leitura)
-const char* getCORP_texto(TEXTO t);
+char* getCORP_texto(TEXTO t);
 
 /// @brief retorna a posição da âncora do texto
 /// @param t texto
@@ -77,7 +77,7 @@ char getA_texto(TEXTO t);
 /// @param t texto
 /// @pre t != NULL
 /// @return ponteiro para string com txto (apenas leitura)
-const char* getTXTO_texto(TEXTO t);
+char* getTXTO_texto(TEXTO t);
 
 /* ===================== */
 
@@ -144,25 +144,25 @@ bool setTXTO_texto(TEXTO t, const char* txto);
 /// @param fSize tamanho do estilo
 /// @pre t != NULL && fFamily != NULL && fWeight != NULL && fSize > 0
 /// @return true se a operação foi bem sucedida; false se t == NULL || fFamily == NULL || fWeight == NULL || fSize <= 0
-bool mudar_estilo(TEXTO t, const char* fFamily, const char* fWeight, int fSize);
+bool muda_estilo(TEXTO t, const char* fFamily, const char* fWeight, double fSize);
 
 /// @brief obtém a font-family atual
 /// @param t texto
 /// @pre t != NULL
 /// @return família da fonte do texto
-const char* getFFamily_texto(TEXTO t);
+char* getFFamily_texto(TEXTO t);
 
 /// @brief obtém o font-weight atual
 /// @param t texto
 /// @pre t != NULL
 /// @return expessura da fonte do texto
-const char* getFWeight_texto(TEXTO t);
+char* getFWeight_texto(TEXTO t);
 
 /// @brief obtém o font-size atual (px)
 /// @param t texto
 /// @pre t != NULL
 /// @return tamanho da fonte do texto
-int getFSize_texto(TEXTO t);
+double getFSize_texto(TEXTO t);
 
 /* ================================================= */
 

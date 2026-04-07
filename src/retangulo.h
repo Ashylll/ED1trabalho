@@ -74,13 +74,13 @@ double getH_retangulo(RETANGULO r);
 /// @param r retângulo
 /// @pre r != NULL
 /// @return ponteiro para string com a cor da borda (apenas leitura)
-const char* getCORB_retangulo(RETANGULO r);
+char* getCORB_retangulo(RETANGULO r);
 
 /// @brief retorna a cor de preenchimento do retângulo
 /// @param r retângulo
 /// @pre r != NULL
 /// @return ponteiro para string com a cor de preenchimento (apenas leitura)
-const char* getCORP_retangulo(RETANGULO r);
+char* getCORP_retangulo(RETANGULO r);
 
 /* ===================== */
 

@@ -5,7 +5,8 @@
 
 /*
     linha.h
-    Módulo responsável pela implementação linha e operações relaciondas
+    Módulo responsável pela implementação da linha e operações relaciondas
+    
 
     Convenções:
     -   Sistema de coordenadas com (0,0) no canto superior esquerdo;
@@ -74,7 +75,7 @@ double getY2_linha(LINHA l);
 /// @param l linha
 /// @pre l != NULL
 /// @return ponteiro para string com a cor da linha (apenas leitura)
-const char* getCOR_linha(LINHA l);
+char* getCOR_linha(LINHA l);
 
 /* ===================== */
 
