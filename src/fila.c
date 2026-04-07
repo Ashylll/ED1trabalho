@@ -1,5 +1,4 @@
 #include "fila.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -18,7 +17,6 @@ typedef struct stFila {
 FILA cria_fila (void){
     stFila *fila = malloc(sizeof(stFila));
     if (!fila){
-        fprintf(stderr, "Erro na alocação de memória\n");
         return NULL;
     }
 

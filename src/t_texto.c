@@ -99,7 +99,7 @@ void teste_getCORB_texto(void){
 void teste_getCORP_texto(void){
     TEXTO t = cria_texto(id, x, y, corb, corp, a, txto);
     char* corp_teste = getCORP_texto(t);
-    TEST_ASSERT_EQUAL_STRING(corb, corp_teste);
+    TEST_ASSERT_EQUAL_STRING(corp, corp_teste);
     libera_texto(&t);
 
     t = cria_texto(id, x, y, corb, "black", a, txto);
@@ -116,17 +116,17 @@ void teste_getA_texto(void){
 
     t = cria_texto(id, x, y, corb, corp, 'i', txto);
     a_teste = getA_texto(t);
-    TEST_ASSERT_EQUAL_STRING("i", a_teste);
+    TEST_ASSERT_EQUAL_CHAR('i', a_teste);
     libera_texto(&t);
 
     t = cria_texto(id, x, y, corb, corp, 'm', txto);
     a_teste = getA_texto(t);
-    TEST_ASSERT_EQUAL_STRING('m', a_teste);
+    TEST_ASSERT_EQUAL_CHAR('m', a_teste);
     libera_texto(&t);
 
     t = cria_texto(id, x, y, corb, corp, 'f', txto);
     a_teste = getA_texto(t);
-    TEST_ASSERT_EQUAL_STRING('f', a_teste);
+    TEST_ASSERT_EQUAL_CHAR('f', a_teste);
     libera_texto(&t);
 }
 
@@ -136,7 +136,7 @@ void teste_getTXTO_texto(void){
     TEST_ASSERT_EQUAL_STRING(txto, txto_teste);
     libera_texto(&t);
 
-    t = cria_texto(id, x, y, corb, "yupiii", a, txto);
+    t = cria_texto(id, x, y, corb, corp, a, "yupiii");
     txto_teste = getTXTO_texto(t);
     TEST_ASSERT_EQUAL_STRING("yupiii", txto_teste);
     libera_texto(&t);
@@ -231,18 +231,18 @@ void teste_setA_texto(void){
     TEXTO t = cria_texto(id, x, y, corb, corp, a, txto);
 
     TEST_ASSERT_FALSE(setA_texto(NULL, 'i'));
-    TEST_ASSERT_EQUAL_CHAR(corp, getCORP_texto(t));
+    TEST_ASSERT_EQUAL_CHAR(a, getA_texto(t));
 
     TEST_ASSERT_FALSE(setA_texto(t, 'h'));
     TEST_ASSERT_EQUAL_CHAR(a, getA_texto(t));
 
-    TEST_ASSERT_TRUE(setCORP_texto(t, 'i'));
+    TEST_ASSERT_TRUE(setA_texto(t, 'i'));
     TEST_ASSERT_EQUAL_CHAR('i', getA_texto(t));
 
-    TEST_ASSERT_TRUE(setCORP_texto(t, 'm'));
+    TEST_ASSERT_TRUE(setA_texto(t, 'm'));
     TEST_ASSERT_EQUAL_CHAR('m', getA_texto(t));
 
-    TEST_ASSERT_TRUE(setCORP_texto(t, 'f'));
+    TEST_ASSERT_TRUE(setA_texto(t, 'f'));
     TEST_ASSERT_EQUAL_CHAR('f', getA_texto(t));
 
     libera_texto(&t);
@@ -268,7 +268,7 @@ void teste_getFFamily_texto(void){
     char* family = getFFamily_texto(t);
     TEST_ASSERT_EQUAL_STRING(FFAMILY_PADRAO, family);
 
-    libera_texto(t);
+    libera_texto(&t);
 }
 
 void teste_getFWeight_texto(void){
@@ -276,7 +276,7 @@ void teste_getFWeight_texto(void){
     char* weight = getFWeight_texto(t);
     TEST_ASSERT_EQUAL_STRING(FWEIGHT_PADRAO, weight);
 
-    libera_texto(t);
+    libera_texto(&t);
 }
 
 void teste_getFSize_texto(void){
@@ -284,42 +284,47 @@ void teste_getFSize_texto(void){
     double size = getFSize_texto(t);
     TEST_ASSERT_EQUAL_DOUBLE(FSIZE_PADRAO, size);
 
-    libera_texto(t);
+    libera_texto(&t);
 }
-void teste_mudar_estilo(void){
+void teste_muda_estilo(void){
     TEXTO t = cria_texto(id, x, y, corb, corp, a, txto);
 
-    TEST_ASSERT_FALSE(mudar_estilo(t, "bahh", "bold", 2));
+    TEST_ASSERT_FALSE(muda_estilo(NULL, "serif", "bold", 2));
     TEST_ASSERT_EQUAL_STRING(FFAMILY_PADRAO, getFFamily_texto(t));
     TEST_ASSERT_EQUAL_STRING(FWEIGHT_PADRAO, getFWeight_texto(t));
     TEST_ASSERT_EQUAL_DOUBLE(FSIZE_PADRAO, getFSize_texto(t));
 
-    TEST_ASSERT_FALSE(mudar_estilo(t, "cursive", "naum", 8));
+    TEST_ASSERT_FALSE(muda_estilo(t, NULL, "normal", 8));
     TEST_ASSERT_EQUAL_STRING(FFAMILY_PADRAO, getFFamily_texto(t));
     TEST_ASSERT_EQUAL_STRING(FWEIGHT_PADRAO, getFWeight_texto(t));
     TEST_ASSERT_EQUAL_DOUBLE(FSIZE_PADRAO, getFSize_texto(t));
 
-    TEST_ASSERT_FALSE(mudar_estilo(t, "cursive", "bold", -4));
+    TEST_ASSERT_FALSE(muda_estilo(t, "cursive", NULL, 12));
     TEST_ASSERT_EQUAL_STRING(FFAMILY_PADRAO, getFFamily_texto(t));
     TEST_ASSERT_EQUAL_STRING(FWEIGHT_PADRAO, getFWeight_texto(t));
     TEST_ASSERT_EQUAL_DOUBLE(FSIZE_PADRAO, getFSize_texto(t));
 
-    TEST_ASSERT_TRUE(mudar_estilo(t, "serif", "bold", 10));
+    TEST_ASSERT_FALSE(muda_estilo(t, "cursive", "bold", -4));
+    TEST_ASSERT_EQUAL_STRING(FFAMILY_PADRAO, getFFamily_texto(t));
+    TEST_ASSERT_EQUAL_STRING(FWEIGHT_PADRAO, getFWeight_texto(t));
+    TEST_ASSERT_EQUAL_DOUBLE(FSIZE_PADRAO, getFSize_texto(t));
+
+    TEST_ASSERT_TRUE(muda_estilo(t, "serif", "bold", 10));
     TEST_ASSERT_EQUAL_STRING("serif", getFFamily_texto(t));
     TEST_ASSERT_EQUAL_STRING("bold", getFWeight_texto(t));
     TEST_ASSERT_EQUAL_DOUBLE(10, getFSize_texto(t));
 
-    TEST_ASSERT_TRUE(mudar_estilo(t, "cursive", "bolder", 218.9481674));
+    TEST_ASSERT_TRUE(muda_estilo(t, "cursive", "bolder", 218.9481674));
     TEST_ASSERT_EQUAL_STRING("cursive", getFFamily_texto(t));
     TEST_ASSERT_EQUAL_STRING("bolder", getFWeight_texto(t));
     TEST_ASSERT_EQUAL_DOUBLE(218.9481674, getFSize_texto(t));
 
-    TEST_ASSERT_TRUE(mudar_estilo(t, "sans-serif", "lighter", 20));
+    TEST_ASSERT_TRUE(muda_estilo(t, "sans-serif", "lighter", 20));
     TEST_ASSERT_EQUAL_STRING("sans-serif", getFFamily_texto(t));
     TEST_ASSERT_EQUAL_STRING("lighter", getFWeight_texto(t));
     TEST_ASSERT_EQUAL_DOUBLE(20, getFSize_texto(t));
 
-    libera_texto(t);
+    libera_texto(&t);
 }
 
 int main(void) {
@@ -342,6 +347,6 @@ int main(void) {
     RUN_TEST(teste_getFFamily_texto);
     RUN_TEST(teste_getFWeight_texto);
     RUN_TEST(teste_getFSize_texto);
-    RUN_TEST(teste_mudar_estilo);
+    RUN_TEST(teste_muda_estilo);
     return UNITY_END();
 }

@@ -115,7 +115,7 @@ void teste_getCORB_circulo(void){
 void teste_getCORP_circulo(void){
     CIRCULO c = cria_circulo(id, x, y, r, corb, corp);
     char* corp_teste = getCORP_circulo(c);
-    TEST_ASSERT_EQUAL_STRING(corb, corp_teste);
+    TEST_ASSERT_EQUAL_STRING(corp, corp_teste);
     libera_circulo(&c);
 
     c = cria_circulo(id, x, y, r, corb, "black");

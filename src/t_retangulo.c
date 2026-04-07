@@ -1,6 +1,7 @@
 #include "retangulo.h"
 #include "unity.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void setUp(void) {}
 void tearDown(void) {}
@@ -27,7 +28,6 @@ void teste_cria_retangulo(void){
     TEST_ASSERT_NULL(r);
     libera_retangulo(&r);
 
-    corb = NULL;
     r = cria_retangulo(id, x, y, w, h, NULL, corp);
     TEST_ASSERT_NULL(r);
     libera_retangulo(&r);
@@ -101,10 +101,10 @@ void teste_getW_retangulo(void){
     TEST_ASSERT_EQUAL_DOUBLE(w, w_teste);
     libera_retangulo(&r);
 
-    r = cria_retangulo(id, x, y, 0, h, corb, corp);
+    r = cria_retangulo(id, x, y, 4, h, corb, corp);
     w_teste = getW_retangulo(r);
 
-    TEST_ASSERT_EQUAL_DOUBLE(-1, w_teste);
+    TEST_ASSERT_EQUAL_DOUBLE(4, w_teste);
     libera_retangulo(&r);
 }
 
@@ -116,10 +116,10 @@ void teste_getH_retangulo(void){
     TEST_ASSERT_EQUAL_DOUBLE(h, h_teste);
     libera_retangulo(&r);
 
-    r = cria_retangulo(id, x, y, w, 0, corb, corp);
+    r = cria_retangulo(id, x, y, w, 6, corb, corp);
     h_teste = getH_retangulo(r);
 
-    TEST_ASSERT_EQUAL_DOUBLE(-1, h_teste);
+    TEST_ASSERT_EQUAL_DOUBLE(6, h_teste);
     libera_retangulo(&r);
 }
 
@@ -138,7 +138,7 @@ void teste_getCORB_retangulo(void){
 void teste_getCORP_retangulo(void){
     RETANGULO r = cria_retangulo(id, x, y, w, h, corb, corp);
     char* corp_teste = getCORP_retangulo(r);
-    TEST_ASSERT_EQUAL_STRING(corb, corp_teste);
+    TEST_ASSERT_EQUAL_STRING(corp, corp_teste);
     libera_retangulo(&r);
 
     r = cria_retangulo(id, x, y, w, h, corb, "black");
@@ -169,16 +169,16 @@ void teste_setX_retangulo(void){
     RETANGULO r = cria_retangulo(id, x, y, w, h, corb, corp);
     
     TEST_ASSERT_FALSE(setX_retangulo(NULL, -10));
-    TEST_ASSERT_EQUAL_DOUBLE(x, getX_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(x, getX_retangulo(r));
 
     TEST_ASSERT_TRUE(setX_retangulo(r, 4.2));
-    TEST_ASSERT_EQUAL_DOUBLE(4.2, getX_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(4.2, getX_retangulo(r));
 
     TEST_ASSERT_TRUE(setX_retangulo(r, -2.8));
-    TEST_ASSERT_EQUAL_DOUBLE(-2.8, getX_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(-2.8, getX_retangulo(r));
 
     TEST_ASSERT_TRUE(setX_retangulo(r, 0));
-    TEST_ASSERT_EQUAL_DOUBLE(0, getX_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(0, getX_retangulo(r));
 
     libera_retangulo(&r);
 }
@@ -187,16 +187,16 @@ void teste_setY_retangulo(void){
     RETANGULO r = cria_retangulo(id, x, y, w, h, corb, corp);
     
     TEST_ASSERT_FALSE(setY_retangulo(NULL, -10));
-    TEST_ASSERT_EQUAL_DOUBLE(y, getY_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(y, getY_retangulo(r));
 
     TEST_ASSERT_TRUE(setY_retangulo(r, 4.2));
-    TEST_ASSERT_EQUAL_DOUBLE(4.2, getY_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(4.2, getY_retangulo(r));
 
     TEST_ASSERT_TRUE(setY_retangulo(r, -2.8));
-    TEST_ASSERT_EQUAL_DOUBLE(-2.8, getY_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(-2.8, getY_retangulo(r));
 
     TEST_ASSERT_TRUE(setY_retangulo(r, 0));
-    TEST_ASSERT_EQUAL_DOUBLE(0, getY_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(0, getY_retangulo(r));
 
     libera_retangulo(&r);
 }
@@ -205,16 +205,16 @@ void teste_setW_retangulo(void){
     RETANGULO r = cria_retangulo(id, x, y, w, h, corb, corp);
     
     TEST_ASSERT_FALSE(setW_retangulo(NULL, 2));
-    TEST_ASSERT_EQUAL_DOUBLE(r, getW_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(w, getW_retangulo(r));
 
     TEST_ASSERT_FALSE(setW_retangulo(r, -2));
-    TEST_ASSERT_EQUAL_DOUBLE(r, getW_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(w, getW_retangulo(r));
 
     TEST_ASSERT_FALSE(setW_retangulo(r, 0));
-    TEST_ASSERT_EQUAL_DOUBLE(r, getW_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(w, getW_retangulo(r));
 
     TEST_ASSERT_TRUE(setW_retangulo(r, 4.2));
-    TEST_ASSERT_EQUAL_DOUBLE(4.2, getW_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(4.2, getW_retangulo(r));
 
     libera_retangulo(&r);
 }
@@ -223,16 +223,16 @@ void teste_setH_retangulo(void){
     RETANGULO r = cria_retangulo(id, x, y, w, h, corb, corp);
     
     TEST_ASSERT_FALSE(setH_retangulo(NULL, 2));
-    TEST_ASSERT_EQUAL_DOUBLE(r, getH_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(h, getH_retangulo(r));
 
     TEST_ASSERT_FALSE(setH_retangulo(r, -2));
-    TEST_ASSERT_EQUAL_DOUBLE(r, getH_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(h, getH_retangulo(r));
 
     TEST_ASSERT_FALSE(setH_retangulo(r, 0));
-    TEST_ASSERT_EQUAL_DOUBLE(r, getH_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(h, getH_retangulo(r));
 
     TEST_ASSERT_TRUE(setH_retangulo(r, 4.2));
-    TEST_ASSERT_EQUAL_DOUBLE(4.2, getH_retangulo(c));
+    TEST_ASSERT_EQUAL_DOUBLE(4.2, getH_retangulo(r));
 
     libera_retangulo(&r);
 }

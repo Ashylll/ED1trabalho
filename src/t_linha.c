@@ -25,8 +25,8 @@ void teste_cria_linha(void){
 
 void teste_comprimento_linha(void){
     LINHA l = cria_linha(id, x1, y1, x2, y2, cor);
-    double deltaX = abs(x2 - x1);
-    double deltaY = abs(y2 - y1);
+    double deltaX = x2 - x1;
+    double deltaY = y2 - y1;
     double comprimento = sqrt(deltaX*deltaX + deltaY*deltaY);
 
     double comprimento_teste = comprimento_linha(l);
@@ -104,7 +104,7 @@ void teste_getY2_linha(void){
 
     double y2_teste = getY2_linha(l);
 
-    TEST_ASSERT_EQUAL_DOUBLE(y1, y2_teste);
+    TEST_ASSERT_EQUAL_DOUBLE(y2, y2_teste);
     libera_linha(&l);
 
     l = cria_linha(id, x1, y1, x2, 0, cor);
