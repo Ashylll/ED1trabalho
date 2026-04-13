@@ -2,109 +2,80 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct elemento{
-    void *chave;
-    struct elemento *prox;
-} ELEMENTO;
+#define TAMANHO_FILA 10
 
-typedef ELEMENTO *PONT;
+typedef struct {
+    void* itens[TAMANHO_FILA];
+    int inicio, fim;
+    int total; 
+} filaCircular;
 
-typedef struct stFila {
-    PONT inicio;
-    PONT fim;
-} stFila;
+typedef filaCircular* PONT;
 
 FILA cria_fila (void){
-    stFila *fila = malloc(sizeof(stFila));
-    if (!fila){
-        return NULL;
-    }
+    PONT fila = malloc(sizeof(filaCircular)); 
 
-    fila->inicio = NULL;
-    fila->fim = NULL;
+    fila->inicio = 0;
+    fila->fim = 0;
+    fila->total = 0;
 
     return fila;
 }
 
-void insere_fila(FILA f, void *item){
+bool insere_fila(FILA f, ITEM i){
     if (!f) return;
 
-    stFila *fila = (stFila*)f;
-    PONT novo = malloc(sizeof(ELEMENTO));
-    if(!novo) return;
-   
-    novo->chave = item;
-    novo->prox = NULL;
+    PONT fila = (filaCircular*)f;
+    if (!fila) return false;
+    if (fila->total == 10) return false;
 
-    if (fila->inicio == NULL){
-        fila->inicio = novo;
-    } else {
-        fila->fim->prox = novo;
-    }
+    fila->itens[fila->fim] = i;
+    fila->fim = (fila->fim + 1) % TAMANHO_FILA;
+    fila->total++;
 
-    fila->fim = novo;
-    
-    return;
+    return true;
 }
 
-void remove_fila(FILA f, ITEM *fora){
-    if (!f) return;
-    f = (stFila*)f;
-    stFila *fila = (stFila*)f;
-    if (fila->inicio == NULL) return;
+bool remove_fila(FILA f, ITEM *fora){
+    if (!f) return false;
+    PONT fila = (filaCircular*)f;
+    if (fila->total == 0) return false;
 
-    PONT removido = fila->inicio;
-    
-    if(fora != NULL){
-        *fora = removido->chave;
-    }
+    fora = fila->itens[fila->inicio];
+    fila->inicio = (fila->inicio + 1) % TAMANHO_FILA;
+    fila->total--;
 
-    fila->inicio = removido->prox;
-    if (fila->inicio == NULL) fila->fim = NULL;
-    free(removido);
-
-    return;
+    return true;
 }
 
 bool vazia_fila(FILA f){
     if (!f) return true;
+    PONT fila = (filaCircular*)f;
 
-    stFila *fila = (stFila*)f;
-    return (fila->inicio == NULL);
-
+    return (fila->total == 0);
 }
 
 int tamanho_fila(FILA f){
     if (!f) return -1;
     if (vazia_fila(f)) return 0;
 
-    stFila *fila = (stFila*)f;
+    PONT fila = (filaCircular*)f;
 
-    PONT atual = fila->inicio;
-
-    int n = 0;
-
-    do{
-       atual = atual->prox;
-       n++; 
-    } while(atual != NULL);
-
-    return n;
+    return fila->total;
 }
 
-void libera_fila(FILA *f){
-    if (!f || !*f) return;
+bool libera_fila(FILA *f){
+    if (!f || !*f) return false;
 
-    stFila *fila = (stFila*)*f;
+    PONT fila = (filaCircular*)f;
 
-    PONT atual = fila->inicio;
-    while(atual){
-        PONT apagar = atual;
-        atual = atual->prox;
-        free(apagar);
-    } 
-    free(fila);
+    for(int i = 0; i < fila->total; i++){
+        free(fila->itens[i]);
+    }
+
     *f = NULL;
+
+    return true;
 }
 
 
