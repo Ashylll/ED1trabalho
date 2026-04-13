@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-#define PI 3.141592653589793
-typedef void* CIRCULO;
 
 /*
     circulo.h
@@ -20,6 +18,9 @@ typedef void* CIRCULO;
     -   A âncora do círculo é seu centro.
 
 */
+
+#define PI 3.141592653589793
+typedef void* CIRCULO;
 
 /// @brief cria um círculo com identificador, cor de borda e de preenchimento e coordenadas
 /// @param id identificador numérico do círculo

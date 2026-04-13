@@ -7,8 +7,12 @@
     retangulo.h
     Módulo responsável pela implementação do retângulo e operações relacionadas
     
+    -   O retângulo é um conjunto de quatro pontos no plano cartesiano, dos quais é possível traçar dois pares de segmentos paralelos, formando um retângulo;
+    -   Possui identificador de número inteiro;
+    -   Possui coloração para a borda (segmentos) e o seu preenchimento (dentro dos limites do retângulo).
+
     Convenções:
-   -    Sistema de coordenadas com (0,0) no canto superior esquerdo;
+   -    Sistema de coordenadas no domínio dos números reais com (0,0) no canto superior esquerdo;
    -    x cresce para a direita; y cresce para baixo;
    -    A âncora do retângulo é o ponto no canto superior esquerdo.
 
