@@ -17,8 +17,9 @@ typedef void* FILA;
 typedef void* ITEM;
 
 /// @brief cria uma fila vazia
+/// @param tamanho_fila tamanho máximo da fila
 /// @return retorna ponteiro para a fila || NULL se der erro
-FILA cria_fila(void);
+FILA cria_fila(int tamanho_fila);
 
 /// @brief insere um item à fila
 /// @param f fila
