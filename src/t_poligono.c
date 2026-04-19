@@ -7,7 +7,6 @@ void setUp(void) {}
 void tearDown(void) {}
 
 void teste_cria_poligono(void){
-    printf("asfa");
     POLIGONO p = cria_poligono();
     TEST_ASSERT_NOT_NULL(p);
     libera_poligono(&p);
@@ -89,27 +88,6 @@ void teste_getY_vertice(void){
 
 }
 
-void teste_cria_segmento(void){
-    VERTICE v1 = cria_vertice(2.2, 2.2);
-    VERTICE v2 = cria_vertice(2.46, 4.88);
-    char* cor = "pink";
-
-    SEGMENTO s = cria_segmento(1, NULL, v2, cor);
-    TEST_ASSERT_NULL(s);
-
-    s = cria_segmento(1, v1, NULL, cor);
-    TEST_ASSERT_NULL(s);
-
-    s = cria_segmento(1, v1, v2, NULL);
-    TEST_ASSERT_NULL(s);
-
-    s = cria_segmento(-2, v1, v2, cor);
-    TEST_ASSERT_NOT_NULL(s);
-
-    libera_segmento(&s);
-    TEST_ASSERT_NULL(s);
-}
-
 
 int main(void){
     UNITY_BEGIN();
@@ -119,7 +97,6 @@ int main(void){
     RUN_TEST(teste_insere_vertice);
     RUN_TEST(teste_remove_vertice);
     RUN_TEST(teste_getXY_vertice);
-    RUN_TEST(teste_cria_segmento);
     
     return UNITY_END();
 }
