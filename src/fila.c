@@ -35,7 +35,7 @@ bool insere_fila(FILA f, ITEM i){
 
     PONT fila = (PONT)f;
     if (!fila) return false;
-    if (fila->total == 10) return false;
+    if (fila->total == fila->tamanho_max) return false;
 
     fila->itens[fila->fim] = i;
     fila->fim = (fila->fim + 1) % fila->tamanho_max;
@@ -93,6 +93,18 @@ bool libera_fila(FILA *f){
     return true;
 }
 
+ITEM ver_fila(FILA f, char i_f){
+    if (!f || (i_f != 'i' && i_f != 'f')) return NULL;
+    filaCircular *fila = (filaCircular*)f;
+
+
+    if (i_f == 'i'){
+        return fila->itens[fila->inicio];
+    }
+    int indice_ultimo = (fila->fim - 1 + fila->tamanho_max) % fila->tamanho_max;
+    return fila->itens[indice_ultimo];
+}
+
 FILA copia_fila(FILA f){
     if (!f) return NULL;
     filaCircular *fila = (filaCircular*)f;
@@ -107,7 +119,7 @@ FILA copia_fila(FILA f){
         insere_fila(aux, item);
     }
 
-    while(remove_fila(f, &item)){
+    while(remove_fila(aux, &item)){
         insere_fila(f, item);
     }
 
@@ -116,4 +128,5 @@ FILA copia_fila(FILA f){
 
    return copia;
 }
+
 

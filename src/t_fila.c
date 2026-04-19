@@ -45,6 +45,7 @@ void teste_remove_fila(void) {
     TEST_ASSERT_TRUE(vazia_fila(f));
 
     libera_fila(&f);
+    TEST_ASSERT_NULL(f);
 }
 
 void teste_vazia_fila(void){
@@ -75,6 +76,48 @@ void teste_tamanho_fila(void) {
     libera_fila(&f);
 }
 
+void teste_ver_fila(void){
+    FILA f = cria_fila(TAMANHO);
+
+    int itens[] = {2, 4, 6, 8};
+
+    for(int i = 0; i < 4; i++){
+        insere_fila(f, &itens[i]);
+    }    
+
+    TEST_ASSERT_EQUAL_INT(2, *(int*)ver_fila(f, 'i'));
+    TEST_ASSERT_EQUAL_INT(8, *(int*)ver_fila(f, 'f'));
+    TEST_ASSERT_NULL(ver_fila(f, 'a'));
+
+    remove_fila(f, NULL);
+    TEST_ASSERT_EQUAL_INT(4, *(int*)ver_fila(f, 'i'));
+
+    libera_fila(&f);
+}
+
+void teste_copia_fila(void){
+    FILA f = cria_fila(TAMANHO);
+    double itens[] = {2.4, 4.4, 6.6};
+
+    for(int i = 0; i < 3; i++){
+        insere_fila(f, &itens[i]);
+    }
+
+    FILA f_copia = copia_fila(f);
+
+    TEST_ASSERT_EQUAL_DOUBLE(2.4, *(double*)ver_fila(f_copia, 'i'));
+    TEST_ASSERT_EQUAL_DOUBLE(6.6, *(double*)ver_fila(f_copia, 'f'));
+
+    void *fora_copia;
+    remove_fila(f_copia, NULL);
+    remove_fila(f_copia, &fora_copia);
+
+    TEST_ASSERT_EQUAL_DOUBLE(4.4, *(double*)fora_copia);
+
+    libera_fila(&f_copia);
+    libera_fila(&f);
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(teste_cria_fila);
@@ -82,5 +125,8 @@ int main(void) {
     RUN_TEST(teste_remove_fila);
     RUN_TEST(teste_vazia_fila);
     RUN_TEST(teste_tamanho_fila);
+    RUN_TEST(teste_tamanho_fila);
+    RUN_TEST(teste_ver_fila);
+    RUN_TEST(teste_copia_fila);
     return UNITY_END();
 }

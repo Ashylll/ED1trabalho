@@ -54,6 +54,12 @@ int tamanho_fila(FILA f);
 /// @return FALSE se a operação falhou, TRUE se foi bem sucedida
 bool libera_fila(FILA *f);
 
+/// @brief retorna o elemento no início ou no fim da fila
+/// @param f fila
+/// @param i_f 'i' para retornar o início; 'f' para o fim
+/// @return 
+ITEM ver_fila(FILA f, char i_f);
+
 /// @brief faz uma cópia da fila
 /// @param f fila original
 /// @pre f != NULL
