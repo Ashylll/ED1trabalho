@@ -7,8 +7,8 @@
 
     -   O polígono é um conjunto de vértices ordenados ligados por segmentos de reta;
     -   Possui identificador inteiro positivo [1, 10];
-    -   Possui segmentos paralelos em seu interior, representando uma rachura;
-    -   Possui coloração para a borda e a rachura.
+    -   Possui segmentos paralelos em seu interior, representando uma hachura;
+    -   Possui coloração para a borda e a hachura.
 
         Convenções:
    -    Sistema de coordenadas no domínio dos números reais com (0,0) no canto superior esquerdo;
@@ -68,17 +68,15 @@ double getX_vertice (VERTICE v);
 /// @return coordenada y
 double getY_vertice (VERTICE v);
 
-/// @brief cria um segmento (de borda ou de rachura)
-/// @param id identificador do segmento
-/// @param v1 vértice 1
-/// @param v2 vértice 2
-/// @param cor cor do segmento
-/// @pre v1 != NULL && v2 != NULL && cor != NULL
-/// @return ponteiro para o segmento
-SEGMENTO cria_segmento(int id, VERTICE v1, VERTICE v2, char* cor);
+/// @brief cria os segmentos dos lados do polígono
+/// @param p polígono
+/// @pre p != NULL
+void desenha_poligono(POLIGONO p);
 
-/// @brief libera a memória do segmento. Não é dona da cor
-/// @param s ponteiro para handle do polígono
-void libera_segmento(SEGMENTO *s);
+/// @brief cria os segmentos da hachura do polígono
+/// @param p polígono
+/// @param d distância entre os segmentos da hachura
+/// @pre p != NULL
+void hachura_poligono(POLIGONO p, double d); 
 
 #endif

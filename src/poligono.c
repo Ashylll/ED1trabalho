@@ -14,11 +14,6 @@ typedef struct stVertice {
     double x, y;
 } stVertice;
 
-typedef struct stSegmento {
-    int id;
-    VERTICE v1, v2;
-    char *cor;
-} stSegmento;
 
 POLIGONO cria_poligono(void){
     stPoligono *poligono = malloc(sizeof(stPoligono));
@@ -121,22 +116,51 @@ double getY_vertice(VERTICE v){
     return vertice->y;
 }
 
-SEGMENTO cria_segmento(int id, VERTICE v1, VERTICE v2, char* cor){
-    stSegmento *segmento = malloc(sizeof(stSegmento));
-    if (!segmento || !v1 || !v2 || !cor) return NULL;
+static int id_global = -1;
 
-    segmento->id = id;
-    segmento->v1 = v1;
-    segmento->v2 = v2;
-    segmento->cor = cor;
-
-    return segmento;
+int proximo_id(){
+    return --id_global;
 }
 
-void libera_segmento(SEGMENTO *s){
-    if (!s || !*s) return;
-    stSegmento *segmento = (stSegmento*)*s;
-    free(segmento);
+void desenha_poligono(POLIGONO p){
+    if (!p) return;
+    stPoligono *poligono = (stPoligono*)p;
 
-    *s = NULL;
+    FILA vertices = copia_fila(poligono->vertices);
+
+    VERTICE v_primeiro, v_atual, v_prox;
+
+    remove_fila(vertices, &v_primeiro);
+    v_atual = v_primeiro;
+
+    while (remove_fila(vertices, &v_prox)) { // Cria os segmentos ao remover da fila cópia
+        double vX_atual = getX_vertice(v_atual);
+        double vY_atual = getY_vertice(v_atual);
+
+        double vX_prox = getX_vertice(v_prox);
+        double vY_prox = getY_vertice(v_prox);
+
+        SEGMENTO s = cria_linha(proximo_id(), vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
+        insere_fila(poligono->lados, s);
+        
+        v_atual = v_prox; 
+    }
+
+    // Cria o segmento final (conecta o primeiro vértice com o último)
+    double vX_atual = getX_vertice(v_atual);
+    double vY_atual = getY_vertice(v_atual);
+
+    double vX_primeiro = getX_vertice(v_primeiro);
+    double vY_primeiro = getY_vertice(v_primeiro);
+
+    SEGMENTO s_final = cria_linha(proximo_id(), vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
+    insere_fila(poligono->lados, s_final);
+
+    libera_fila(vertices);
+
+    return;
+}
+
+void hachura_poligono(POLIGONO p, double d){
+    if (!p || d <= 0) return;
 }
