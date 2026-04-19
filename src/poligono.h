@@ -53,9 +53,20 @@ void insere_vertice(POLIGONO p, VERTICE v);
 
 /// @brief remove o último vértice inserido no polígono e libera sua memória
 /// @param p polígono
-/// @param fora ponteiro que recebe o vértice removido
 /// @pre p != NULL
-void remove_vertice(POLIGONO p, VERTICE *fora);
+void remove_vertice(POLIGONO p);
+
+/// @brief retorna a coordenada x do vértice
+/// @param v vértice
+/// @pre v != NULL
+/// @return coordenada x
+double getX_vertice (VERTICE v);
+
+/// @brief retorna a coordenada y do vértice
+/// @param v vértice
+/// @pre v != NULL
+/// @return coordenada y
+double getY_vertice (VERTICE v);
 
 /// @brief cria um segmento (de borda ou de rachura)
 /// @param id identificador do segmento
@@ -66,7 +77,7 @@ void remove_vertice(POLIGONO p, VERTICE *fora);
 /// @return ponteiro para o segmento
 SEGMENTO cria_segmento(int id, VERTICE v1, VERTICE v2, char* cor);
 
-/// @brief libera a memória do segmento
+/// @brief libera a memória do segmento. Não é dona da cor
 /// @param s ponteiro para handle do polígono
 void libera_segmento(SEGMENTO *s);
 
