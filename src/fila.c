@@ -93,4 +93,27 @@ bool libera_fila(FILA *f){
     return true;
 }
 
+FILA copia_fila(FILA f){
+    if (!f) return NULL;
+    filaCircular *fila = (filaCircular*)f;
+
+    FILA copia = cria_fila(fila->tamanho_max);
+    FILA aux = cria_fila(fila->tamanho_max);
+
+    void *item;
+
+    while(remove_fila(f, &item)){
+        insere_fila(copia, item);
+        insere_fila(aux, item);
+    }
+
+    while(remove_fila(f, &item)){
+        insere_fila(f, item);
+    }
+
+    libera_fila(&aux);
+    aux = NULL;
+
+   return copia;
+}
 

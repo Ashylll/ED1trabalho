@@ -54,6 +54,11 @@ int tamanho_fila(FILA f);
 /// @return FALSE se a operação falhou, TRUE se foi bem sucedida
 bool libera_fila(FILA *f);
 
+/// @brief faz uma cópia da fila
+/// @param f fila original
+/// @pre f != NULL
+/// @return cópia da fila
+FILA copia_fila(FILA f);
 
 #endif
 
