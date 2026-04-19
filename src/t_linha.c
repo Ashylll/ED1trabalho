@@ -1,5 +1,7 @@
 #include "linha.h"
 #include "unity.h"
+
+#include <math.h>
 #include <stdlib.h>
 
 void setUp(void) {}
@@ -216,6 +218,19 @@ void teste_setY2_linha(void){
     libera_linha(&l);
 }
 
+void teste_setAncora_linha(void){
+    LINHA l = cria_linha(id, x1, y1, x2, y2, cor);
+
+    TEST_ASSERT_FALSE(setAncora_linha(NULL, -10, -8));
+    TEST_ASSERT_TRUE(setAncora_linha(l, 6.2, -12.2));
+    TEST_ASSERT_EQUAL_DOUBLE(6.2, getX1_linha(l));
+    TEST_ASSERT_EQUAL_DOUBLE(-12.2, getY1_linha(l));
+    TEST_ASSERT_EQUAL_DOUBLE(x2 + (6.2 - x1), getX2_linha(l));
+    TEST_ASSERT_EQUAL_DOUBLE(y2 + (-12.2 - y1), getY2_linha(l));
+
+    libera_linha(&l);
+}
+
 void teste_setCOR_linha(void){
     LINHA l = cria_linha(id, x1, y1, x2, y2, cor);
 
@@ -246,6 +261,7 @@ int main(void) {
     RUN_TEST(teste_setY1_linha);
     RUN_TEST(teste_setX2_linha);
     RUN_TEST(teste_setY2_linha);
+    RUN_TEST(teste_setAncora_linha);
     RUN_TEST(teste_setCOR_linha);
     return UNITY_END();
 }

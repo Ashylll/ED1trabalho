@@ -120,6 +120,13 @@ bool setX2_linha(LINHA l, double x2);
 /// @return true se a operação foi bem sucedida; false se não
 bool setY2_linha(LINHA l, double y2);
 
+/// @brief atribui uma coordenada (x,y) à âncora da linha e o segundo ponto acompanha o mesmo deslocamento (+dx, +dy) 
+/// @param l linha
+/// @param x coordenada x da âncora
+/// @param y coordenada y da âncora
+/// @return true se a operação foi bem sucedidaç false se não
+bool setAncora_linha(LINHA l, double x, double y);
+
 /// @brief atribui uma cor à linha
 /// @param l linha
 /// @param cor cor

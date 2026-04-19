@@ -44,13 +44,6 @@ double comprimento_linha(LINHA l){
     return comprimento;
 }
 
-double area_linha(LINHA l){
-    if (!l) return -1;
-    double area = 2 * comprimento_linha(l);
-
-    return area;
-}
-
 void libera_linha(LINHA *l){
     if (!l || !*l) return;
     stLinha *linha = (stLinha*)*l;
@@ -145,6 +138,22 @@ bool setY2_linha(LINHA l, double y2){
     linha->y2 = y2;
 
     return true;
+}
+
+bool setAncora_linha(LINHA l, double x, double y){
+    if (!l) return false;
+
+    stLinha *linha = (stLinha*)l;
+
+    double dx = x - linha->x1;
+    double dy = y - linha->y1;
+
+    linha->x1 = x;
+    linha->y1 = y;
+    
+
+    linha->x2 = linha->x2 + dx;
+    linha->y2 = linha->y2 + dy;
 }
 
 bool setCOR_linha(LINHA l, const char* cor){
