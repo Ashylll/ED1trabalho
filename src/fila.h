@@ -18,6 +18,7 @@ typedef void* ITEM;
 
 /// @brief cria uma fila vazia
 /// @param tamanho_fila tamanho máximo da fila
+/// @pre tamanho_fila deve ser inteiro positivo
 /// @return retorna ponteiro para a fila || NULL se der erro
 FILA cria_fila(int tamanho_fila);
 
@@ -35,7 +36,6 @@ bool insere_fila(FILA f, ITEM i);
 /// @return FALSE se a operação falhou, TRUE se foi bem sucedida
 bool remove_fila(FILA f, ITEM *fora);
 
-/// @pre fila não deve ser nula
 /// @brief checa se a fila está vazia
 /// @param f fila
 /// @pre f != NULL
@@ -48,8 +48,7 @@ bool vazia_fila(FILA f);
 /// @return tamanho da fila
 int tamanho_fila(FILA f);
 
-/// @pre fila não deve ser nula
-/// @brief libera a memória da fila
+/// @brief libera a memória apenas da fila. Não libera os elementos contidos
 /// @param f ponteiro para a fila
 /// @pre f != NULL
 /// @return FALSE se a operação falhou, TRUE se foi bem sucedida

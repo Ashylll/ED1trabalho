@@ -7,27 +7,31 @@ typedef struct {
     void** itens;
     int inicio, fim;
     int total;
-    int tamanho_max 
+    int tamanho_max; 
 } filaCircular;
 
 typedef filaCircular* PONT;
 
 FILA cria_fila (int tamanho_max){
     PONT fila = malloc(sizeof(filaCircular)); 
+    if (!fila) return NULL;
 
     fila->inicio = 0;
     fila->fim = 0;
     fila->total = 0;
     fila->tamanho_max = tamanho_max;
 
-    void* aux[tamanho_max];
-    fila->itens = aux;
+    fila->itens = malloc(tamanho_max * sizeof(void*));
+    if (!fila->itens){
+        free(fila);
+        return NULL;
+    }
 
     return fila;
 }
 
 bool insere_fila(FILA f, ITEM i){
-    if (!f) return;
+    if (!f) return false;
 
     PONT fila = (PONT)f;
     if (!fila) return false;
@@ -47,11 +51,7 @@ bool remove_fila(FILA f, ITEM *fora){
 
     ITEM removido = fila->itens[fila->inicio];
 
-    if (fora){
-    *fora = removido;
-    } else {
-        free(removido);
-    }
+    if (fora) *fora = removido; 
 
     fila->itens[fila->inicio] = NULL;
 
@@ -80,7 +80,7 @@ int tamanho_fila(FILA f){
 bool libera_fila(FILA *f){
     if (!f || !*f) return false;
 
-    PONT fila = (PONT)f;
+    PONT fila = (PONT)*f;
 
     if (fila->itens){
         free(fila->itens);

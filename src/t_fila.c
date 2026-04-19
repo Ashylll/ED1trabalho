@@ -1,12 +1,15 @@
 #include "fila.h"
 #include "unity.h"
 #include <stdlib.h>
+#include <string.h>
 
 void setUp(void) {}
 void tearDown(void) {}
 
+#define TAMANHO 100
+
 void teste_cria_fila(void) {
-    FILA f = cria_fila();
+    FILA f = cria_fila(TAMANHO);
     TEST_ASSERT_NOT_NULL(f);
     TEST_ASSERT_TRUE(vazia_fila(f));
     TEST_ASSERT_EQUAL_INT(0, tamanho_fila(f));
@@ -14,7 +17,7 @@ void teste_cria_fila(void) {
 }
 
 void teste_insere_fila(void) {
-    FILA f = cria_fila();
+    FILA f = cria_fila(TAMANHO);
     int x = 10;
     
     insere_fila(f, &x);
@@ -26,31 +29,38 @@ void teste_insere_fila(void) {
 }
 
 void teste_remove_fila(void) {
-    FILA f = cria_fila();
-    int x = 10, y = 20;
-    void *removido1 = NULL;
-    
-
-    remove_fila(f, &removido1);
-    TEST_ASSERT_NULL(removido1);
+    FILA f = cria_fila(TAMANHO);
+    int x = 10;
+    char* c = "fasfa";
+    void *removido;
 
     insere_fila(f, &x);
-    insere_fila(f, &y);
+    insere_fila(f, c);
 
-    remove_fila(f, &removido1);
-    TEST_ASSERT_EQUAL_PTR(&x, removido1);
+    remove_fila(f, &removido);
+    TEST_ASSERT_EQUAL_INT(x, *(int*)removido);
     TEST_ASSERT_EQUAL_INT(1, tamanho_fila(f));
 
-    void *removido2 = NULL;
-    remove_fila(f, &removido2);
-    TEST_ASSERT_EQUAL_PTR(&y, removido2);
+    remove_fila(f, NULL);
     TEST_ASSERT_TRUE(vazia_fila(f));
 
     libera_fila(&f);
 }
 
+void teste_vazia_fila(void){
+    FILA f = cria_fila(TAMANHO);
+    TEST_ASSERT_TRUE(vazia_fila(f));
+
+    double a = 2.4;
+    insere_fila(f, &a);
+
+    TEST_ASSERT_FALSE(vazia_fila(f));
+
+    libera_fila(&f);
+}
+
 void teste_tamanho_fila(void) {
-    FILA f = cria_fila();
+    FILA f = cria_fila(TAMANHO);
     int itens[] = {1, 2, 3, 4, 5};
 
     for(int i = 0; i < 5; i++) {
@@ -70,6 +80,7 @@ int main(void) {
     RUN_TEST(teste_cria_fila);
     RUN_TEST(teste_insere_fila);
     RUN_TEST(teste_remove_fila);
+    RUN_TEST(teste_vazia_fila);
     RUN_TEST(teste_tamanho_fila);
     return UNITY_END();
 }
