@@ -7,6 +7,7 @@ typedef struct stPoligono {
     FILA vertices;
     char *corb, *corp;
     FILA lados, rachura;
+    int id;
 
 } stPoligono;
 
@@ -58,6 +59,27 @@ int tamanho_poligono(POLIGONO p){
     stPoligono *poligono = (stPoligono*)p;
 
     return tamanho_fila(poligono->vertices);
+}
+
+int getId_poligono(POLIGONO p){
+    stPoligono *poligono = (stPoligono*)p;
+
+    return poligono->id;
+}
+
+POLIGONO getPoligono(FILA f, int id){
+    FILA copia = copia_fila(f);
+
+    POLIGONO p;
+    while(remove_fila(copia, &p)){
+        if(getId_poligono(p) == id){
+            libera_fila(&copia);
+            return p;
+        }
+    }
+    libera_fila(&copia);
+    
+    return NULL;
 }
 
 VERTICE cria_vertice(double x, double y ){

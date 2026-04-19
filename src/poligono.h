@@ -34,6 +34,17 @@ void libera_poligono(POLIGONO *p);
 /// @return número de vértices (inteiro)
 int tamanho_poligono(POLIGONO p);
 
+/// @brief retorna o id do polígono
+/// @param p polígono
+/// @return id
+int getId_poligono(POLIGONO p);
+
+/// @brief busca polígono por id em uma fila
+/// @param f fila
+/// @param id identificador 
+/// @return polígono, se encontrou; NULL se não encontrou
+POLIGONO getPoligono(FILA f, int id);
+
 /// @brief cria um vértice (ponto no plano)
 /// @param x coordenada x
 /// @param y coordenada y
