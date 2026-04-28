@@ -27,8 +27,6 @@ static const char* converter_weight(const char *weight){
 
 /* Comandos .geo */
 
-FORMAS => LISTA
-
 static bool comando_c(const char *linha, LISTA formas){
     int i; 
     double x, y, r;
@@ -45,7 +43,7 @@ static bool comando_c(const char *linha, LISTA formas){
     return true;    
 }
 
-static bool comando_r(const char *linha, FILA formas){
+static bool comando_r(const char *linha, LISTA formas){
     int i;
     double x, y, w, h;
     char corb[32], corp[32];
@@ -61,7 +59,7 @@ static bool comando_r(const char *linha, FILA formas){
     return true;
 }
 
-static bool comando_l(const char *linha, FILA formas){
+static bool comando_l(const char *linha, LISTA formas){
     int i;
     double x1, y1, x2, y2;
     char cor[32];
@@ -87,7 +85,7 @@ static bool comando_l(const char *linha, FILA formas){
 
 }
 
-static bool comando_t(const char *linha, const char *fFamily, const char *fWeight, int fSize, FILA formas){
+static bool comando_t(const char *linha, const char *fFamily, const char *fWeight, int fSize, LISTA formas){
     int i;
     double x, y;
     char corb[32], corp[32], ancora, txto[512];
@@ -120,7 +118,7 @@ static bool comando_ts(const char *linha){
     return true;
 }
 
-bool ler_geo(const char *path_geo, FILA formas){
+bool ler_geo(const char *path_geo, LISTA formas){
     FILE *fp = fopen(path_geo, "r");
     if(!fp) return false;
 
