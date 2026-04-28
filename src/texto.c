@@ -249,15 +249,12 @@ bool muda_estilo(TEXTO t, const char *fFamily, const char *fWeight, double fSize
     }
 
     char *novaFamily = malloc(strlen(fFamily) + 1);
-    if (!novaFamily) {
-        fprintf(stderr, "Erro na alocação de memória\n");
-        return false;
-    }
+    if (!novaFamily) return false;
+    
 
     char *novoWeight = malloc(strlen(fWeight) + 1);
     if (!novoWeight) {
         free(novaFamily);
-        fprintf(stderr, "Erro na alocação de memória\n");
         return false;
     }
 

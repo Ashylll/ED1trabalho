@@ -35,7 +35,7 @@ LINHA cria_linha(int id, double x1, double y1, double x2, double y2, const char*
 /// @brief calcula o comprimento da linha
 /// @param l linha
 /// @pre l != NULL
-/// @return comprimento da linha
+/// @return comprimento da linha; -1 se l == NULL
 double comprimento_linha(LINHA l);
 
 /// @brief libera a memória da linha

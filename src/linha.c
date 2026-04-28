@@ -13,7 +13,8 @@ typedef struct stLinha {
 
 LINHA cria_linha(int id, double x1, double y1, double x2, double y2, const char* cor){
     if (!cor) return NULL;
-    
+    if (x1 == x2 && x1 == y1 && x1 == y2) return NULL;
+
     stLinha *linha = malloc(sizeof(*linha));
     if (!linha) return NULL;
 
@@ -39,6 +40,7 @@ double comprimento_linha(LINHA l){
 
     double deltaX = linha->x2 - linha->x1;
     double deltaY = linha->y2 - linha->y1;
+
     double comprimento = sqrt(deltaX*deltaX + deltaY*deltaY);
 
     return comprimento;

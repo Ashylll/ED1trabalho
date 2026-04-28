@@ -125,7 +125,6 @@ int main(void) {
     RUN_TEST(teste_remove_fila);
     RUN_TEST(teste_vazia_fila);
     RUN_TEST(teste_tamanho_fila);
-    RUN_TEST(teste_tamanho_fila);
     RUN_TEST(teste_ver_fila);
     RUN_TEST(teste_copia_fila);
     return UNITY_END();

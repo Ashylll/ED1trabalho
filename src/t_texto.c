@@ -344,9 +344,9 @@ int main(void) {
     RUN_TEST(teste_setCORP_texto);
     RUN_TEST(teste_setA_texto);
     RUN_TEST(teste_setTXTO_texto);
+    RUN_TEST(teste_muda_estilo);
     RUN_TEST(teste_getFFamily_texto);
     RUN_TEST(teste_getFWeight_texto);
     RUN_TEST(teste_getFSize_texto);
-    RUN_TEST(teste_muda_estilo);
     return UNITY_END();
 }
