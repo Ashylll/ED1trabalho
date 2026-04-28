@@ -1,4 +1,5 @@
 #include "poligono.h"
+#include "linha.h"
 #include "fila.h"
 
 #include <stdlib.h>
@@ -6,7 +7,7 @@
 typedef struct stPoligono {
     FILA vertices;
     char *corb, *corp;
-    FILA lados, rachura;
+    FILA lados, hachura;
     int id;
 
 } stPoligono;
@@ -16,18 +17,20 @@ typedef struct stVertice {
 } stVertice;
 
 
-POLIGONO cria_poligono(void){
+POLIGONO cria_poligono(int id){
     stPoligono *poligono = malloc(sizeof(stPoligono));
     if (!poligono) return NULL;
+    if (id < 1 || id > 10) return NULL;
 
     poligono->vertices = cria_fila(100);
     poligono->lados = cria_fila(100);
-    poligono->rachura = cria_fila(100);
+    poligono->hachura = cria_fila(100);
     if (poligono->vertices == NULL || poligono->lados == NULL ||
-         poligono->rachura == NULL) return NULL;
+         poligono->hachura == NULL) return NULL;
 
     poligono->corb = NULL;
     poligono->corp = NULL;
+    poligono->id = id;
 
     return poligono;
 }
@@ -39,14 +42,25 @@ void libera_poligono(POLIGONO *p){
     free(poligono->corb);
     free(poligono->corp);
 
-    void* v;
-    int tamanho = tamanho_poligono(p);
-    for(int i = 0; i < tamanho; i++){
-        remove_vertice(p);
+    ITEM remove;
+    FILA vertices = getVertices_poligono(*p);
+    while (!vazia_fila(vertices)){
+        remove_fila(vertices, &remove);
+        free(remove);
     }
-    libera_fila(&(poligono->vertices));
-    libera_fila(&(poligono->lados));
-    libera_fila(&(poligono->rachura));
+
+    FILA lados = getLados_poligono(*p);
+    while(!vazia_fila(lados)){
+        remove_fila(lados, &remove);
+        free(remove);
+    }
+
+    FILA hachura = getHachura_poligono(*p);
+    while (!vazia_fila(hachura)){
+        remove_fila(hachura, &remove);
+        free(remove);
+    }
+
     free(poligono);
     *p = NULL;
 
@@ -80,6 +94,27 @@ POLIGONO getPoligono(FILA f, int id){
     libera_fila(&copia);
     
     return NULL;
+}
+
+FILA getVertices_poligono(POLIGONO p){
+    if (!p) return NULL;
+    stPoligono *poligono = (stPoligono*)p;
+
+    return poligono->vertices;
+}
+
+FILA getLados_poligono(POLIGONO p){
+    if (!p) return NULL;
+    stPoligono *poligono = (stPoligono*)p;
+
+    return poligono->lados;
+}
+
+FILA getHachura_poligono(POLIGONO p){
+    if (!p) return NULL;
+    stPoligono *poligono = (stPoligono*)p;
+
+    return poligono->hachura;
 }
 
 VERTICE cria_vertice(double x, double y ){
@@ -185,4 +220,6 @@ void desenha_poligono(POLIGONO p){
 
 void hachura_poligono(POLIGONO p, double d){
     if (!p || d <= 0) return;
+
+    
 }

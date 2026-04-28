@@ -18,32 +18,44 @@
 
 typedef void* POLIGONO;
 typedef void* VERTICE;
-typedef void* FILA;
 typedef void* SEGMENTO;
+typedef void* FILA;
 
 /// @brief cria um polígono
-/// @return ponteiro para o polígono
-POLIGONO cria_poligono(void);
+/// @param id identificador
+/// @pre id deve pertencer ao intervalo de inteiros [1, 10]
+/// @return ponteiro para o polígono; NULL se falha na criação ou id inválido
+POLIGONO cria_poligono(int id);
 
 /// @brief libera a memória do polígono
+/// @pre p != NULL
 /// @param p ponteiro para handle do polígono
 void libera_poligono(POLIGONO *p);
 
 /// @brief retorna o número de vértices do polígono
 /// @param p polígono
+/// @pre p != NULL
 /// @return número de vértices (inteiro)
 int tamanho_poligono(POLIGONO p);
 
 /// @brief retorna o id do polígono
 /// @param p polígono
-/// @return id
+/// @pre p != NULL
+/// @return identificador
 int getId_poligono(POLIGONO p);
 
 /// @brief busca polígono por id em uma fila
 /// @param f fila
 /// @param id identificador 
+/// @pre f != NULL && id pertencer ao intervalo de inteiros [1, 10]
 /// @return polígono, se encontrou; NULL se não encontrou
 POLIGONO getPoligono(FILA f, int id);
+
+FILA getVertices_poligono(POLIGONO p);
+
+FILA getLados_poligono(POLIGONO p);
+
+FILA getHachura_poligono(POLIGONO p);
 
 /// @brief cria um vértice (ponto no plano)
 /// @param x coordenada x
@@ -53,6 +65,7 @@ POLIGONO getPoligono(FILA f, int id);
 VERTICE cria_vertice(double x, double y);
 
 /// @brief libera a memória do vértice
+/// @pre v != NULL
 /// @param v ponteiro para handle do vértice
 void libera_vertice(VERTICE *v);
 
@@ -87,7 +100,7 @@ void desenha_poligono(POLIGONO p);
 /// @brief cria os segmentos da hachura do polígono
 /// @param p polígono
 /// @param d distância entre os segmentos da hachura
-/// @pre p != NULL
+/// @pre p != NULL && d > 0
 void hachura_poligono(POLIGONO p, double d); 
 
 #endif
