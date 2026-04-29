@@ -9,12 +9,15 @@ void tearDown(void) {}
 void teste_cria_poligono(void){
     POLIGONO p = cria_poligono(1);
     TEST_ASSERT_NOT_NULL(p);
-
+    libera_poligono(&p);
+    
     p = cria_poligono(0);
     TEST_ASSERT_NULL(p);
+    libera_poligono(&p);
 
     p = cria_poligono(11);
     TEST_ASSERT_NULL(p);
+    libera_poligono(&p);
 
     p = cria_poligono(4);
     TEST_ASSERT_NOT_NULL(p);
@@ -42,6 +45,7 @@ void teste_tamanho_poligono(void) {
 void teste_getId_poligono(void){
     POLIGONO p = cria_poligono(1);
     TEST_ASSERT_EQUAL_INT(1, getId_poligono);
+    libera_poligono(&p);
 
     p = cria_poligono(9);
     TEST_ASSERT_EQUAL_INT(9, getId_poligono);

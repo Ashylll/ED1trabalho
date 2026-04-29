@@ -35,9 +35,12 @@ clean:
 run: $(PROJ_NAME)
 	./$(PROJ_NAME)
 
+VG = valgrind --log-file="valgrind_log" --leak-check=full --show-leak-kinds=all --track-origins=yes
 memcheck: $(PROJ_NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(PROJ_NAME)
+	$(VG) ./$(PROJ_NAME)
 
+v:
+	$(VG) ./$(TARGET)
 
 # Makefile somente para arquivos de teste
 teste_circulo: circulo.o unity.o t_circulo.o

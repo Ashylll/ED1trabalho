@@ -24,17 +24,24 @@ typedef struct stVertice {
 POLIGONO cria_poligono(int id){
     stPoligono *poligono = malloc(sizeof(stPoligono));
     if (!poligono) return NULL;
-    if (id < 1 || id > 10) return NULL;
+    if (id < 1 || id > 10) {
+        free(poligono);
+        return NULL;
+    }
 
     poligono->vertices = cria_fila(100);
     poligono->lados = cria_fila(100);
     poligono->hachura = cria_fila(100);
-    if (poligono->vertices == NULL || poligono->lados == NULL ||
-         poligono->hachura == NULL) return NULL;
-
     poligono->corb = NULL;
     poligono->corp = NULL;
     poligono->id = id;
+
+    if (poligono->vertices == NULL || poligono->lados == NULL ||
+         poligono->hachura == NULL){
+            libera_poligono((POLIGONO*)&poligono);
+            return NULL;
+         }
+
 
     return poligono;
 }
@@ -52,18 +59,21 @@ void libera_poligono(POLIGONO *p){
         remove_fila(vertices, &remove);
         free(remove);
     }
+    libera_fila(&(poligono->vertices));
 
     FILA lados = getLados_poligono(*p);
     while(!vazia_fila(lados)){
         remove_fila(lados, &remove);
-        free(remove);
+        libera_linha(&remove);
     }
+    libera_fila(&(poligono->lados));
 
     FILA hachura = getHachura_poligono(*p);
     while (!vazia_fila(hachura)){
         remove_fila(hachura, &remove);
-        free(remove);
+        libera_linha(&remove);
     }
+    libera_fila(&(poligono->hachura));
 
     free(poligono);
     *p = NULL;
