@@ -27,11 +27,12 @@ void libera_forma(FORMA *f){
     if (!f || !*f) return;
     stForma *forma = (stForma*)*f;
 
+    void *h = forma->handle;
     switch (forma->tipo){
-        case 'c': libera_circulo((CIRCULO*)&forma->handle); break;
-        case 'r': libera_retangulo((RETANGULO*)&forma->handle); break;
-        case 't': libera_texto((TEXTO*)&forma->handle); break;
-        case 'l': libera_linha((LINHA*)&forma->handle); break;
+        case 'c': libera_circulo((CIRCULO*)&h); break;
+        case 'r': libera_retangulo((RETANGULO*)&h); break;
+        case 't': libera_texto((TEXTO*)&h); break;
+        case 'l': libera_linha((LINHA*)&h); break;
     }
     
     free(forma);

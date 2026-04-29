@@ -18,6 +18,7 @@ void tearDown(void) {}
 void teste_cria_linha(void){
     LINHA l = cria_linha(id, x1, y1, x2, y2, cor);
     TEST_ASSERT_NOT_NULL(l);
+    libera_linha(&l);
 
     l = cria_linha(id, x1, y1, x2, y2, NULL);
     TEST_ASSERT_NULL(l);
@@ -42,6 +43,7 @@ void teste_getId_linha(void){
     int id_teste = getId_linha(l);
 
     TEST_ASSERT_EQUAL_INT(id, id_teste);
+    libera_linha(&l);
 
     l = cria_linha(-18, x1, y1, x2, y2, cor);
     id_teste = getId_linha(l);
@@ -56,6 +58,7 @@ void teste_getX1_linha(void){
     double x1_teste = getX1_linha(l);
 
     TEST_ASSERT_EQUAL_DOUBLE(x1, x1_teste);
+    libera_linha(&l);
 
     l = cria_linha(id, -8, y1, x2, y2, cor);
     x1_teste = getX1_linha(l);
@@ -70,6 +73,7 @@ void teste_getY1_linha(void){
     double y1_teste = getY1_linha(l);
 
     TEST_ASSERT_EQUAL_DOUBLE(y1, y1_teste);
+    libera_linha(&l);
 
     l = cria_linha(id, x1, -6, x2, y2, cor);
     y1_teste = getY1_linha(l);
@@ -84,6 +88,7 @@ void teste_getX2_linha(void){
     double x2_teste = getX2_linha(l);
 
     TEST_ASSERT_EQUAL_DOUBLE(x2, x2_teste);
+    libera_linha(&l);
 
     l = cria_linha(id, x1, y1, -4, y2, cor);
     x2_teste = getX2_linha(l);
@@ -98,6 +103,7 @@ void teste_getY2_linha(void){
     double y2_teste = getY2_linha(l);
 
     TEST_ASSERT_EQUAL_DOUBLE(y2, y2_teste);
+    libera_linha(&l);
 
     l = cria_linha(id, x1, y1, x2, 0, cor);
     y2_teste = getY2_linha(l);
@@ -110,6 +116,7 @@ void teste_getCOR_linha(void){
     LINHA l = cria_linha(id, x1, y1, x2, y2, cor);
     char* cor_teste = getCOR_linha(l);
     TEST_ASSERT_EQUAL_STRING(cor, cor_teste);
+    libera_linha(&l);
 
     l = cria_linha(id, x1, y1, x2, y2, "black");
     cor_teste = getCOR_linha(l);
