@@ -94,13 +94,15 @@ double getY_vertice (VERTICE v);
 
 /// @brief cria os segmentos dos lados do polígono
 /// @param p polígono
-/// @pre p != NULL
-void desenha_poligono(POLIGONO p);
+/// @param corb cor dos segmentos dos lados
+/// @pre p != NULL && corb != NULL
+void desenha_poligono(POLIGONO p, char *corb);
 
 /// @brief cria os segmentos da hachura do polígono
 /// @param p polígono
 /// @param d distância entre os segmentos da hachura
-/// @pre p != NULL && d > 0
-void hachura_poligono(POLIGONO p, double d); 
+/// @param corp cor dos segmentos da hachura
+/// @pre p != NULL && d > 0 && corp != NULL
+void hachura_poligono(POLIGONO p, double d, char* corp); 
 
 #endif

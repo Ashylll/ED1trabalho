@@ -61,7 +61,7 @@ teste_lista: lista.o unity.o t_lista.o
 teste_fila: fila.o unity.o t_fila.o
 	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS) 
 
-teste_poligono: poligono.o linha.o fila.o unity.o t_poligono.o
+teste_poligono: poligono.o linha.o fila.o lista.o unity.o t_poligono.o
 	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
 
 TESTES = teste_circulo teste_retangulo teste_linha teste_texto teste_forma teste_fila teste_poligono

@@ -75,7 +75,7 @@ void teste_getLados_poligono(void){
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);
-    desenha_poligono(p);
+    desenha_poligono(p, "pink");
 
     FILA lados = getLados_poligono(p);
     TEST_ASSERT_EQUAL_INT(3, tamanho_fila(lados));
@@ -155,7 +155,7 @@ void teste_desenha_poligono(void){
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);
-    desenha_poligono(p);
+    desenha_poligono(p, "pink");
     FILA lados = getLados_poligono(p);
     TEST_ASSERT_EQUAL_INT(3, tamanho_fila(lados));
     libera_poligono(&p);
@@ -170,9 +170,30 @@ void teste_desenha_poligono(void){
     insere_vertice(p, v2);
     insere_vertice(p, v3);
     insere_vertice(p, v4);
-    desenha_poligono(p);
+    desenha_poligono(p, "pink");
     lados = getLados_poligono(p);
     TEST_ASSERT_EQUAL_INT(4, tamanho_fila(lados));
+
+    libera_poligono(&p);
+}
+
+void teste_hachura_poligono(void){
+    POLIGONO p = cria_poligono(7);
+
+    VERTICE v1 = cria_vertice(2, 2);
+    VERTICE v2 = cria_vertice(4, 4);
+    VERTICE v3 = cria_vertice(6, 2);
+    insere_vertice(p, v1);
+    insere_vertice(p, v2);
+    insere_vertice(p, v3);
+    desenha_poligono(p, "yellow");
+
+    hachura_poligono(p, 0.4, "pink");
+
+    FILA hachura = getHachura_poligono(p);
+    int tamanho = tamanho_fila(hachura);
+
+    TEST_ASSERT_EQUAL_INT(4, tamanho);
 
     libera_poligono(&p);
 }
@@ -190,7 +211,5 @@ int main(void){
     RUN_TEST(teste_getXY_vertice);
     RUN_TEST(teste_desenha_poligono);
     RUN_TEST(teste_hachura_poligono);
-   
-    
     return UNITY_END();
 }

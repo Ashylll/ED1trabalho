@@ -1,8 +1,12 @@
 #include "poligono.h"
 #include "linha.h"
 #include "fila.h"
+#include "lista.h"
 
 #include <stdlib.h>
+#include <string.h>
+
+typedef void* LISTA;
 
 typedef struct stPoligono {
     FILA vertices;
@@ -179,9 +183,38 @@ int proximo_id(){
     return --id_global;
 }
 
-void desenha_poligono(POLIGONO p){
+void setCORB(POLIGONO p, const char* corb) {
+    if (!p || !corb) return;
+    stPoligono *poligono = (stPoligono*)p;
+
+    if (poligono->corb != NULL) {
+        free(poligono->corb);
+    }
+
+    poligono->corb = malloc(strlen(corb) + 1);
+    if (poligono->corb != NULL) {
+        strcpy(poligono->corb, corb);
+    }
+}
+
+void setCORP(POLIGONO p, const char* corp) {
+    if (!p || !corp) return;
+    stPoligono *poligono = (stPoligono*)p;
+
+    if (poligono->corp != NULL) {
+        free(poligono->corp);
+    }
+
+    poligono->corp = malloc(strlen(corp) + 1);
+    if (poligono->corp != NULL) {
+        strcpy(poligono->corp, corp);
+    }
+}
+
+void desenha_poligono(POLIGONO p, char* corb){
     if (!p) return;
     stPoligono *poligono = (stPoligono*)p;
+    setCORB(p, corb);
 
     FILA vertices = copia_fila(poligono->vertices);
 
@@ -213,13 +246,114 @@ void desenha_poligono(POLIGONO p){
     SEGMENTO s_final = cria_linha(proximo_id(), vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
     insere_fila(poligono->lados, s_final);
 
-    libera_fila(vertices);
+    if (!remove_fila(vertices, &v_primeiro)) {
+        libera_fila(&vertices);
+        return;
+    }
 
     return;
 }
 
-void hachura_poligono(POLIGONO p, double d){
-    if (!p || d <= 0) return;
+void boundingBox(FILA vertices, double *ymin, double *xmin, double *ymax, double *xmax){
+    if (!vertices) return;
 
+    FILA aux = copia_fila(vertices);
+    VERTICE vertice;
+
+    remove_fila(aux, &vertice);
+    double y = getY_vertice(vertice);
+    double x = getX_vertice(vertice);
     
+    *ymin = *ymax = y;
+    *xmin = *xmax = x;
+    
+    while (remove_fila(aux, &vertice)){
+        y = getY_vertice(vertice);
+        x = getX_vertice(vertice);
+
+        if (y < *ymin) *ymin = y;
+        else if (y > *ymax) *ymax = y;
+        
+        if (x < *xmin) *xmin = x;
+        else if (x > *xmax) *xmax = x;
+
+    }
+
+    libera_fila(&aux);
+}
+
+void calc_intersecao(POLIGONO p, double y_atual, LISTA coordXLista){
+    FILA lados = getLados_poligono(p);
+    FILA aux = copia_fila(lados);
+    LINHA segmento;
+    while (remove_fila(aux, &segmento)){
+        double x1 = getX1_linha(segmento);
+        double y1 = getY1_linha(segmento);
+        double x2 = getX2_linha(segmento);
+        double y2 = getY2_linha(segmento);
+
+        if (y1 == y2) continue;
+
+        double y_min = (y1 < y2) ? y1 : y2;
+        double y_max = (y1 > y2) ? y1 : y2;
+
+        if (y_atual >= y_min && y_atual < y_max){
+            double x_intersecao = x1 + (y_atual - y1) * (x2 - x1) / (y2 - y1);
+
+            double *p_x = malloc(sizeof(double));
+            if (p_x){
+                *p_x = x_intersecao;
+                insere_lista(coordXLista, p_x);
+            }
+        }
+    }
+    libera_fila(&aux);
+}
+
+int compara_doubles(void *a, void *b) {
+    double v1 = *(double*)a;
+    double v2 = *(double*)b;
+
+    if (v1 < v2) return -1;
+    if (v1 > v2) return 1;
+    return 0;
+}
+
+void hachura_poligono(POLIGONO p, double d, char* corp){
+    if (!p || d <= 0) return;
+    stPoligono *poligono = (stPoligono*)p;
+    setCORP(p, corp);
+
+    double ymin, ymax, xmin, xmax;
+    boundingBox(getVertices_poligono(p), &ymin, &xmin, &ymax, &xmax);
+
+    double epsilon = 1e-9;
+    double y_atual = ymin + d;
+    while (y_atual < (ymax - epsilon)) {
+        LISTA coordXLista = cria_lista();
+        calc_intersecao(p, y_atual, coordXLista);
+
+        ordena_lista(coordXLista, compara_doubles);
+
+        for (int i = 0; i < tamanho_lista(coordXLista); i += 2) {
+            double *x1_ptr = (double*) getItem_lista(coordXLista, i);
+            double *x2_ptr = (double*) getItem_lista(coordXLista, i + 1);
+        
+            if (x1_ptr && x2_ptr) {
+                double x1 = *x1_ptr;
+                double x2 = *x2_ptr;
+                
+                LINHA hachura = cria_linha(proximo_id(), x1, y_atual, x2, y_atual, poligono->corp);
+                insere_fila(poligono->hachura, hachura);
+            }
+        }
+
+        for (int i = 0; i < tamanho_lista(coordXLista); i++) {
+            double *p_x = (double*) getItem_lista(coordXLista, i);
+            if (p_x) free(p_x);
+        }
+        libera_lista(&coordXLista);
+
+        y_atual += d;
+    }   
 }
