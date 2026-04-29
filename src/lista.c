@@ -105,3 +105,43 @@ int tamanho_lista(LISTA l){
 
     return tamanho;
 }
+
+static PONT getElemento_lista(LISTA l, int i){
+    if (!l) return NULL;
+    stLista *lista = (stLista*)l;
+
+    PONT atual = lista->inicio;
+    for (int j = 0; j < i && atual != NULL; j++){
+        atual = atual->prox;
+    }
+
+    return atual;
+}
+
+ITEM getItem_lista(LISTA l, int i) {
+    PONT no = getElemento_lista(l, i);
+    return no ? no->chave : NULL;
+}
+
+void ordena_lista(LISTA l, int (*cmp)(void*, void*)) {
+    stLista *lista = (stLista*)l;
+    if (!lista || !lista->inicio) return;
+
+    int trocou;
+    PONT atual;
+    
+    do {
+        trocou = 0;
+        atual = lista->inicio;
+
+        while (atual->prox != NULL) {
+            if (cmp(atual->chave, atual->prox->chave) > 0) {
+                void* aux = atual->chave;
+                atual->chave = atual->prox->chave;
+                atual->prox->chave = aux;
+                trocou = 1;
+            }
+            atual = atual->prox; 
+        }
+    } while (trocou);
+}

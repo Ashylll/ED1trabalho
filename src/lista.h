@@ -12,6 +12,7 @@
 
 typedef void* LISTA;
 typedef void* ITEM;
+typedef void* CHAVE;
 
 /// @brief cria uma lista duplamente encadeada
 /// @return ponteiro para a lista
@@ -49,5 +50,17 @@ bool vazia_lista(LISTA l);
 /// @pre l != NULL
 /// @return número de elementos na lista
 int tamanho_lista(LISTA l);
+
+/// @brief busca  o item de indice i na lista
+/// @param l lista
+/// @param i índice
+/// @pre l != NULL && i >= 0 && i <= maior índice da lista (tamanho)
+/// @return item
+ITEM getItem_lista(LISTA l, int i);
+
+/// @brief ordena a lista de acordo com uma função de comparação genérica
+/// @param l lista
+/// @param cmp função genérica de comparação
+void ordena_lista(LISTA l, int (*cmp)(void*, void*));
 
 #endif
