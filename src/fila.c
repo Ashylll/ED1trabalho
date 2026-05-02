@@ -61,13 +61,6 @@ bool remove_fila(FILA f, ITEM *fora){
     return true;
 }
 
-void esvazia_fila(FILA f){
-    ITEM fora;
-    while(remove_fila(f, &fora)){
-        free(fora);
-    }
-}
-
 bool vazia_fila(FILA f){
     if (!f) return true;
     PONT fila = (PONT)f;

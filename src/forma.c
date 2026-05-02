@@ -1,10 +1,12 @@
 #include "forma.h"
-#include <stdlib.h>
-
 #include "circulo.h"
 #include "retangulo.h"
 #include "linha.h"
 #include "texto.h"
+
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
 
 typedef struct stForma{
     char tipo;
@@ -145,9 +147,9 @@ bool desloca_forma(FORMA f, double dx, double dy){
 
     double x, y;
 
-    if (!getXY_forma(f, &x, &y)) return false;
+    if (!getAncora_forma(f, &x, &y)) return false;
 
-    return setXY_forma(f, x + dx, y + dy);
+    return setAncora_forma(f, x + dx, y + dy);
 }
 
 void reporta_forma(FORMA f, FILE *arquivoTxt){
@@ -267,45 +269,26 @@ static bool seg_intersect(double x1, double y1,double x2, double y2, double x3, 
     return (t >= 0 && t <= 1 && u >= 0 && u <= 1);
 }
 
-static bool sob_ct(FORMA a, FORMA b){
-    stForma *circulo = (stForma*)a;  
-    stForma *texto = (stForma*)b;  
+static bool sob_rc(FORMA a, FORMA b){
+    stForma *circulo = (stForma*)a;
+    stForma *retangulo = (stForma*)b;
 
     double xC = getX_circulo(circulo->handle);
     double yC = getY_circulo(circulo->handle);
     double rC = getR_circulo(circulo->handle);
 
-    double xT = getX_texto(texto->handle);
-    double yT = getY_texto(texto->handle);
-    const char *txt = getTXTO_texto(texto->handle);
-    char ancora = getA_texto(texto->handle);
+    double xR = getX_retangulo(retangulo->handle);
+    double yR = getY_retangulo(retangulo->handle);
+    double wR = getW_retangulo(retangulo->handle);
+    double hR = getH_retangulo(retangulo->handle);
 
-    double comprimento = 10.0 * (txt ? strlen(txt) : 0);
+    double nx = fmax(xR, fmin(xC, xR + wR));
+    double ny = fmax(yR, fmin(yC, yR + hR));
 
-    double x1, y1, x2, y2;
+    double dx = nx - xC;
+    double dy = ny - yC;
 
-    if (ancora == 'i'){         
-        x1 = xT;        
-        y1 = yT;
-        x2 = xT + comprimento; 
-        y2 = yT;
-
-    } else if (ancora == 'f'){   
-        x1 = xT - comprimento; 
-        y1 = yT;
-        x2 = xT;         
-        y2 = yT;
-
-    } else {                     
-        x1 = xT - comprimento/2; 
-        y1 = yT;
-        x2 = xT + comprimento/2; 
-        y2 = yT;
-    }
-
-    double distancia = dist_ponto_segmento(xC, yC, x1, y1, x2, y2);
-
-    return distancia <= rC;
+    return hypot(dx, dy) <= rC;
 }
 
 static bool sob_rr(FORMA a, FORMA b){
@@ -359,8 +342,7 @@ static bool sob_rl(FORMA a, FORMA b){
 
 static bool sob_rt(FORMA a, FORMA b){
     stForma *retangulo = (stForma*)a;  
-    stForma *texto = (stForma*)b;  
-    assert(retangulo->tipo == 'r' && texto->tipo == 't');
+    stForma *texto = (stForma*)b;
 
     double xR = getX_retangulo(retangulo->handle);
     double yR = getY_retangulo(retangulo->handle);

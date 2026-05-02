@@ -54,11 +54,6 @@ int tamanho_fila(FILA f);
 /// @return FALSE se a operação falhou, TRUE se foi bem sucedida
 bool libera_fila(FILA *f);
 
-/// @brief libera a memória de todos os elementos contidos na fila
-/// @pre f != NULL
-/// @param f fila
-void esvazia_fila(FILA f);
-
 /// @brief retorna o elemento no início ou no fim da fila
 /// @param f fila
 /// @param i_f 'i' para retornar o início; 'f' para o fim
