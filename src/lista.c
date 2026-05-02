@@ -9,15 +9,31 @@ typedef struct elemento{
 
 typedef ELEMENTO *PONT;
 
-typedef struct lista{
+typedef struct stLista{
     PONT inicio;
+    PONT fim;
+    int tamanho;
 } stLista;
+
+static PONT getElemento_lista(LISTA l, int i){
+    if (!l) return NULL;
+    stLista *lista = (stLista*)l;
+
+    PONT atual = lista->inicio;
+    for (int j = 0; j < i && atual != NULL; j++){
+        atual = atual->prox;
+    }
+
+    return atual;
+}
 
 LISTA cria_lista(void){
     stLista* lista = malloc(sizeof(stLista));
     if (!lista) return NULL;
 
     lista->inicio = NULL;
+    lista->fim = NULL;
+    lista->tamanho = 0;
 
     return lista;
 }
@@ -40,14 +56,14 @@ bool libera_lista(LISTA *l){
     return true;
 }
 
-bool insere_lista(LISTA l, void* chave){
+bool insere_lista(LISTA l, ITEM item){
     if (!l) return false;
     stLista* lista = (stLista*)l;
 
     PONT novo = malloc(sizeof(ELEMENTO));
     if (!novo) return false;
 
-    novo->chave = chave;
+    novo->chave = item;
     novo->prox = lista->inicio;
     novo->ant = NULL;
 
@@ -56,34 +72,36 @@ bool insere_lista(LISTA l, void* chave){
     }
 
     lista->inicio = novo;
-
+    lista->tamanho++;
     return true;
 }
 
-ITEM remove_lista(LISTA l, void* busca, int (*cmp)(void*, void*)){
-    if (!l) return false;
-    stLista* lista = (stLista*)l;
-    PONT atual = lista->inicio;
+ITEM remove_lista(LISTA l, int i) {
+    if (!l || i < 0) return NULL;
+    stLista *lista = (stLista*)l;
+    
+    if (i >= lista->tamanho) return NULL;
 
-    while (atual != NULL){
-        if (cmp(atual->chave, busca) == 0){
-            
-            if(atual->ant != NULL){
-                atual->ant->prox = atual->prox;
-            } else {
-                lista->inicio = atual->prox;
-            }
+    PONT remove = getElemento_lista(l, i); 
+    if (!remove) return NULL;
 
-            if (atual->prox != NULL){
-                atual->prox->ant = atual->ant;
-            }
-
-            return (ITEM)atual; 
-        }
-        atual = (PONT)atual->prox;
+    if (remove->ant != NULL) {
+        remove->ant->prox = remove->prox;
+    } else {
+        lista->inicio = remove->prox;
     }
 
-    return NULL;
+    if (remove->prox != NULL) {
+        remove->prox->ant = remove->ant;
+    } else {
+        lista->fim = remove->ant;
+    }
+
+    ITEM chave = remove->chave;
+    free(remove);
+    lista->tamanho--;
+
+    return chave;
 }
 
 bool vazia_lista(LISTA l){
@@ -96,26 +114,7 @@ int tamanho_lista(LISTA l){
     if (!l) return -1;
     stLista *lista = (stLista*)l;
 
-    PONT atual = lista->inicio;
-    int tamanho = 0;
-    while(atual != NULL){
-        atual = (PONT)atual->prox;
-        tamanho++;
-    }
-
-    return tamanho;
-}
-
-static PONT getElemento_lista(LISTA l, int i){
-    if (!l) return NULL;
-    stLista *lista = (stLista*)l;
-
-    PONT atual = lista->inicio;
-    for (int j = 0; j < i && atual != NULL; j++){
-        atual = atual->prox;
-    }
-
-    return atual;
+    return lista->tamanho;
 }
 
 ITEM getItem_lista(LISTA l, int i) {

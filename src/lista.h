@@ -12,7 +12,6 @@
 
 typedef void* LISTA;
 typedef void* ITEM;
-typedef void* CHAVE;
 
 /// @brief cria uma lista duplamente encadeada
 /// @return ponteiro para a lista
@@ -24,20 +23,19 @@ LISTA cria_lista(void);
 /// @return true se a operação foi bem-sucedida; false caso o contrário
 bool libera_lista(LISTA *l);
 
-/// @brief insere um elemento na lista
+/// @brief insere um elemento no início da lista
 /// @param l lista
 /// @pre l != NULL && i != NULL
-/// @param i item
+/// @param i item a ser inserido
 /// @return true se a operação foi bem-sucedida; false caso o contrário
-bool insere_lista(LISTA l, void* chave);
+bool insere_lista(LISTA l, ITEM item);
 
-/// @brief remove um elemento da lista
+/// @brief remove um elemento da lista por índice e retorna o item guardado
 /// @param l lista
-/// @param busca variável genérica de busca para a comparação (ex.: id do polígono)
-/// @param cmp função genérica de comparação (ex.: compara_id_poligono)
-/// @pre l != NULL && busca != NULL && cmp != NULL
-/// @return elemento removido; NULL se não foi encontrado
-ITEM remove_lista(LISTA l, void* busca, int (*cmp)(void*, void*));
+/// @param i índice do elemento a ser removido
+/// @pre l != NULL
+/// @return item removido; NULL se não foi encontrado
+ITEM remove_lista(LISTA l,  int i);
 
 /// @brief checa se a lista está vazia
 /// @param l lista
@@ -51,7 +49,7 @@ bool vazia_lista(LISTA l);
 /// @return número de elementos na lista
 int tamanho_lista(LISTA l);
 
-/// @brief busca  o item de indice i na lista
+/// @brief busca o item de indice i na lista
 /// @param l lista
 /// @param i índice
 /// @pre l != NULL && i >= 0 && i <= maior índice da lista (tamanho)
