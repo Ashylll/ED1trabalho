@@ -76,7 +76,7 @@ bool insere_lista(LISTA l, ITEM item){
     return true;
 }
 
-ITEM remove_lista(LISTA l, int i) {
+ITEM removeIndice_lista(LISTA l, int i) {
     if (!l || i < 0) return NULL;
     stLista *lista = (stLista*)l;
     
@@ -102,6 +102,19 @@ ITEM remove_lista(LISTA l, int i) {
     lista->tamanho--;
 
     return chave;
+}
+
+void remove_lista(LISTA l, ITEM item){
+    if (!l || !item) return;
+    
+    int i = 0;
+    while (i < tamanho_lista(l)){
+        if (getItem_lista(l, i) == item){
+            removeIndice_lista(l, i);
+            break;
+        }
+        i++;
+    }
 }
 
 bool vazia_lista(LISTA l){

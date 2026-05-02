@@ -35,7 +35,9 @@ bool insere_lista(LISTA l, ITEM item);
 /// @param i índice do elemento a ser removido
 /// @pre l != NULL
 /// @return item removido; NULL se não foi encontrado
-ITEM remove_lista(LISTA l,  int i);
+ITEM removeIndice_lista(LISTA l,  int i);
+
+void remove_lista(LISTA l, ITEM item);
 
 /// @brief checa se a lista está vazia
 /// @param l lista
