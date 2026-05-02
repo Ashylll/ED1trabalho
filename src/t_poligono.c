@@ -1,5 +1,7 @@
 #include "poligono.h"
 #include "fila.h"
+#include "lista.h"
+#include "forma.h"
 #include "unity.h"
 #include <stdlib.h>
 
@@ -24,6 +26,8 @@ void teste_cria_poligono(void){
 
     libera_poligono(&p);
     TEST_ASSERT_NULL(p);
+    TEST_ASSERT_NULL(getLados_poligono(p));
+    TEST_ASSERT_NULL(getHachura_poligono(p));
 }
 
 void teste_tamanho_poligono(void) {
@@ -44,13 +48,45 @@ void teste_tamanho_poligono(void) {
 
 void teste_getId_poligono(void){
     POLIGONO p = cria_poligono(1);
-    TEST_ASSERT_EQUAL_INT(1, getId_poligono);
+    TEST_ASSERT_EQUAL_INT(1, getId_poligono(p));
     libera_poligono(&p);
 
     p = cria_poligono(9);
-    TEST_ASSERT_EQUAL_INT(9, getId_poligono);
+    TEST_ASSERT_EQUAL_INT(9, getId_poligono(p));
 
     libera_poligono(&p);
+}
+
+void teste_getPoligono(void){
+
+    POLIGONO p = cria_poligono(1);
+    POLIGONO p8 = cria_poligono(8);
+    POLIGONO p9 = cria_poligono(9);
+    
+    FILA f = cria_fila(10);
+    insere_fila(f, p);
+    insere_fila(f, p8);
+    insere_fila(f, p9);
+
+    POLIGONO i;
+    i = getPoligono(f, 6);
+    TEST_ASSERT_NULL(i);
+    
+    i = getPoligono(f, 1);
+    TEST_ASSERT_EQUAL_PTR(i, p);
+
+    i = getPoligono(f, 8);
+    TEST_ASSERT_EQUAL_PTR(i, p8);
+
+    i = getPoligono(f, 9);
+    TEST_ASSERT_EQUAL_PTR(i, p9);
+
+    while (!vazia_fila(f)){
+        void* remove;
+        remove_fila(f, &remove);
+        libera_poligono(&remove);
+    }   
+    libera_fila(&f);
 }
 
 void teste_getVertices_poligono(void){
@@ -73,16 +109,27 @@ void teste_getLados_poligono(void){
     POLIGONO p = cria_poligono(9);
     TEST_ASSERT_NOT_NULL(getLados_poligono(p));
 
+    LISTA l = cria_lista();
     VERTICE v1 = cria_vertice(2.2, 8.8);
     VERTICE v2 = cria_vertice(4.4, 6.8);
     VERTICE v3 = cria_vertice(6.6, 8.6);
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);
-    desenha_poligono(p, "pink");
+
+    int i = 7;
+    desenha_poligono(p, &i, "pink", l);
 
     FILA lados = getLados_poligono(p);
     TEST_ASSERT_EQUAL_INT(3, tamanho_fila(lados));
+    TEST_ASSERT_EQUAL_INT(10, i);
+
+    void* remove;
+    while (!vazia_lista(l)){
+        remove = removeIndice_lista(l, 0); 
+        libera_forma(&remove); 
+    }
+    libera_lista(&l);
 
     libera_poligono(&p);
 }
@@ -123,18 +170,23 @@ void teste_insere_vertice(void){
 void teste_remove_vertice(void){
     POLIGONO p = cria_poligono(1);
 
-    VERTICE v1 = cria_vertice(2.2, 2.2);
-    VERTICE v2 = cria_vertice(4.4, 4.4);
+    VERTICE v1 = cria_vertice(2.2, 2.3);
+    VERTICE v2 = cria_vertice(4.4, 4.3);
 
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     TEST_ASSERT_EQUAL_INT(2, tamanho_poligono(p));
     
-    remove_vertice(p);
+    double x, y;
+    remove_vertice(p, &x, &y);
     TEST_ASSERT_EQUAL_INT(1, tamanho_poligono(p));
+    TEST_ASSERT_EQUAL_DOUBLE(2.2, x);
+    TEST_ASSERT_EQUAL_DOUBLE(2.3, y);
 
-    remove_vertice(p);
+    remove_vertice(p, &x, &y);
     TEST_ASSERT_EQUAL_INT(0, tamanho_poligono(p));
+    TEST_ASSERT_EQUAL_DOUBLE(4.4, x);
+    TEST_ASSERT_EQUAL_DOUBLE(4.3, y);
 
     libera_poligono(&p);
 }
@@ -153,51 +205,78 @@ void teste_desenha_poligono(void){
     POLIGONO p = cria_poligono(7);
 
     // Testa número ímpar de vértices
+    LISTA l = cria_lista();
     VERTICE v1 = cria_vertice(2.2, 8.8);
     VERTICE v2 = cria_vertice(4.4, 6.8);
     VERTICE v3 = cria_vertice(6.6, 8.6);
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);
-    desenha_poligono(p, "pink");
+
+    int i = 2;
+    desenha_poligono(p, &i, "pink", l);
     FILA lados = getLados_poligono(p);
     TEST_ASSERT_EQUAL_INT(3, tamanho_fila(lados));
-    libera_poligono(&p);
+    TEST_ASSERT_EQUAL_INT(3, tamanho_lista(l));
+    TEST_ASSERT_EQUAL_INT(5, i);
 
     // Testa número par de vértices
-    p = cria_poligono(7);
-    v1 = cria_vertice(2.2, 8.8);
-    v2 = cria_vertice(4.4, 6.8);
-    v3 = cria_vertice(6.6, 8.6);
-    VERTICE v4 = cria_vertice(8.8, 10.4);
-    insere_vertice(p, v1);
-    insere_vertice(p, v2);
-    insere_vertice(p, v3);
-    insere_vertice(p, v4);
-    desenha_poligono(p, "pink");
-    lados = getLados_poligono(p);
+    POLIGONO p2 = cria_poligono(7);
+    VERTICE v4 = cria_vertice(2.2, 8.8);
+    VERTICE v5 = cria_vertice(4.4, 6.8);
+    VERTICE v6 = cria_vertice(6.6, 8.6);
+    VERTICE v7 = cria_vertice(8.8, 10.4);
+    insere_vertice(p2, v4);
+    insere_vertice(p2, v5);
+    insere_vertice(p2, v6);
+    insere_vertice(p2, v7);
+    desenha_poligono(p2, &i, "pink", l);
+    lados = getLados_poligono(p2);
     TEST_ASSERT_EQUAL_INT(4, tamanho_fila(lados));
+    TEST_ASSERT_EQUAL_INT(7, tamanho_lista(l));
+    TEST_ASSERT_EQUAL_INT(9, i);
+
+    while (!vazia_lista(l)){
+        ITEM remove = removeIndice_lista(l, 0); 
+        libera_forma(&remove); 
+    }
+    libera_lista(&l);
 
     libera_poligono(&p);
+    libera_poligono(&p2);
 }
 
 void teste_hachura_poligono(void){
     POLIGONO p = cria_poligono(7);
 
+    LISTA l = cria_lista();
     VERTICE v1 = cria_vertice(2, 2);
     VERTICE v2 = cria_vertice(4, 4);
     VERTICE v3 = cria_vertice(6, 2);
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);
-    desenha_poligono(p, "yellow");
+    
+    int i = 1;
+    desenha_poligono(p, &i, "yellow", l);
 
-    hachura_poligono(p, 0.4, "pink");
+    hachura_poligono(p, &i, 0.4, "pink", l);
 
     FILA hachura = getHachura_poligono(p);
     int tamanho = tamanho_fila(hachura);
 
     TEST_ASSERT_EQUAL_INT(4, tamanho);
+    TEST_ASSERT_EQUAL_INT(7, tamanho_lista(l));
+    TEST_ASSERT_EQUAL_INT(8, i);
+
+    void* remove;
+    while (!vazia_lista(l)){
+        remove = removeIndice_lista(l, 0); 
+        libera_forma(&remove); 
+    }
+    libera_lista(&(l));
+
+    
 
     libera_poligono(&p);
 }
@@ -206,6 +285,8 @@ int main(void){
     UNITY_BEGIN();
     RUN_TEST(teste_cria_poligono);
     RUN_TEST(teste_tamanho_poligono);
+    RUN_TEST(teste_getId_poligono);
+    RUN_TEST(teste_getPoligono);
     RUN_TEST(teste_getVertices_poligono);
     RUN_TEST(teste_getLados_poligono);
     RUN_TEST(teste_getHachura_poligono);
