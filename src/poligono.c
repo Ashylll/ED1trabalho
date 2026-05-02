@@ -20,7 +20,6 @@ typedef struct stVertice {
     double x, y;
 } stVertice;
 
-
 POLIGONO cria_poligono(int id){
     stPoligono *poligono = malloc(sizeof(stPoligono));
     if (!poligono) return NULL;
@@ -187,12 +186,6 @@ double getY_vertice(VERTICE v){
     return vertice->y;
 }
 
-static int id_global = -1;
-
-int proximo_id(){
-    return --id_global;
-}
-
 void setCORB(POLIGONO p, const char* corb) {
     if (!p || !corb) return;
     stPoligono *poligono = (stPoligono*)p;
@@ -329,7 +322,7 @@ int compara_doubles(void *a, void *b) {
     return 0;
 }
 
-void hachura_poligono(POLIGONO p, double d, char* corp){
+void hachura_poligono(POLIGONO p, int id, double d, char* corp){
     if (!p || d <= 0) return;
     stPoligono *poligono = (stPoligono*)p;
     setCORP(p, corp);
@@ -353,9 +346,10 @@ void hachura_poligono(POLIGONO p, double d, char* corp){
                 double x1 = *x1_ptr;
                 double x2 = *x2_ptr;
                 
-                LINHA hachura = cria_linha(proximo_id(), x1, y_atual, x2, y_atual, poligono->corp);
+                LINHA hachura = cria_linha(id, x1, y_atual, x2, y_atual, poligono->corp);
                 insere_fila(poligono->hachura, hachura);
             }
+            id++;
         }
 
         for (int i = 0; i < tamanho_lista(coordXLista); i++) {

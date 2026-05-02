@@ -57,6 +57,7 @@ FILA getLados_poligono(POLIGONO p);
 
 FILA getHachura_poligono(POLIGONO p);
 
+
 /// @brief cria um vértice (ponto no plano)
 /// @param x coordenada x
 /// @param y coordenada y
@@ -100,9 +101,10 @@ void desenha_poligono(POLIGONO p, char *corb);
 
 /// @brief cria os segmentos da hachura do polígono
 /// @param p polígono
+/// @param id identificador do primeiro segmento
 /// @param d distância entre os segmentos da hachura
 /// @param corp cor dos segmentos da hachura
 /// @pre p != NULL && d > 0 && corp != NULL
-void hachura_poligono(POLIGONO p, double d, char* corp); 
+void hachura_poligono(POLIGONO p, int id, double d, char* corp); 
 
 #endif
