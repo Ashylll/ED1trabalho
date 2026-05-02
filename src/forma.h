@@ -2,6 +2,7 @@
 #define FORMA_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
 /*
     forma.h
@@ -51,19 +52,19 @@ void* getHandle_forma(FORMA f);
 
 /* === Operações set === */
 
-/// @brief lê as coordenadas (x,y) da forma
+/// @brief lê as coordenadas (x,y) da âncora da forma
 /// @param f forma
-/// @param x ponteira para saída da coordenada x
-/// @param y ponteira para saída da coordenada y
+/// @param x ponteiro para saída da coordenada x
+/// @param y ponteiro para saída da coordenada y
 /// @return true se a operação foi bem sucedida; false se f == NULL
-bool getXY_forma(FORMA f, double* x, double* y);
+bool getAncora_forma(FORMA f, double* x, double* y);
 
 /// @brief atribui coordenadas (x,y) da forma
 /// @param f forma
 /// @param x coordenada x
 /// @param y coordenada y
 /// @return true se a operação foi bem sucedida; false se f == NULL
-bool setXY_forma(FORMA f, double x, double y);
+bool setAncora_forma(FORMA f, double x, double y);
 
 /// @brief desloca a forma nas coordenadas (x,y)
 /// @param f forma
@@ -72,5 +73,15 @@ bool setXY_forma(FORMA f, double x, double y);
 /// @return true se a operação foi bem sucedida; false se f == NULL
 bool desloca_forma(FORMA f, double dx, double dy);
 
+/// @brief escreve em um arquivo .txt os dados da forma
+/// @param f forma
+/// @param arquivoTxt arquivo .txt aberto em modo de escrita 
+void reporta_forma(FORMA f, FILE *arquivoTxt);
+
+/// @brief checa se há sobreposição entre uma forma e um retângulo
+/// @param r retângulo
+/// @param b forma (círculo, retângulo, linha, texto)
+/// @return true se há sobreposição; false se não 
+bool sobrepoe_retangulo(FORMA r, FORMA b);
 
 #endif
