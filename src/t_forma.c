@@ -76,12 +76,12 @@ void teste_getHandle_forma(void){
     libera_forma(&f);
 }
     
-void teste_getXY_forma(void){
+void teste_getAncora_forma(void){
     LINHA l = cria_linha(-2, 2.0, 8.0, 4.0, 6.0, "pink");
     FORMA f = cria_forma('l', l);
 
     double x, y;
-    getXY_forma(f, &x, &y);
+    getAncora_forma(f, &x, &y);
 
     TEST_ASSERT_EQUAL_DOUBLE(2, x);
     TEST_ASSERT_EQUAL_DOUBLE(8, y);
@@ -89,21 +89,59 @@ void teste_getXY_forma(void){
     libera_forma(&f);
 }
 
-void teste_setXY_forma(void){
+void teste_setAncora_forma(void){
     LINHA l = cria_linha(-2, 2.0, 8.0, 4.0, 6.0, "pink");
     FORMA f = cria_forma('l', l);
 
-    TEST_ASSERT_FALSE(setXY_forma(NULL, 10.2, 10.4));
-    TEST_ASSERT_TRUE(setXY_forma(f, 10.2, 10.4));
+    TEST_ASSERT_FALSE(setAncora_forma(NULL, 10.2, 10.4));
+    TEST_ASSERT_TRUE(setAncora_forma(f, 10.2, 10.4));
 
     double x, y;
-    getXY_forma(f, &x, &y);
+    getAncora_forma(f, &x, &y);
 
     TEST_ASSERT_EQUAL_DOUBLE(10.2, x);
     TEST_ASSERT_EQUAL_DOUBLE(10.4, y);
     TEST_ASSERT_EQUAL_DOUBLE(10.2 - 2 + 4, getX2_linha(l));
     TEST_ASSERT_EQUAL_DOUBLE(10.4 - 8 + 6, getY2_linha(l));
     
+    libera_forma(&f);
+}
+
+void teste_setCORB_forma(void){
+    CIRCULO c = cria_circulo(2, 2.2, 2.2, 2.2, "pink", "pink");
+    FORMA f = cria_forma('c', c);
+
+    setCORB_forma(f, "yellow");
+
+    TEST_ASSERT_EQUAL_STRING("yellow", getCORB_circulo(c));
+    libera_forma(&f);
+
+    LINHA l = cria_linha(-2, 2.0, 8.0, 4.0, 6.0, "pink");
+    f = cria_forma('l', l);
+
+    setCORB_forma(f, "purple");
+
+    TEST_ASSERT_EQUAL_STRING("purple", getCOR_linha(l));
+
+    libera_forma(&f);
+}
+
+void teste_setCORP_forma(void){
+    CIRCULO c = cria_circulo(2, 2.2, 2.2, 2.2, "pink", "pink");
+    FORMA f = cria_forma('c', c);
+    
+    setCORP_forma(f, "yellow");
+
+    TEST_ASSERT_EQUAL_STRING("yellow", getCORP_circulo(c));
+    libera_forma(&f);
+
+    LINHA l = cria_linha(-2, 2.0, 8.0, 4.0, 6.0, "pink");
+    f = cria_forma('l', l);
+
+    setCORP_forma(f, "purple");
+
+    TEST_ASSERT_EQUAL_STRING("pink", getCOR_linha(l));
+
     libera_forma(&f);
 }
 
@@ -121,15 +159,67 @@ void teste_desloca_forma(void){
 
     libera_forma(&f);
 }
+
+void teste_reporta_forma(void){
+    CIRCULO c = cria_circulo(10, 5.0, 5.0, 2.0, "pink", "yellow");
+    FORMA f = cria_forma('c', c);
     
+    FILE *arq = fopen("teste_reporte.txt", "w+");
+    TEST_ASSERT_NOT_NULL(arq);
+
+    reporta_forma(f, arq);
+    
+    // Volta ao início do arquivo para ler e validar
+    rewind(arq);
+    char buffer[256];
+    fgets(buffer, sizeof(buffer), arq);
+    TEST_ASSERT_EQUAL_STRING("Circulo\n", buffer);
+    
+    fgets(buffer, sizeof(buffer), arq);
+    TEST_ASSERT_EQUAL_STRING("Id: 10\n", buffer);
+
+    fclose(arq);
+    remove("teste_reporte.txt"); // Limpa o arquivo de teste
+    libera_forma(&f);
+}
+
+void teste_sobrepoe_retangulo(void){
+    RETANGULO r1 = cria_retangulo(1, 0.0, 0.0, 10.0, 10.0, "black", "white");
+    RETANGULO r2 = cria_retangulo(2, 5.0, 5.0, 10.0, 10.0, "black", "white");
+    FORMA f1 = cria_forma('r', r1);
+    FORMA f2 = cria_forma('r', r2);
+    
+    TEST_ASSERT_TRUE(sobrepoe_retangulo(f1, f2));
+
+    setX_retangulo(r2, 20.0); 
+    TEST_ASSERT_FALSE(sobrepoe_retangulo(f1, f2));
+
+    LINHA l = cria_linha(3, -5.0, 5.0, 5.0, 5.0, "green");
+    FORMA fL = cria_forma('l', l);
+    TEST_ASSERT_TRUE(sobrepoe_retangulo(f1, fL));
+
+    TEXTO t = cria_texto(4, 5.0, 5.0, "black", "black", 'i', "Oi");
+    FORMA fT = cria_forma('t', t);
+    TEST_ASSERT_TRUE(sobrepoe_retangulo(f1, fT));
+
+    libera_forma(&f1);
+    libera_forma(&f2);
+    libera_forma(&fL);
+    libera_forma(&fT);
+}
+
 int main(void){
     UNITY_BEGIN();
     RUN_TEST(teste_cria_forma);
     RUN_TEST(teste_getId_forma);
     RUN_TEST(teste_getTipo_forma);
     RUN_TEST(teste_getHandle_forma);
-    RUN_TEST(teste_getXY_forma);
-    RUN_TEST(teste_setXY_forma);
+    RUN_TEST(teste_getAncora_forma);
+    RUN_TEST(teste_setAncora_forma);
+    RUN_TEST(teste_setCORB_forma);
+    RUN_TEST(teste_setCORP_forma);
     RUN_TEST(teste_desloca_forma);
+    RUN_TEST(teste_reporta_forma);
+    RUN_TEST(teste_sobrepoe_retangulo);
     return UNITY_END();
 }
