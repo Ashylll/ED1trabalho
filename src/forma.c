@@ -94,6 +94,52 @@ bool setAncora_forma(FORMA f, double x, double y){
     }
 }
 
+void setCORB_forma(FORMA f, char* corb){
+    if (!f || !corb) return;
+
+    FORMA figura = getHandle_forma(f);
+    switch (getTipo_forma(f)){
+        case 'c': {
+            setCORB_circulo(figura, corb);
+            break;
+        }
+        case 'r': {
+            setCORB_retangulo(figura, corb);
+            break;
+        }
+        case 't': {
+            setCORB_texto(figura, corb);
+            break;
+        }
+        case 'l': {
+            setCOR_linha(figura, corb);
+            break;
+        }
+    }
+    return;
+}
+
+void setCORP_forma(FORMA f, char* corp){
+    if (!f || !corp) return;
+
+    FORMA figura = getHandle_forma(f);
+    switch (getTipo_forma(f)){
+        case 'c': {
+            setCORP_circulo(figura, corp);
+            break;
+        }
+        case 'r': {
+            setCORP_retangulo(figura, corp);
+            break;
+        }
+        case 't': {
+            setCORP_texto(figura, corp);
+            break;
+        }
+    }
+    return;
+}
+
 bool desloca_forma(FORMA f, double dx, double dy){
     if (!f) return false;
 

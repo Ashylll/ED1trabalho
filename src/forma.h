@@ -66,6 +66,18 @@ bool getAncora_forma(FORMA f, double* x, double* y);
 /// @return true se a operação foi bem sucedida; false se f == NULL
 bool setAncora_forma(FORMA f, double x, double y);
 
+/// @brief atribui uma cor de borda à forma (atribui cor se for tipo linha)
+/// @param f forma
+/// @param corb cor de borda
+/// @pre f != NULL && corp != NULL
+void setCORB_forma(FORMA f, char* corb);
+
+/// @brief atribui uma cor de preenchimento à forma (não muda se for tipo linha)
+/// @param f forma
+/// @param corp cor de preenchimento
+/// @pre f != NULL && corp != NULL
+void setCORP_forma(FORMA f, char* corp);
+
 /// @brief desloca a forma nas coordenadas (x,y)
 /// @param f forma
 /// @param dx deslocamento no eixo x
