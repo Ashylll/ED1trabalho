@@ -163,12 +163,18 @@ void insere_vertice(POLIGONO p, VERTICE v){
     return;
 }
 
-void remove_vertice(POLIGONO p){
+void remove_vertice(POLIGONO p, double *x, double *y){
     if (!p) return;
     stPoligono *poligono = (stPoligono*)p;
 
     void* v;
     remove_fila(poligono->vertices, &v);
+    
+    if (x && y){
+    *x = getX_vertice(v);
+    *y = getY_vertice(v);
+    }
+
     libera_vertice(&v);
 
     return;

@@ -76,10 +76,12 @@ void libera_vertice(VERTICE *v);
 /// @pre p != NULL && v != NULL
 void insere_vertice(POLIGONO p, VERTICE v);
 
-/// @brief remove o último vértice inserido no polígono e libera sua memória
+/// @brief remove o vértice mais antigo inserido no polígono e libera sua memória
 /// @param p polígono
+/// @param x ponteiro para receber a coordenda x do vértice removido
+/// @param y ponteiro para receber a coordenada y do vértice removido 
 /// @pre p != NULL
-void remove_vertice(POLIGONO p);
+void remove_vertice(POLIGONO p, double *x, double *y);
 
 /// @brief retorna a coordenada x do vértice
 /// @param v vértice
