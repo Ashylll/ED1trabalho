@@ -2,6 +2,7 @@
 #include "linha.h"
 #include "fila.h"
 #include "lista.h"
+#include "forma.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -63,14 +64,12 @@ void libera_poligono(POLIGONO *p){
     FILA lados = getLados_poligono(*p);
     while(!vazia_fila(lados)){
         remove_fila(lados, &remove);
-        libera_linha(&remove);
     }
     libera_fila(&(poligono->lados));
 
     FILA hachura = getHachura_poligono(*p);
     while (!vazia_fila(hachura)){
         remove_fila(hachura, &remove);
-        libera_linha(&remove);
     }
     libera_fila(&(poligono->hachura));
 
@@ -239,9 +238,11 @@ void desenha_poligono(POLIGONO p, int *id, char* corb, LISTA formas){
         double vX_prox = getX_vertice(v_prox);
         double vY_prox = getY_vertice(v_prox);
 
-        SEGMENTO s = cria_linha(id, vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
+        SEGMENTO s = cria_linha(*id, vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
         insere_fila(poligono->lados, s);
-        insere_lista(formas, s);
+
+        FORMA f = cria_forma('l', s);
+        insere_lista(formas, f);
         v_atual = v_prox; 
 
         (*id)++;
@@ -256,13 +257,15 @@ void desenha_poligono(POLIGONO p, int *id, char* corb, LISTA formas){
 
     SEGMENTO s_final = cria_linha(*id, vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
     insere_fila(poligono->lados, s_final);
+
+    FORMA f_final = cria_forma('l', s_final);
+    insere_lista(formas, f_final);
+
     (*id)++;
 
-    if (!remove_fila(vertices, &v_primeiro)) {
-        libera_fila(&vertices);
-        return;
-    }
-
+    
+    libera_fila(&vertices);
+     
     return;
 }
 
@@ -357,7 +360,9 @@ void hachura_poligono(POLIGONO p, int *id, double d, char* corp, LISTA formas){
                 
                 LINHA hachura = cria_linha(*id, x1, y_atual, x2, y_atual, poligono->corp);
                 insere_fila(poligono->hachura, hachura);
-                insere_lista(formas, hachura);
+
+                FORMA f = cria_forma('l', hachura);
+                insere_lista(formas, f);
 
                 (*id)++;
             }

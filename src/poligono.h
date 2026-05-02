@@ -20,6 +20,7 @@ typedef void* POLIGONO;
 typedef void* VERTICE;
 typedef void* SEGMENTO;
 typedef void* FILA;
+typedef void* LISTA;
 
 /// @brief cria um polígono
 /// @param id identificador
@@ -51,10 +52,22 @@ int getId_poligono(POLIGONO p);
 /// @return polígono, se encontrou; NULL se não encontrou
 POLIGONO getPoligono(FILA f, int id);
 
+/// @brief retorna a fila de vértices do polígono
+/// @param p polígono
+/// @pre p != NULL
+/// @return fila de vértices
 FILA getVertices_poligono(POLIGONO p);
 
+/// @brief retorna a fila de lados do polígono
+/// @param p polígono
+/// @pre p != NULL
+/// @return fila de lados 
 FILA getLados_poligono(POLIGONO p);
 
+/// @brief retorna a fila de hachura do polígono
+/// @param p polígono
+/// @pre p != NULL
+/// @return fila de hachura
 FILA getHachura_poligono(POLIGONO p);
 
 
