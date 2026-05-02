@@ -214,7 +214,7 @@ void setCORP(POLIGONO p, const char* corp) {
     }
 }
 
-void desenha_poligono(POLIGONO p, char* corb){
+void desenha_poligono(POLIGONO p, int *id, char* corb, LISTA formas){
     if (!p) return;
     stPoligono *poligono = (stPoligono*)p;
     setCORB(p, corb);
@@ -233,10 +233,12 @@ void desenha_poligono(POLIGONO p, char* corb){
         double vX_prox = getX_vertice(v_prox);
         double vY_prox = getY_vertice(v_prox);
 
-        SEGMENTO s = cria_linha(proximo_id(), vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
+        SEGMENTO s = cria_linha(id, vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
         insere_fila(poligono->lados, s);
-        
+        insere_lista(formas, s);
         v_atual = v_prox; 
+
+        (*id)++;
     }
 
     // Cria o segmento final (conecta o primeiro vértice com o último)
@@ -246,8 +248,9 @@ void desenha_poligono(POLIGONO p, char* corb){
     double vX_primeiro = getX_vertice(v_primeiro);
     double vY_primeiro = getY_vertice(v_primeiro);
 
-    SEGMENTO s_final = cria_linha(proximo_id(), vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
+    SEGMENTO s_final = cria_linha(*id, vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
     insere_fila(poligono->lados, s_final);
+    (*id)++;
 
     if (!remove_fila(vertices, &v_primeiro)) {
         libera_fila(&vertices);
@@ -322,7 +325,7 @@ int compara_doubles(void *a, void *b) {
     return 0;
 }
 
-void hachura_poligono(POLIGONO p, int id, double d, char* corp){
+void hachura_poligono(POLIGONO p, int *id, double d, char* corp, LISTA formas){
     if (!p || d <= 0) return;
     stPoligono *poligono = (stPoligono*)p;
     setCORP(p, corp);
@@ -346,10 +349,12 @@ void hachura_poligono(POLIGONO p, int id, double d, char* corp){
                 double x1 = *x1_ptr;
                 double x2 = *x2_ptr;
                 
-                LINHA hachura = cria_linha(id, x1, y_atual, x2, y_atual, poligono->corp);
+                LINHA hachura = cria_linha(*id, x1, y_atual, x2, y_atual, poligono->corp);
                 insere_fila(poligono->hachura, hachura);
+                insere_lista(formas, hachura);
+
+                (*id)++;
             }
-            id++;
         }
 
         for (int i = 0; i < tamanho_lista(coordXLista); i++) {

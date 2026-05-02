@@ -93,18 +93,23 @@ double getX_vertice (VERTICE v);
 /// @return coordenada y
 double getY_vertice (VERTICE v);
 
-/// @brief cria os segmentos dos lados do polígono
-/// @param p polígono
-/// @param corb cor dos segmentos dos lados
-/// @pre p != NULL && corb != NULL
-void desenha_poligono(POLIGONO p, char *corb);
-
-/// @brief cria os segmentos da hachura do polígono
+/// @brief cria os segmentos dos lados do polígono sequencialmente a partir de um id
 /// @param p polígono
 /// @param id identificador do primeiro segmento
+/// @param corb cor dos segmentos dos lados
+/// @param formas bando de dados de formas para receber os novos segmentos
+/// @details o valor real de id é incrementado de um em um a cada criação de segmento, terminando com o valor do último id + 1
+/// @pre p != NULL && corb != NULL
+void desenha_poligono(POLIGONO p, int *id, char *corb, LISTA formas);
+
+/// @brief cria os segmentos da hachura do polígono sequencialmente a partir de um id
+/// @param p polígono
+/// @param id identificador do primeiro segmento 
 /// @param d distância entre os segmentos da hachura
 /// @param corp cor dos segmentos da hachura
+/// @param formas bando de dados de formas para receber os novos segmentos
+/// @details o valor real de id é incrementado de um em um a cada criação de segmento, terminando com o valor do último id + 1
 /// @pre p != NULL && d > 0 && corp != NULL
-void hachura_poligono(POLIGONO p, int id, double d, char* corp); 
+void hachura_poligono(POLIGONO p, int *id, double d, char* corp, LISTA formas); 
 
 #endif
