@@ -1,6 +1,7 @@
 #include "sistema.h"
 #include "poligono.h"
 #include "forma.h"
+#include "svg.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -32,9 +33,11 @@ SISTEMA cria_sistema(const char* path_txt, const char* path_svg_geo, const char*
     s->svg_geo = fopen(path_svg_geo, "w");
     svg_begin(s->svg_geo);
 
-    if(s->svg_qry){
+    if(path_svg_qry){
         s->svg_qry = fopen(path_svg_qry, "w");
         svg_begin(s->svg_qry);
+    } else {
+        s->svg_qry = NULL;
     }
 
     strcpy(s->fFamily, "sans-serif");

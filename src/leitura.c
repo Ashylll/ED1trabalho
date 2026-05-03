@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 /* Comandos .geo */
 
@@ -95,20 +96,30 @@ static bool comando_t(const char *linha, SISTEMA s){
     return true;
 }
 
+static const char* converte_weight(const char *weight){
+    if (!weight) return "normal";
+    if (strcmp(weight, "b+") == 0) return "bolder";
+    if (strcmp(weight, "b")  == 0) return "bold";
+    if (strcmp(weight, "n")  == 0) return "normal";
+    if (strcmp(weight, "l")  == 0) return "lighter";
+    
+    return weight;
+}
+
 static bool comando_ts(const char *linha, SISTEMA s){
     char novo_family[32], novo_weight[8];
     double novo_size;
 
     if (sscanf(linha, "%*s %31s %7s %lf", novo_family, novo_weight, &novo_size) != 3) return false;
 
-    const char *wt  = converter_weight(novo_weight);
+    const char *wt  = converte_weight(novo_weight);
 
     set_estilo_texto(s, novo_family, wt, novo_size);
 
     return true;
 }
 
-bool ler_geo(const char *path_geo, SISTEMA s){
+bool leitura_geo(const char *path_geo, SISTEMA s){
     FILE *fp = fopen(path_geo, "r");
     if(!fp) return false;
 
@@ -172,7 +183,15 @@ static bool comando_inp(const char* linha, SISTEMA s){
     }
 
     double x, y;
-    FORMA figura = getItem_lista(formas, forma_id);
+    FORMA figura = NULL;
+    for (int i = 0; i < tamanho_lista(formas); i++) {
+        FORMA aux = getItem_lista(formas, i);
+        if (getId_forma(aux) == forma_id) {
+            figura = aux;
+            break;
+        }
+    }
+
     getAncora_forma(figura, &x, &y);
     VERTICE v = cria_vertice(x, y);
     insere_vertice(p, v);
@@ -226,11 +245,13 @@ static bool comando_clp(const char *linha, SISTEMA s){
     if(sscanf(linha, "%*s %d", &poligono_id) != 1) return false;
 
     POLIGONO p = getPoligono(poligonos, poligono_id);
+    if (!p) return false;
+
     FILA vertices = getVertices_poligono(p);
 
-    ITEM remove;
-    while(remove_fila(vertices, &remove)){
-        free(remove);
+    double x, y;
+    while(tamanho_poligono(p) > 0){
+        remove_vertice(p, &x, &y);
     }
 
     return true;
@@ -245,8 +266,13 @@ static bool comando_sel(const char *linha, SISTEMA s){
     FILE *arquivoTxt = get_arquivo_txt(s);
     LISTA formas_aux = get_formas_aux(s);
 
+    while(!vazia_fila(selecionadas)) {
+        FORMA remove;
+        remove_fila(selecionadas, &remove);
+    }
+
     RETANGULO ret = cria_retangulo(-1, x, y, w, h, "red", "none");
-    FORMA retangulo_sel = cria_forma('r', retangulo_sel);
+    FORMA retangulo_sel = cria_forma('r', ret);
     insere_lista(formas_aux, retangulo_sel);
 
     fprintf(arquivoTxt, "[*] sel %lf %lf %lf %lf \nFormas selecionadas:\n\n", x, y, w, h);
@@ -290,7 +316,7 @@ static bool comando_dels(const char *linha, SISTEMA s) {
 
         double ax, ay;
         getAncora_forma(f, &ax, &ay);
-        TEXTO x = cria_texto(-3, ax, ay, "red", "red", 'm', "x");
+        TEXTO x = cria_texto(-3, ax, ay, "red", "red", 'm', "X");
         muda_estilo(x, "sans-serif", "bold", 12.0);
         FORMA marca_x = cria_forma('t', x);
         insere_lista(formas_aux, marca_x);

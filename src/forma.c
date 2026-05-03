@@ -160,7 +160,7 @@ void reporta_forma(FORMA f, FILE *arquivoTxt){
     switch (tipo){
         case 'c': {
             CIRCULO c = getHandle_forma(f);
-            fprintf(arquivoTxt, "Circulo\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nRaio: %.2lf\nCor de borda: %s\n Cor de preenchimento: %s\n\n"
+            fprintf(arquivoTxt, "Circulo\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nRaio: %.2lf\nCor de borda: %s\nCor de preenchimento: %s\n\n"
             , getId_circulo(c), getX_circulo(c), getY_circulo(c), getR_circulo(c), getCORB_circulo(c), getCORP_circulo(c));
 
             break;
@@ -168,7 +168,7 @@ void reporta_forma(FORMA f, FILE *arquivoTxt){
 
         case 'r': {
             RETANGULO r = getHandle_forma(f);
-            fprintf(arquivoTxt, "Retângulo\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nLargura: %.2lf\nAltura: %.2lf\nCor de borda: %s\n Cor de preenchimento: %s\n\n"
+            fprintf(arquivoTxt, "Retângulo\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nLargura: %.2lf\nAltura: %.2lf\nCor de borda: %s\nCor de preenchimento: %s\n\n"
             , getId_retangulo(r), getX_retangulo(r), getY_retangulo(r), getW_retangulo(r), getH_retangulo(r), getCORB_retangulo(r), getCORP_retangulo(r));
 
             break;
@@ -192,7 +192,7 @@ void reporta_forma(FORMA f, FILE *arquivoTxt){
                 }
             }
 
-            fprintf(arquivoTxt, "Texto\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nCor de borda: %s\n Cor de preenchimento: %s\nPosição da âncora: %s\nConteúdo: %s\n\n"
+            fprintf(arquivoTxt, "Texto\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nCor de borda: %s\nCor de preenchimento: %s\nPosição da âncora: %s\nConteúdo: %s\n\n"
             , getId_texto(t), getX_texto(t), getY_texto(t), getCORB_texto(t), getCORP_texto(t), ancora, getTXTO_texto(t));
 
             break;
