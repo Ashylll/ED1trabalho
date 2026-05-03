@@ -1,7 +1,7 @@
 PROJ_NAME= ted
 ALUNO= Ashley
 LIBS= -lm
-OBJETOS= main.o circulo.o retangulo.o linha.o texto.o poligono.o forma.o fila.o lista.o leitura.o
+OBJETOS= main.o circulo.o retangulo.o linha.o texto.o forma.o fila.o lista.o poligono.o leitura.o leitura.o sistema.o svg.o
 
 CC=gcc
 CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -I. -I./unity -DUNITY_INCLUDE_DOUBLE
@@ -39,7 +39,7 @@ VG = valgrind --log-file="valgrind_log" --leak-check=full --show-leak-kinds=all 
 memcheck: $(PROJ_NAME)
 	$(VG) ./$(PROJ_NAME)
 
-v:
+val:
 	$(VG) ./$(TARGET)
 
 # Makefile somente para arquivos de teste
@@ -58,16 +58,25 @@ teste_texto: texto.o unity.o t_texto.o
 teste_forma: forma.o circulo.o retangulo.o linha.o texto.o unity.o t_forma.o
 	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
 
+teste_fila: fila.o unity.o t_fila.o
+	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS) 	
+
 teste_lista: lista.o unity.o t_lista.o
 	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
 
-teste_fila: fila.o unity.o t_fila.o
-	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS) 
-
-teste_poligono: poligono.o linha.o fila.o lista.o unity.o t_poligono.o
+teste_poligono: poligono.o circulo.o retangulo.o linha.o texto.o forma.o fila.o lista.o unity.o t_poligono.o
 	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
 
-TESTES = teste_circulo teste_retangulo teste_linha teste_texto teste_forma teste_fila teste_poligono
+teste_leitura: leitura.o sistema.o svg.o poligono.o forma.o circulo.o retangulo.o linha.o texto.o fila.o lista.o unity.o t_leitura.o
+	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
+
+teste_sistema: sistema.o svg.o poligono.o forma.o circulo.o retangulo.o linha.o texto.o fila.o lista.o unity.o t_sistema.o
+	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
+
+teste_svg: svg.o sistema.o poligono.o forma.o circulo.o retangulo.o linha.o texto.o fila.o lista.o unity.o t_svg.o
+	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
+
+TESTES = teste_circulo teste_retangulo teste_linha teste_texto teste_forma teste_fila teste_lista teste_poligono teste_leitura teste_sistema teste_svg
 
 testes: $(TESTES)
 
@@ -78,5 +87,9 @@ realiza_testes: testes
 	@./teste_linha
 	@./teste_texto
 	@./teste_fila
+	@./teste_lista
 	@./teste_poligono
+	@./teste_leitura
+	@./teste_sistema
+	@./teste_svg
 	@echo "Testes completos"
