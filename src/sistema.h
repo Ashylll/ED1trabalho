@@ -16,8 +16,8 @@ typedef void* SISTEMA;
 
 /// @brief cria o banco de dados SISTEMA
 /// @param path_txt caminho do arquivo .txt
-/// @param path_svg_geo caminho do arquivo .geo
-/// @param path_svg_qry caminho do arquivo .qry 
+/// @param path_svg_geo caminho do arquivo .svg inicial
+/// @param path_svg_qry caminho do arquivo .svg final
 /// @return sistema criado
 SISTEMA cria_sistema(const char* path_txt, const char* path_svg_geo, const char* path_svg_qry);
 
@@ -43,7 +43,7 @@ FILA get_selecionadas(SISTEMA s);
 /// @param s sistema
 /// @pre s != NULL
 /// @return lista de formas auxiliares
-LISTA get_svg_aux(SISTEMA s);
+LISTA get_formas_aux(SISTEMA s);
 
 /// @brief retorna o arquivo .txt de saída
 /// @param s sistema
