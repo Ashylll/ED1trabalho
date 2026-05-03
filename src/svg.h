@@ -10,11 +10,18 @@
 
 */
 
+/// @brief escreve o cabeçalho do .svg
+/// @param fp arquivo .svg aberto em modo escrita
+void svg_begin(FILE *fp);
+
+/// @brief escreve o rodapé do .svg
+/// @param fp arquivo .svg aberto em modo escrita
+void svg_end(FILE *fp);
 
 /// @brief escreve em um arquivo .svg as figuras do banco de dados
 /// @param fp arquivo .svg aberto em modo escrita
 /// @param s sistema
 /// @return true se a operação foi bem-sucedida; false se não
-bool gera_svg(FILE *fp, SISTEMA s);
+bool escreve_svg(FILE *fp, SISTEMA s);
 
 #endif

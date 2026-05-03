@@ -37,6 +37,9 @@ bool insere_lista(LISTA l, ITEM item);
 /// @return item removido; NULL se não foi encontrado
 ITEM removeIndice_lista(LISTA l,  int i);
 
+/// @brief remove um elemento da lista a partir do item a ser retirado
+/// @param l lista
+/// @param item item a ser retirado
 void remove_lista(LISTA l, ITEM item);
 
 /// @brief checa se a lista está vazia
@@ -55,7 +58,7 @@ int tamanho_lista(LISTA l);
 /// @param l lista
 /// @param i índice
 /// @pre l != NULL && i >= 0 && i <= maior índice da lista (tamanho)
-/// @return item
+/// @return item; NULL se índice fora de limite
 ITEM getItem_lista(LISTA l, int i);
 
 /// @brief ordena a lista de acordo com uma função de comparação genérica

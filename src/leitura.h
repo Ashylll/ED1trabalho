@@ -14,13 +14,13 @@
 typedef void* SISTEMA;
 
 /// @brief realiza a leitura do arquivo .geo, cria as figuras iniciais e as insere na lista corrente de formas
-/// @param path_geo ponteiro para o arquivo de entrada .geo
+/// @param path_geo caminho do arquivo de entrada .geo
 /// @param s sistema
 /// @return true se a operação foi bem-sucedida; false se não
 bool leitura_geo(const char* path_geo, SISTEMA s);
 
 /// @brief realiza a leitura do arquivo .qry, registra as mudanças realizadas pelos comandos e escreve no arquivo log .txt
-/// @param path_qry ponteiro para o arquivo de entrada .qry
+/// @param path_qry caminho do arquivo de entrada .qry
 /// @param s sistema
 /// @return true se a operação foi bem-sucedida; false se não
 bool leitura_qry(const char* path_qry, SISTEMA s);

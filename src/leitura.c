@@ -243,11 +243,11 @@ static bool comando_sel(const char *linha, SISTEMA s){
     LISTA formas = get_formas(s);
     FILA selecionadas = get_selecionadas(s);
     FILE *arquivoTxt = get_arquivo_txt(s);
-    LISTA svg_aux = get_svg_aux(s);
+    LISTA formas_aux = get_formas_aux(s);
 
     RETANGULO ret = cria_retangulo(-1, x, y, w, h, "red", "none");
     FORMA retangulo_sel = cria_forma('r', retangulo_sel);
-    insere_lista(svg_aux, retangulo_sel);
+    insere_lista(formas_aux, retangulo_sel);
 
     fprintf(arquivoTxt, "[*] sel %lf %lf %lf %lf \nFormas selecionadas:\n\n", x, y, w, h);
     for (int i = 0; i < tamanho_lista(formas); i++){
@@ -259,7 +259,7 @@ static bool comando_sel(const char *linha, SISTEMA s){
             getAncora_forma(b, &xc, &yc);
             CIRCULO circ = cria_circulo(-2, xc, yc, 1.0, "red", "none");
             FORMA circulo_sel = cria_forma('c', circ);
-            insere_lista(svg_aux, circulo_sel);
+            insere_lista(formas_aux, circulo_sel);
 
             fprintf(arquivoTxt, "Id: %d\nTipo: %c\n\n", getId_forma(b), getTipo_forma(b));
         }
@@ -272,7 +272,7 @@ static bool comando_dels(const char *linha, SISTEMA s) {
     LISTA formas = get_formas(s);
     FILA selecionadas = get_selecionadas(s);
     FILE *arquivoTxt = get_arquivo_txt(s);
-    LISTA svg_aux = get_svg_aux(s);
+    LISTA formas_aux = get_formas_aux(s);
 
     fprintf(arquivoTxt, "[*] dels\nFormas removidas:\n\n");
 
@@ -293,7 +293,7 @@ static bool comando_dels(const char *linha, SISTEMA s) {
         TEXTO x = cria_texto(-3, ax, ay, "red", "red", 'm', "x");
         muda_estilo(x, "sans-serif", "bold", 12.0);
         FORMA marca_x = cria_forma('t', x);
-        insere_lista(svg_aux, marca_x);
+        insere_lista(formas_aux, marca_x);
 
         remove_lista(formas, f);
         libera_forma(&f); 

@@ -5,7 +5,7 @@
 #include "linha.h"
 #include "texto.h"
 
-static void svg_begin(FILE *fp){
+void svg_begin(FILE *fp){
     if (!fp) return;
 
     fprintf(fp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -15,7 +15,7 @@ static void svg_begin(FILE *fp){
     );
 }
 
-static void svg_end(FILE *fp){
+void svg_end(FILE *fp){
     if (!fp) return;
     
     fprintf(fp, "</svg>\n");
@@ -107,10 +107,8 @@ static void svg_escreve_forma(FILE *fp, FORMA f){
     }
 }
 
-bool gera_svg(FILE *fp, SISTEMA s){
+bool escreve_svg(FILE *fp, SISTEMA s){
     if (!fp || !s) return false;
-    svg_begin(fp);
-
 
     LISTA formas = get_formas(s);
 
@@ -122,13 +120,12 @@ bool gera_svg(FILE *fp, SISTEMA s){
     }
 
     i = 0;
-    LISTA formas_aux = get_svg_aux(s);
+    LISTA formas_aux = get_formas_aux(s);
     while (i < tamanho_lista(formas_aux)){
         FORMA figura = getItem_lista(formas_aux, i);
         svg_escreve_forma(fp, figura);
         i++;
     }
 
-    svg_end(fp);
     return true;
 }
