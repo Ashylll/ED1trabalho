@@ -29,7 +29,9 @@ SISTEMA cria_sistema(const char* path_txt, const char* path_svg_geo, const char*
     s->selecionadas = cria_fila(200);
     s->formas_aux = cria_lista();
     
-    s->txt = fopen(path_txt, "w");
+    if (path_txt) s->txt = fopen(path_txt, "w");
+    else s->txt = NULL;
+    
     s->svg_geo = fopen(path_svg_geo, "w");
     svg_begin(s->svg_geo);
 

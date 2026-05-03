@@ -89,14 +89,21 @@ static void svg_escreve_forma(FILE *fp, FORMA f){
             const char *txto = getTXTO_texto(hand);   
             const char *family = getFFamily_texto(hand);
             const char *weight = getFWeight_texto(hand);
+            const char a = getA_texto(hand);
+            const char *ancora;
+            switch (a){
+                case 'i': ancora = "start"; break;
+                case 'm': ancora = "middle"; break;
+                case 'f': ancora = "end"; break;
+            }
             int size = getFSize_texto(hand);
 
             double opacidade = 1.0;
 
             fprintf(fp,
-                "<text style=\"fill:%s;fill-opacity:%.1f;stroke:%s;stroke-width:0.7;"
+                "<text style=\"text-anchor:%s;alignment-baseline:central;fill:%s;fill-opacity:%.1f;stroke:%s;stroke-width:0.7;"
                 "font-family:%s;font-weight:%s;font-size:%dpx;line-height:0%%\" "
-                "x=\"%.2f\" y=\"%.2f\">%s</text>\n", corp, opacidade, corb, family, weight, size, x, y, txto);
+                "x=\"%.2f\" y=\"%.2f\">%s</text>\n", ancora, corp, opacidade, corb, family, weight, size, x, y, txto);
                 
                 break;
         }

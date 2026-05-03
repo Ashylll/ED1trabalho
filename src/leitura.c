@@ -283,7 +283,7 @@ static bool comando_sel(const char *linha, SISTEMA s){
 
             double xc, yc;
             getAncora_forma(b, &xc, &yc);
-            CIRCULO circ = cria_circulo(-2, xc, yc, 1.0, "red", "none");
+            CIRCULO circ = cria_circulo(-2, xc, yc, 3.4, "red", "none");
             FORMA circulo_sel = cria_forma('c', circ);
             insere_lista(formas_aux, circulo_sel);
 
@@ -316,8 +316,8 @@ static bool comando_dels(const char *linha, SISTEMA s) {
 
         double ax, ay;
         getAncora_forma(f, &ax, &ay);
-        TEXTO x = cria_texto(-3, ax, ay, "red", "red", 'm', "X");
-        muda_estilo(x, "sans-serif", "bold", 12.0);
+        TEXTO x = cria_texto(-3, ax, ay - 0.4, "red", "red", 'm', "x");
+        muda_estilo(x, "cursive", "normal", 7.6);
         FORMA marca_x = cria_forma('t', x);
         insere_lista(formas_aux, marca_x);
 

@@ -1,7 +1,7 @@
 PROJ_NAME= ted
 ALUNO= Ashley
 LIBS= -lm
-OBJETOS= main.o circulo.o retangulo.o linha.o texto.o forma.o fila.o lista.o poligono.o leitura.o leitura.o sistema.o svg.o
+OBJETOS= main.o circulo.o retangulo.o linha.o texto.o forma.o fila.o lista.o poligono.o leitura.o sistema.o svg.o
 
 CC=gcc
 CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -I. -I./unity -DUNITY_INCLUDE_DOUBLE
@@ -15,17 +15,19 @@ $(PROJ_NAME): $(OBJETOS)
 %.o : %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
+main.o: main.c leitura.h sistema.h svg.h
 circulo.o: circulo.c circulo.h
 retangulo.o: retangulo.c retangulo.h
 linha.o: linha.c linha.h
 texto.o: texto.c texto.h
-poligono.o: poligono.c poligono.h fila.h
-forma.o: forma.c circulo.h retangulo.h linha.h texto.h
-
+forma.o: forma.c forma.h circulo.h retangulo.h linha.h texto.h
 fila.o: fila.c fila.h
 lista.o: lista.c lista.h
-
+poligono.o: poligono.c poligono.h fila.h
 leitura.o: leitura.c leitura.h circulo.h retangulo.h linha.h  texto.h forma.h poligono.h fila.h lista.h
+sistema.o: sistema.c sistema.h forma.h poligono.h svg.h
+svg.o: svg.c svg.h forma.h circulo.h retangulo.h linha.h texto.h
+
 
 .PHONY: clean run memcheck testes run_testes
 
