@@ -4,8 +4,9 @@ LIBS= -lm
 OBJETOS= main.o circulo.o retangulo.o linha.o texto.o forma.o fila.o lista.o poligono.o leitura.o sistema.o svg.o
 
 CC=gcc
-CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -I. -I./unity -DUNITY_INCLUDE_DOUBLE
+CFLAGS= -std=c99 -fstack-protector-all -ggdb -O0 -Werror=implicit-function-declaration -I. -I./unity -DUNITY_INCLUDE_DOUBLE
 LDFLAGS= -O0
+VG = valgrind --log-file="valgrind_log" --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: $(PROJ_NAME)
 
@@ -15,6 +16,7 @@ $(PROJ_NAME): $(OBJETOS)
 %.o : %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
+# Dependências dos objetos
 main.o: main.c leitura.h sistema.h svg.h
 circulo.o: circulo.c circulo.h
 retangulo.o: retangulo.c retangulo.h
@@ -29,22 +31,13 @@ sistema.o: sistema.c sistema.h forma.h poligono.h svg.h
 svg.o: svg.c svg.h forma.h circulo.h retangulo.h linha.h texto.h
 
 
-.PHONY: clean run memcheck testes run_testes
+TESTES = teste_circulo teste_retangulo teste_linha teste_texto teste_forma teste_fila teste_lista teste_poligono teste_leitura teste_sistema teste_svg
 
-clean:
-	rm -rf *.o $(PROJ_NAME) $(TESTES)
+# Regra para compilar e rodar todos os testes 
+tstall: $(TESTES)
+	@echo "Executando todos os testes unitários..."
+	@for t in $(TESTES); do ./$$t; done
 
-run: $(PROJ_NAME)
-	./$(PROJ_NAME)
-
-VG = valgrind --log-file="valgrind_log" --leak-check=full --show-leak-kinds=all --track-origins=yes
-memcheck: $(PROJ_NAME)
-	$(VG) ./$(PROJ_NAME)
-
-val:
-	$(VG) ./$(TARGET)
-
-# Makefile somente para arquivos de teste
 teste_circulo: circulo.o unity.o t_circulo.o
 	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
 
@@ -78,20 +71,14 @@ teste_sistema: sistema.o svg.o poligono.o forma.o circulo.o retangulo.o linha.o 
 teste_svg: svg.o sistema.o poligono.o forma.o circulo.o retangulo.o linha.o texto.o fila.o lista.o unity.o t_svg.o
 	$(CC) -o $@ $(LDFLAGS) $^ $(LIBS)
 
-TESTES = teste_circulo teste_retangulo teste_linha teste_texto teste_forma teste_fila teste_lista teste_poligono teste_leitura teste_sistema teste_svg
 
-testes: $(TESTES)
+.PHONY: clean run memcheck tstall
 
-realiza_testes: testes
-	@echo "Realizando testes..."
-	@./teste_circulo
-	@./teste_retangulo
-	@./teste_linha
-	@./teste_texto
-	@./teste_fila
-	@./teste_lista
-	@./teste_poligono
-	@./teste_leitura
-	@./teste_sistema
-	@./teste_svg
-	@echo "Testes completos"
+clean:
+	rm -rf *.o $(PROJ_NAME) $(TESTES) valgrind_log
+
+run: $(PROJ_NAME)
+	./$(PROJ_NAME)
+
+memcheck: $(PROJ_NAME)
+	$(VG) ./$(PROJ_NAME)

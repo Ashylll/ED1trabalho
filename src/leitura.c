@@ -14,6 +14,17 @@
 #include <stdio.h>
 #include <string.h>
 
+
+const char* traduzTipo(char tipo) {
+    switch(tipo) {
+        case 'r': return "retângulo";
+        case 'c': return "circulo";
+        case 'l': return "linha";
+        case 't': return "triângulo";
+        default:  return "desconhecido";
+    }
+}
+
 /* Comandos .geo */
 
 static bool comando_c(const char *linha, SISTEMA s){
@@ -287,7 +298,7 @@ static bool comando_sel(const char *linha, SISTEMA s){
             FORMA circulo_sel = cria_forma('c', circ);
             insere_lista(formas_aux, circulo_sel);
 
-            fprintf(arquivoTxt, "Id: %d\nTipo: %c\n\n", getId_forma(b), getTipo_forma(b));
+            fprintf(arquivoTxt, "Id: %d\nTipo: %s\n\n", getId_forma(b), traduzTipo(getTipo_forma(b)));
         }
     }
 
