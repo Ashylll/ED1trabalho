@@ -9,7 +9,19 @@
     sistema.h
 
     Módulo dedicado a organizar e simplificar o banco de dados
-    O sistema é criado no início do programa e é responsável por armazenar todas as âncoras de dados do programa 
+    O sistema é responsável por armazenar todas as âncoras de dados do programa (filas, listas e arquivos) e permitir seu acesso
+
+    Ele cria e carrega:   
+        Filas de polígonos e de formas selecionadas (comando "sel")
+        Listas de formas principais (entrada .geo) e de formas auxiliares (marcadores criados por comandos do .svg)
+
+    Os arquivos .txt e .svg são passados ao sistema. Ao ser criado, escreve o cabeçalho dos .svg, e ao ser encerrado, escreve o rodapé
+
+    Mantém o estilo atual do texto e permite sua alteração conforme a entrada de dados
+    Estilo padrão inicial:
+        Family: sans-serif
+        Weight: normal
+        Size: 12.0
 
 */
 typedef void* SISTEMA;
@@ -18,6 +30,7 @@ typedef void* SISTEMA;
 /// @param path_txt caminho do arquivo .txt
 /// @param path_svg_geo caminho do arquivo .svg inicial
 /// @param path_svg_qry caminho do arquivo .svg final
+/// @pre path_txt != NULL && path_svg_geo != NULL
 /// @return sistema criado
 SISTEMA cria_sistema(const char* path_txt, const char* path_svg_geo, const char* path_svg_qry);
 
@@ -76,10 +89,12 @@ void set_estilo_texto(SISTEMA s, const char* family, const char* weight, double 
 /// @param family recebe a family do estilo
 /// @param weight recebe o weight do estilo
 /// @param size recebe o size do estilo
+/// @pre s != NULL
 void get_estilo_texto(SISTEMA s, char* family, char* weight, double* size);
 
 /// @brief encerra o sistema
 /// @param s sistema
+/// @pre s != NULL
 void fecha_sistema(SISTEMA* s);
 
 #endif

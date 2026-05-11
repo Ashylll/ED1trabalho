@@ -5,9 +5,11 @@
 
 /*
     lista.h
-    Módulo responsável pela mplementação a lista e operações relacionadas
+    Módulo responsável pela implementação da lista e operações relacionadas
 
-    A lista 
+    A lista é uma forma abstrata de se estruturar dados
+    Utiliza encadeamento duplo e permite inserção no início, remoção por índice e ordenação
+
 */
 
 typedef void* LISTA;
@@ -25,8 +27,8 @@ bool libera_lista(LISTA *l);
 
 /// @brief insere um elemento no início da lista
 /// @param l lista
-/// @pre l != NULL && i != NULL
 /// @param i item a ser inserido
+/// @pre l != NULL && i != NULL
 /// @return true se a operação foi bem-sucedida; false caso o contrário
 bool insere_lista(LISTA l, ITEM item);
 
@@ -39,7 +41,8 @@ ITEM removeIndice_lista(LISTA l,  int i);
 
 /// @brief remove um elemento da lista a partir do item a ser retirado
 /// @param l lista
-/// @param item item a ser retirado
+/// @param item ponteiro para o item que deve ser retirado
+/// @pre l != NULL && item != NULL
 void remove_lista(LISTA l, ITEM item);
 
 /// @brief checa se a lista está vazia
@@ -64,6 +67,7 @@ ITEM getItem_lista(LISTA l, int i);
 /// @brief ordena a lista de acordo com uma função de comparação genérica
 /// @param l lista
 /// @param cmp função genérica de comparação
+/// @pre l != NULL && cmp != NULL
 void ordena_lista(LISTA l, int (*cmp)(void*, void*));
 
 #endif

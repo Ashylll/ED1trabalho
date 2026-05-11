@@ -6,21 +6,25 @@
 /*
     svg.h
     Módulo responsável pela escrita em arquivos .svg
-    Desenha as figuras iniciais e finais do programa
+
+    Escreve as figuras iniciais (.geo) e finais (após .qry, caso haja) do programa nos arquivos do sistema
 
 */
 
 /// @brief escreve o cabeçalho do .svg
 /// @param fp arquivo .svg aberto em modo escrita
+/// @pre fp != NULL
 void svg_begin(FILE *fp);
 
 /// @brief escreve o rodapé do .svg
-/// @param fp arquivo .svg aberto em modo escrita
+/// @param fp arquivo .svg aberto em modo 
+/// @pre fp != NULL
 void svg_end(FILE *fp);
 
-/// @brief escreve em um arquivo .svg as figuras do banco de dados
+/// @brief escreve em um arquivo .svg apenas as figuras do banco de dados (guardadas em sistema)
 /// @param fp arquivo .svg aberto em modo escrita
 /// @param s sistema
+/// @pre fp != NULL && s != NULL
 /// @return true se a operação foi bem-sucedida; false se não
 bool escreve_svg(FILE *fp, SISTEMA s);
 

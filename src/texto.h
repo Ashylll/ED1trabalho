@@ -10,8 +10,12 @@
     -   O texto é uma sequência de caracteres (palavra) partindo de um ponto no plano cartesiano;
     -   O ponto pode representar o início da palavra, seu meio ou seu fim;
     -   Possui identificador de número inteiro;
-    -   Possui cor de borda e de preenchimento para os caracteres.   
-
+    -   Possui cor de borda e de preenchimento para os caracteres de acordo com o padrão SVG.   
+    -   Estilo padrão de criação:
+            Family: sans-serif
+            Weight: normal
+            Size: 12.0
+            
     Convenções:
     -   Sistema de coordenadas com (0,0) no canto superior esquerdo;
     -   x cresce para a direita; y cresce para baixo;
@@ -22,7 +26,7 @@
 typedef void* TEXTO;
 #define FFAMILY_PADRAO "sans-serif"
 #define FWEIGHT_PADRAO "normal"
-#define FSIZE_PADRAO 20.0
+#define FSIZE_PADRAO 12.0
 
 /// @brief cria um texto com identificador, coordenadas, cores de borda e de preenchimento e estilo padrão (family: sans-serif | weight: normal | size: 20)
 /// @param id identificador
@@ -38,6 +42,7 @@ TEXTO cria_texto(int id, double x, double y, const char* corb, const char* corp,
 
 /// @brief libera a memória do texto 
 /// @param t ponteiro para o handle do texto
+/// @pre t != NULL
 void libera_texto(TEXTO *t);
 
 /* === Operações get === */ 

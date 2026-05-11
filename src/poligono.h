@@ -8,7 +8,8 @@
     -   O polígono é um conjunto de vértices ordenados ligados por segmentos de reta;
     -   Possui identificador inteiro positivo [1, 10];
     -   Possui segmentos paralelos em seu interior, representando uma hachura;
-    -   Possui coloração para a borda e a hachura.
+    -   Possui coloração para a borda e a hachura de acordo com o padrão SVG.
+    -   Borda e hachura só podem ser traçadas uma única vez por polígono
 
         Convenções:
    -    Sistema de coordenadas no domínio dos números reais com (0,0) no canto superior esquerdo;
@@ -69,7 +70,6 @@ FILA getLados_poligono(POLIGONO p);
 /// @pre p != NULL
 /// @return fila de hachura
 FILA getHachura_poligono(POLIGONO p);
-
 
 /// @brief cria um vértice (ponto no plano)
 /// @param x coordenada x

@@ -9,7 +9,7 @@
 
     -   A linha é formada por dois pontos no plano cartesiano, sendo traçado um segmento de reta;
     -   Possui identificador de número inteiro;
-    -   O segmento gerado possui coloração.
+    -   O segmento gerado possui coloração de acordo com o padrão SVG.
 
     Convenções:
     -   Sistema de coordenadas no domínio dos número reais com (0,0) no canto superior esquerdo;
@@ -28,7 +28,7 @@ typedef void* LINHA;
 /// @param x2 coordenada x da extremidade 2 (x2)
 /// @param y2 coordenada y da extremidade 2 (y2)
 /// @param cor cor da linha
-/// @pre cor != NULL
+/// @pre cor != NULL && [(x1 == y1 && x1 == x2 && x1 == y2) != 1]
 /// @return retorna ponteiro para a linha
 LINHA cria_linha(int id, double x1, double y1, double x2, double y2, const char* cor);
 
@@ -39,6 +39,7 @@ LINHA cria_linha(int id, double x1, double y1, double x2, double y2, const char*
 double comprimento_linha(LINHA l);
 
 /// @brief libera a memória da linha
+/// @pre l != NULL
 /// @param l ponteiro para o handle da linha
 void libera_linha(LINHA *l);
 

@@ -7,10 +7,9 @@
 	fila.h
 	Módulo responsável pela implementação da fila e operações relacionadas
 
-	A fila é uma forma abstrata de se manusear elementos, seguindo a lógica convencional de uma fila.
+	A fila é uma forma abstrata de se manusear elementos de mesmo tipo, seguindo a lógica convencional de uma fila.
 	First In, First Out (FIFO): os elementos são inseridos no fim da fila e retirados em seu início.
 
-	Tamanho máximo de elementos: 10
 */
 
 typedef void* FILA;
@@ -22,14 +21,14 @@ typedef void* ITEM;
 /// @return retorna ponteiro para a fila || NULL se der erro
 FILA cria_fila(int tamanho_fila);
 
-/// @brief insere um item à fila
+/// @brief insere um item ao fim da fila
 /// @param f fila
 /// @param i item a ser inserido
-/// @pre f != NULL && i != NULL && TAMANHO_FILA <= 10
+/// @pre f != NULL && i != NULL. Fila não deve estar cheia
 /// @return FALSE se a operação falhou, TRUE se foi bem sucedida
 bool insere_fila(FILA f, ITEM i);
 
-/// @brief remove um elemento da fila
+/// @brief remove o elemento no início fila
 /// @param f fila
 /// @param fora ponteiro que recebe o item removido
 /// @pre f != NULL. Fila não deve estar vazia

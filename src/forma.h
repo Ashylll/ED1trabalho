@@ -6,13 +6,7 @@
 
 /*
     forma.h
-    Módulo responsável por conciliar e unificar operações sobre as formas do projeto (wrapper)
-    
-    Convenção de tipos:
-      'c' = círculo
-      'r' = retângulo
-      't' = texto
-      'l' = linha
+    Forma é um contâiner (wrapper) que carrega um ponteiro para uma figura e o seu tipo.
 
 */
 

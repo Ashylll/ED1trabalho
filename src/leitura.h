@@ -8,6 +8,8 @@
     Módulo responsável pela leitura dos arquivos de entrada .geo e .qry
     .geo: contém informações das formas que são criadas no início do programa  
     .qry: contém instruções a serem realizadas sobre as formas, podendo criar, deletar ou modificá-las
+    Ao ler o .qry, o programa já escreve na saída .txt os logs das operações
+    Recebe de entrada o SISTEMA, responsável por armazenar e permitir acesso às filas, listas e arquivos correntes
 
 */
 

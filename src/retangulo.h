@@ -7,9 +7,10 @@
     retangulo.h
     Módulo responsável pela implementação do retângulo e operações relacionadas
     
-    -   O retângulo é um conjunto de quatro pontos no plano cartesiano, dos quais é possível traçar dois pares de segmentos paralelos, formando um retângulo;
+    -   O retângulo é um conjunto de quatro pontos no plano cartesiano, dos quais é possível traçar dois pares de segmentos paralelos,
+        formando a figura geométrica;
     -   Possui identificador de número inteiro;
-    -   Possui coloração para a borda (segmentos) e o seu preenchimento (dentro dos limites do retângulo).
+    -   Possui coloração para a borda (segmentos) e o seu preenchimento (dentro dos limites do retângulo) de acordo com o padrão SVG.
 
     Convenções:
    -    Sistema de coordenadas no domínio dos números reais com (0,0) no canto superior esquerdo;
@@ -40,6 +41,7 @@ double area_retangulo(RETANGULO r);
 
 /// @brief libera a memória do retângulo
 /// @param r ponteiro para handle do retângulo
+/// @pre r != NULL
 void libera_retangulo(RETANGULO *r);
 
 /* === Operações get === */

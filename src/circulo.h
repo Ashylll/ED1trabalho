@@ -10,7 +10,7 @@
 
     -   O círculo é formado por um ponto central no plano cartesiano e um raio que determina o limite da função (borda);
     -   Possui identificador de número inteiro;
-    -   Possui coloração para a borda e o seu preenchimento (dentro dos limites do círculo).
+    -   Possui coloração para a borda e o seu preenchimento (dentro dos limites do círculo) de acordo com o padrão SVG.
 
     Convenções:
     -   Sistema de coordenadas no domínio dos números reais com (0,0) no canto superior esquerdo;
@@ -40,6 +40,7 @@ CIRCULO cria_circulo(int id, double x, double y, double r, const char* corb, con
 double area_circulo(CIRCULO c);
 
 /// @brief libera a memória do círculo
+/// @pre c != NULL
 /// @param c ponteiro para o handle do círculo
 void libera_circulo(CIRCULO *c);
 
