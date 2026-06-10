@@ -35,11 +35,11 @@ void teste_tamanho_poligono(void) {
 
     TEST_ASSERT_EQUAL_INT(0, tamanho_poligono(p));
 
-    VERTICE v1 = cria_vertice(4.4, 2.2);
+    Vertice v1 = cria_vertice(4.4, 2.2);
     insere_vertice(p, v1);
     TEST_ASSERT_EQUAL_INT(1, tamanho_poligono(p));
 
-    VERTICE v2 = cria_vertice(6.6, 8.8);
+    Vertice v2 = cria_vertice(6.6, 8.8);
     insere_vertice(p, v2);
     TEST_ASSERT_EQUAL_INT(2, tamanho_poligono(p));
 
@@ -94,8 +94,8 @@ void teste_getVertices_poligono(void){
 
     TEST_ASSERT_NOT_NULL(get_vertices_poligono(p));
 
-    VERTICE v1 = cria_vertice(2.2, 8.8);
-    VERTICE v2 = cria_vertice(4.4, 6.8);
+    Vertice v1 = cria_vertice(2.2, 8.8);
+    Vertice v2 = cria_vertice(4.4, 6.8);
     insere_vertice(p, v1);
     insere_vertice(p, v2);
 
@@ -110,9 +110,9 @@ void teste_getLados_poligono(void){
     TEST_ASSERT_NOT_NULL(get_lados_poligono(p));
 
     Lista l = cria_lista();
-    VERTICE v1 = cria_vertice(2.2, 8.8);
-    VERTICE v2 = cria_vertice(4.4, 6.8);
-    VERTICE v3 = cria_vertice(6.6, 8.6);
+    Vertice v1 = cria_vertice(2.2, 8.8);
+    Vertice v2 = cria_vertice(4.4, 6.8);
+    Vertice v3 = cria_vertice(6.6, 8.6);
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);
@@ -142,7 +142,7 @@ void teste_getHachura_poligono(void){
 }
 
 void teste_cria_vertice(void){
-    VERTICE v = cria_vertice(2.4, 8.2);
+    Vertice v = cria_vertice(2.4, 8.2);
     TEST_ASSERT_NOT_NULL(v);
 
     TEST_ASSERT_EQUAL_DOUBLE(2.4, get_x_vertice(v));
@@ -155,8 +155,8 @@ void teste_cria_vertice(void){
 void teste_insere_vertice(void){
     Poligono p = cria_poligono(1);
 
-    VERTICE v1 = cria_vertice(2.2, 8.8);
-    VERTICE v2 = cria_vertice(4.4, 6.8);
+    Vertice v1 = cria_vertice(2.2, 8.8);
+    Vertice v2 = cria_vertice(4.4, 6.8);
     
     insere_vertice(p, v1);
     TEST_ASSERT_EQUAL_INT(1, tamanho_poligono(p));
@@ -170,8 +170,8 @@ void teste_insere_vertice(void){
 void teste_remove_vertice(void){
     Poligono p = cria_poligono(1);
 
-    VERTICE v1 = cria_vertice(2.2, 2.3);
-    VERTICE v2 = cria_vertice(4.4, 4.3);
+    Vertice v1 = cria_vertice(2.2, 2.3);
+    Vertice v2 = cria_vertice(4.4, 4.3);
 
     insere_vertice(p, v1);
     insere_vertice(p, v2);
@@ -192,7 +192,7 @@ void teste_remove_vertice(void){
 }
 
 void teste_get_xY_vertice(void){
-    VERTICE v = cria_vertice(2.2, 2.4);
+    Vertice v = cria_vertice(2.2, 2.4);
 
     TEST_ASSERT_EQUAL_DOUBLE(2.2, get_x_vertice(v));
 
@@ -206,9 +206,9 @@ void teste_desenha_poligono(void){
 
     // Testa número ímpar de vértices
     Lista l = cria_lista();
-    VERTICE v1 = cria_vertice(2.2, 8.8);
-    VERTICE v2 = cria_vertice(4.4, 6.8);
-    VERTICE v3 = cria_vertice(6.6, 8.6);
+    Vertice v1 = cria_vertice(2.2, 8.8);
+    Vertice v2 = cria_vertice(4.4, 6.8);
+    Vertice v3 = cria_vertice(6.6, 8.6);
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);
@@ -222,10 +222,10 @@ void teste_desenha_poligono(void){
 
     // Testa número par de vértices
     Poligono p2 = cria_poligono(7);
-    VERTICE v4 = cria_vertice(2.2, 8.8);
-    VERTICE v5 = cria_vertice(4.4, 6.8);
-    VERTICE v6 = cria_vertice(6.6, 8.6);
-    VERTICE v7 = cria_vertice(8.8, 10.4);
+    Vertice v4 = cria_vertice(2.2, 8.8);
+    Vertice v5 = cria_vertice(4.4, 6.8);
+    Vertice v6 = cria_vertice(6.6, 8.6);
+    Vertice v7 = cria_vertice(8.8, 10.4);
     insere_vertice(p2, v4);
     insere_vertice(p2, v5);
     insere_vertice(p2, v6);
@@ -250,9 +250,9 @@ void teste_hachura_poligono(void){
     Poligono p = cria_poligono(7);
 
     Lista l = cria_lista();
-    VERTICE v1 = cria_vertice(2, 2);
-    VERTICE v2 = cria_vertice(4, 4);
-    VERTICE v3 = cria_vertice(6, 2);
+    Vertice v1 = cria_vertice(2, 2);
+    Vertice v2 = cria_vertice(4, 4);
+    Vertice v3 = cria_vertice(6, 2);
     insere_vertice(p, v1);
     insere_vertice(p, v2);
     insere_vertice(p, v3);

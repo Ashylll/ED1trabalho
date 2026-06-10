@@ -18,8 +18,8 @@
 */
 
 typedef void* Poligono;
-typedef void* VERTICE;
-typedef void* SEGMENTO;
+typedef void* Vertice;
+typedef void* Segmento;
 typedef void* Fila;
 typedef void* Lista;
 
@@ -76,18 +76,18 @@ Fila get_hachura_poligono(Poligono p);
 /// @param y coordenada y
 /// @pre x e y devem ser número reais
 /// @return ponteiro para o vértice
-VERTICE cria_vertice(double x, double y);
+Vertice cria_vertice(double x, double y);
 
 /// @brief libera a memória do vértice
 /// @pre v != NULL
 /// @param v ponteiro para handle do vértice
-void libera_vertice(VERTICE *v);
+void libera_vertice(Vertice *v);
 
 /// @brief insere um vértice ao polígono
 /// @param p pónteiro para o polígono
 /// @param v ponteiro para o vértice
 /// @pre p != NULL && v != NULL
-void insere_vertice(Poligono p, VERTICE v);
+void insere_vertice(Poligono p, Vertice v);
 
 /// @brief remove o vértice mais antigo inserido no polígono e libera sua memória
 /// @param p polígono
@@ -100,13 +100,13 @@ void remove_vertice(Poligono p, double *x, double *y);
 /// @param v vértice
 /// @pre v != NULL
 /// @return coordenada x
-double get_x_vertice (VERTICE v);
+double get_x_vertice (Vertice v);
 
 /// @brief retorna a coordenada y do vértice
 /// @param v vértice
 /// @pre v != NULL
 /// @return coordenada y
-double get_y_vertice (VERTICE v);
+double get_y_vertice (Vertice v);
 
 /// @brief cria os segmentos dos lados do polígono sequencialmente a partir de um id
 /// @param p polígono

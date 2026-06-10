@@ -204,7 +204,7 @@ static bool comando_inp(const char* linha, Sistema s){
     }
 
     get_ancora_forma(figura, &x, &y);
-    VERTICE v = cria_vertice(x, y);
+    Vertice v = cria_vertice(x, y);
     insere_vertice(p, v);
 
     fprintf(arquivoTxt, "[*] inp %d %d\n", poligono_id, forma_id);

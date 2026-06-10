@@ -129,7 +129,7 @@ Fila get_hachura_poligono(Poligono p){
     return poligono->hachura;
 }
 
-VERTICE cria_vertice(double x, double y ){
+Vertice cria_vertice(double x, double y ){
     StVertice *vertice = malloc(sizeof(StVertice));
     if (!vertice) return NULL;
 
@@ -139,7 +139,7 @@ VERTICE cria_vertice(double x, double y ){
     return vertice;
 }
 
-void libera_vertice(VERTICE *v){
+void libera_vertice(Vertice *v){
     if (!v) return;
     
     StVertice *vertice = (StVertice*)*v;
@@ -150,7 +150,7 @@ void libera_vertice(VERTICE *v){
     return;
 }
 
-void insere_vertice(Poligono p, VERTICE v){
+void insere_vertice(Poligono p, Vertice v){
     if (!v || !p) return;
 
     StPoligono *poligono = (StPoligono*)p;
@@ -179,13 +179,13 @@ void remove_vertice(Poligono p, double *x, double *y){
     return;
 }
 
-double get_x_vertice(VERTICE v){
+double get_x_vertice(Vertice v){
     StVertice *vertice = (StVertice*)v;
 
     return vertice->x;
 }
 
-double get_y_vertice(VERTICE v){
+double get_y_vertice(Vertice v){
     StVertice *vertice = (StVertice*)v;
 
     return vertice->y;
@@ -226,7 +226,7 @@ void desenha_poligono(Poligono p, int *id, char* corb, Lista formas){
 
     Fila vertices = copia_fila(poligono->vertices);
 
-    VERTICE v_primeiro, v_atual, v_prox;
+    Vertice v_primeiro, v_atual, v_prox;
 
     remove_fila(vertices, &v_primeiro);
     v_atual = v_primeiro;
@@ -238,7 +238,7 @@ void desenha_poligono(Poligono p, int *id, char* corb, Lista formas){
         double vX_prox = get_x_vertice(v_prox);
         double vY_prox = get_y_vertice(v_prox);
 
-        SEGMENTO s = cria_linha(*id, vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
+        Segmento s = cria_linha(*id, vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
         insere_fila(poligono->lados, s);
 
         Forma f = cria_forma('l', s);
@@ -255,7 +255,7 @@ void desenha_poligono(Poligono p, int *id, char* corb, Lista formas){
     double vX_primeiro = get_x_vertice(v_primeiro);
     double vY_primeiro = get_y_vertice(v_primeiro);
 
-    SEGMENTO s_final = cria_linha(*id, vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
+    Segmento s_final = cria_linha(*id, vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
     insere_fila(poligono->lados, s_final);
 
     Forma f_final = cria_forma('l', s_final);
@@ -273,7 +273,7 @@ void boundingBox(Fila vertices, double *ymin, double *xmin, double *ymax, double
     if (!vertices) return;
 
     Fila aux = copia_fila(vertices);
-    VERTICE vertice;
+    Vertice vertice;
 
     remove_fila(aux, &vertice);
     double y = get_y_vertice(vertice);
