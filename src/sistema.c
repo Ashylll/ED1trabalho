@@ -6,11 +6,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct sistema {
-    LISTA formas;
-    FILA poligonos;
-    FILA selecionadas;
-    LISTA formas_aux;
+typedef struct StSistema {
+    Lista formas;
+    Fila poligonos;
+    Fila selecionadas;
+    Lista formas_aux;
 
     FILE* txt;
     FILE* svg_geo;
@@ -19,10 +19,10 @@ typedef struct sistema {
     char fFamily[32];
     char fWeight[32];
     double fSize;
-} sistema;
+} StSistema;
 
-SISTEMA cria_sistema(const char* path_txt, const char* path_svg_geo, const char* path_svg_qry){
-    sistema* s = malloc(sizeof(sistema));
+Sistema cria_sistema(const char* path_txt, const char* path_svg_geo, const char* path_svg_qry){
+    StSistema* s = malloc(sizeof(StSistema));
     
     s->formas = cria_lista();
     s->poligonos = cria_fila(10);
@@ -46,46 +46,46 @@ SISTEMA cria_sistema(const char* path_txt, const char* path_svg_geo, const char*
     strcpy(s->fWeight, "normal");
     s->fSize = 12.0;
 
-    return (SISTEMA)s;
+    return (Sistema)s;
 }
 
-LISTA get_formas(SISTEMA s){
+Lista get_formas(Sistema s){
 
-    return ((sistema*)s)->formas;
+    return ((StSistema*)s)->formas;
 }
 
-FILA get_poligonos(SISTEMA s){
+Fila get_poligonos(Sistema s){
 
-    return ((sistema*)s)->poligonos;
+    return ((StSistema*)s)->poligonos;
 }
 
-FILA get_selecionadas(SISTEMA s){
+Fila get_selecionadas(Sistema s){
 
-    return ((sistema*)s)->selecionadas;
+    return ((StSistema*)s)->selecionadas;
 }
 
-LISTA get_formas_aux(SISTEMA s){
+Lista get_formas_aux(Sistema s){
 
-    return ((sistema*)s)->formas_aux;
+    return ((StSistema*)s)->formas_aux;
 }
 
-FILE* get_arquivo_txt(SISTEMA s){
+FILE* get_arquivo_txt(Sistema s){
 
-    return ((sistema*)s)->txt;
+    return ((StSistema*)s)->txt;
 }
 
-FILE* get_svg_geo(SISTEMA s){
+FILE* get_svg_geo(Sistema s){
 
-    return ((sistema*)s)->svg_geo;
+    return ((StSistema*)s)->svg_geo;
 }
 
-FILE* get_svg_qry(SISTEMA s){
+FILE* get_svg_qry(Sistema s){
 
-    return ((sistema*)s)->svg_qry;
+    return ((StSistema*)s)->svg_qry;
 }
 
-void get_estilo_texto(SISTEMA s, char* family, char* weight, double* size) {
-    sistema* sys = (sistema*)s;
+void get_estilo_texto(Sistema s, char* family, char* weight, double* size) {
+    StSistema* sys = (StSistema*)s;
 
     if (family) strcpy(family, sys->fFamily);
     if (weight) strcpy(weight, sys->fWeight);
@@ -94,8 +94,8 @@ void get_estilo_texto(SISTEMA s, char* family, char* weight, double* size) {
     return;
 }
 
-void set_estilo_texto(SISTEMA s, const char* family, const char* weight, double size){
-    sistema* sys = (sistema*)s;
+void set_estilo_texto(Sistema s, const char* family, const char* weight, double size){
+    StSistema* sys = (StSistema*)s;
 
     strcpy(sys->fFamily, family);
     strcpy(sys->fWeight, weight);
@@ -104,8 +104,8 @@ void set_estilo_texto(SISTEMA s, const char* family, const char* weight, double 
     return;
 }
 
-void fecha_sistema(SISTEMA* s) {
-    sistema* sys = (sistema*)*s;
+void fecha_sistema(Sistema* s) {
+    StSistema* sys = (StSistema*)*s;
    
     ITEM remove;
     while (!vazia_fila(sys->poligonos)){
@@ -120,14 +120,14 @@ void fecha_sistema(SISTEMA* s) {
     libera_fila(&(sys->selecionadas));
 
     while (!vazia_lista(sys->formas)){
-        remove = removeIndice_lista(sys->formas, 0); 
+        remove = remove_indice_lista(sys->formas, 0); 
         libera_forma(&remove); 
     }
     libera_lista(&(sys->formas));
 
     
     while (!vazia_lista(sys->formas_aux)){
-        remove = removeIndice_lista(sys->formas_aux, 0); 
+        remove = remove_indice_lista(sys->formas_aux, 0); 
         libera_forma(&remove); 
     }
     libera_lista(&(sys->formas_aux));

@@ -24,57 +24,57 @@
         Size: 12.0
 
 */
-typedef void* SISTEMA;
+typedef void* Sistema;
 
-/// @brief cria o banco de dados SISTEMA
+/// @brief cria o banco de dados Sistema
 /// @param path_txt caminho do arquivo .txt
 /// @param path_svg_geo caminho do arquivo .svg inicial
 /// @param path_svg_qry caminho do arquivo .svg final
 /// @pre path_txt != NULL && path_svg_geo != NULL
 /// @return sistema criado
-SISTEMA cria_sistema(const char* path_txt, const char* path_svg_geo, const char* path_svg_qry);
+Sistema cria_sistema(const char* path_txt, const char* path_svg_geo, const char* path_svg_qry);
 
 /// @brief retorna a lista de formas principal do sistema
 /// @param s sistema 
 /// @pre s != NULL
 /// @return lista de formas
-LISTA get_formas(SISTEMA s);
+Lista get_formas(Sistema s);
 
 /// @brief retorna a fila de polígonos do sistema
 /// @param s sistema
 /// @pre s != NULL
 /// @return fila de polígonos
-FILA get_poligonos(SISTEMA s);
+Fila get_poligonos(Sistema s);
 
 /// @brief retorna a fila das formas selecionadas por comando do .qry
 /// @param s sistema
 /// @pre s != NULL
 /// @return fila de formas selecionas
-FILA get_selecionadas(SISTEMA s);
+Fila get_selecionadas(Sistema s);
 
 /// @brief retorna a lista das formas auxiliares 
 /// @param s sistema
 /// @pre s != NULL
 /// @return lista de formas auxiliares
-LISTA get_formas_aux(SISTEMA s);
+Lista get_formas_aux(Sistema s);
 
 /// @brief retorna o arquivo .txt de saída
 /// @param s sistema
 /// @pre s != NULL
 /// @return arquivo .txt
-FILE* get_arquivo_txt(SISTEMA s);
+FILE* get_arquivo_txt(Sistema s);
 
 /// @brief retorna o arquivo .svg inicial (após a leitura do .geo)  de saída
 /// @param s sistema
 /// @pre s != NULL
 /// @return arquivo .svg final
-FILE* get_svg_geo(SISTEMA s);
+FILE* get_svg_geo(Sistema s);
 
 /// @brief retorna o arquivo .svg final (após a leitura do .qry) de saída
 /// @param s sistema
 /// @pre s != NULL
 /// @return arquivo .svg final
-FILE* get_svg_qry(SISTEMA s);
+FILE* get_svg_qry(Sistema s);
 
 /// @brief atribui o estilo de texto
 /// @param s sistema
@@ -82,7 +82,7 @@ FILE* get_svg_qry(SISTEMA s);
 /// @param fWeight expessura do estilo (n: normal, b: bold, b+: bolder, l: lighter)
 /// @param fSize tamanho do estilo
 /// @pre t != NULL && fFamily != NULL && fWeight != NULL && fSize > 0
-void set_estilo_texto(SISTEMA s, const char* family, const char* weight, double size);
+void set_estilo_texto(Sistema s, const char* family, const char* weight, double size);
 
 /// @brief pega o estilo de texto atual
 /// @param s sistema
@@ -90,11 +90,11 @@ void set_estilo_texto(SISTEMA s, const char* family, const char* weight, double 
 /// @param weight recebe o weight do estilo
 /// @param size recebe o size do estilo
 /// @pre s != NULL
-void get_estilo_texto(SISTEMA s, char* family, char* weight, double* size);
+void get_estilo_texto(Sistema s, char* family, char* weight, double* size);
 
 /// @brief encerra o sistema
 /// @param s sistema
 /// @pre s != NULL
-void fecha_sistema(SISTEMA* s);
+void fecha_sistema(Sistema* s);
 
 #endif

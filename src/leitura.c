@@ -15,7 +15,7 @@
 #include <string.h>
 
 
-const char* traduzTipo(char tipo) {
+const char* traduz_tipo(char tipo) {
     switch(tipo) {
         case 'r': return "retângulo";
         case 'c': return "circulo";
@@ -27,46 +27,46 @@ const char* traduzTipo(char tipo) {
 
 /* Comandos .geo */
 
-static bool comando_c(const char *linha, SISTEMA s){
+static bool comando_c(const char *linha, Sistema s){
     int i; 
     double x, y, r;
     char corb[32], corp[32];
 
     if(sscanf(linha, "%*s %d %lf %lf %lf %31s %31s", &i, &x, &y, &r, corb, corp) != 6) return false;
 
-    CIRCULO c = cria_circulo(i, x, y, r, corb, corp);
+    Circulo c = cria_circulo(i, x, y, r, corb, corp);
     if (!c) return false;
 
-    FORMA f = cria_forma('c', c);
+    Forma f = cria_forma('c', c);
     insere_lista(get_formas(s), f);
 
     return true;    
 }
 
-static bool comando_r(const char *linha, SISTEMA s){
+static bool comando_r(const char *linha, Sistema s){
     int i;
     double x, y, w, h;
     char corb[32], corp[32];
 
     if(sscanf(linha, "%*s %d %lf %lf %lf %lf %31s %31s", &i, &x, &y, &w, &h, corb, corp) != 7) return false;
     
-    RETANGULO r = cria_retangulo(i, x, y, w, h, corb, corp);
+    Retangulo r = cria_retangulo(i, x, y, w, h, corb, corp);
     if (!r) return false;
 
-    FORMA f = cria_forma('r', r);
+    Forma f = cria_forma('r', r);
     insere_lista(get_formas(s), f);
 
     return true;
 }
 
-static bool comando_l(const char *linha, SISTEMA s){
+static bool comando_l(const char *linha, Sistema s){
     int i;
     double x1, y1, x2, y2;
     char cor[32];
 
     if(sscanf(linha, "%*s %d %lf %lf %lf %lf %31s", &i, &x1, &y1, &x2, &y2, cor) != 6) return false;
 
-    LINHA l;
+    Linha l;
     if (x1 < x2){ // Determina âncora
         l = cria_linha(i, x1, y1, x2, y2, cor);
     } else if (x1 > x2){
@@ -78,14 +78,14 @@ static bool comando_l(const char *linha, SISTEMA s){
     }
     if (!l) return false;
 
-    FORMA f = cria_forma('l', l);
+    Forma f = cria_forma('l', l);
     insere_lista(get_formas(s), f);
 
     return true;
 
 }
 
-static bool comando_t(const char *linha, SISTEMA s){
+static bool comando_t(const char *linha, Sistema s){
     int i;
     double x, y;
     char corb[32], corp[32], ancora, txto[512];
@@ -95,13 +95,13 @@ static bool comando_t(const char *linha, SISTEMA s){
 
     if(sscanf(linha, "%*s %d %lf %lf %31s %31s %c %[^\n]", &i, &x, &y, corb, corp, &ancora, txto) < 7) return false;
     
-    TEXTO t = cria_texto(i, x, y, corb, corp, ancora, txto);
+    Texto t = cria_texto(i, x, y, corb, corp, ancora, txto);
     if (!t) return false;
 
     get_estilo_texto(s, family, weight, &size);
     
     muda_estilo(t, family, weight, size);
-    FORMA f = cria_forma('t', t);
+    Forma f = cria_forma('t', t);
     insere_lista(get_formas(s), f);
     
     return true;
@@ -117,7 +117,7 @@ static const char* converte_weight(const char *weight){
     return weight;
 }
 
-static bool comando_ts(const char *linha, SISTEMA s){
+static bool comando_ts(const char *linha, Sistema s){
     char novo_family[32], novo_weight[8];
     double novo_size;
 
@@ -130,7 +130,7 @@ static bool comando_ts(const char *linha, SISTEMA s){
     return true;
 }
 
-bool leitura_geo(const char *path_geo, SISTEMA s){
+bool leitura_geo(const char *path_geo, Sistema s){
     FILE *fp = fopen(path_geo, "r");
     if(!fp) return false;
 
@@ -179,31 +179,31 @@ bool leitura_geo(const char *path_geo, SISTEMA s){
 
 /* Comandos .qry */
 
-static bool comando_inp(const char* linha, SISTEMA s){
-    LISTA formas = get_formas(s);
-    FILA poligonos = get_poligonos(s);
+static bool comando_inp(const char* linha, Sistema s){
+    Lista formas = get_formas(s);
+    Fila poligonos = get_poligonos(s);
     FILE* arquivoTxt = get_arquivo_txt(s);
 
     int poligono_id, forma_id;
     if(sscanf(linha, "%*s %d %d", &poligono_id, &forma_id) != 2) return false;
 
-    POLIGONO p = getPoligono(poligonos, poligono_id);
+    Poligono p = get_poligono(poligonos, poligono_id);
     if(!p){
         p = cria_poligono(poligono_id);
         insere_fila(poligonos, p);
     }
 
     double x, y;
-    FORMA figura = NULL;
+    Forma figura = NULL;
     for (int i = 0; i < tamanho_lista(formas); i++) {
-        FORMA aux = getItem_lista(formas, i);
-        if (getId_forma(aux) == forma_id) {
+        Forma aux = get_item_lista(formas, i);
+        if (get_id_forma(aux) == forma_id) {
             figura = aux;
             break;
         }
     }
 
-    getAncora_forma(figura, &x, &y);
+    get_ancora_forma(figura, &x, &y);
     VERTICE v = cria_vertice(x, y);
     insere_vertice(p, v);
 
@@ -214,14 +214,14 @@ static bool comando_inp(const char* linha, SISTEMA s){
     return true;
 }
 
-static bool comando_rmp(const char* linha, SISTEMA s){
-    FILA poligonos = get_poligonos(s);
+static bool comando_rmp(const char* linha, Sistema s){
+    Fila poligonos = get_poligonos(s);
     FILE* arquivoTxt = get_arquivo_txt(s);
 
     int poligono_id;
     if(sscanf(linha, "%*s %d", &poligono_id) != 1) return false;
 
-    POLIGONO p = getPoligono(poligonos, poligono_id);
+    Poligono p = get_poligono(poligonos, poligono_id);
     double x, y;
     remove_vertice(p, &x, &y);
 
@@ -231,16 +231,16 @@ static bool comando_rmp(const char* linha, SISTEMA s){
     return true;
 }
 
-static bool comando_pol(const char* linha, SISTEMA s){
-    FILA poligonos = get_poligonos(s);
-    LISTA formas = get_formas(s);
+static bool comando_pol(const char* linha, Sistema s){
+    Fila poligonos = get_poligonos(s);
+    Lista formas = get_formas(s);
 
     int poligono_id, id_sequencial;
     double d;
     char corb[32], corp[32];
     if(sscanf(linha, "%*s %d %d %lf %s %s", &poligono_id, &id_sequencial, &d, corb, corp) != 5) return false;
 
-    POLIGONO p = getPoligono(poligonos, poligono_id);
+    Poligono p = get_poligono(poligonos, poligono_id);
     if (!p) return false;
 
     desenha_poligono(p, &id_sequencial, corb, formas);
@@ -249,16 +249,16 @@ static bool comando_pol(const char* linha, SISTEMA s){
     return true;
 }
 
-static bool comando_clp(const char *linha, SISTEMA s){
-    FILA poligonos = get_poligonos(s);
+static bool comando_clp(const char *linha, Sistema s){
+    Fila poligonos = get_poligonos(s);
 
     int poligono_id;
     if(sscanf(linha, "%*s %d", &poligono_id) != 1) return false;
 
-    POLIGONO p = getPoligono(poligonos, poligono_id);
+    Poligono p = get_poligono(poligonos, poligono_id);
     if (!p) return false;
 
-    FILA vertices = getVertices_poligono(p);
+    Fila vertices = get_vertices_poligono(p);
 
     double x, y;
     while(tamanho_poligono(p) > 0){
@@ -268,48 +268,48 @@ static bool comando_clp(const char *linha, SISTEMA s){
     return true;
 }
 
-static bool comando_sel(const char *linha, SISTEMA s){
+static bool comando_sel(const char *linha, Sistema s){
     double x, y, w, h;
     if(sscanf(linha, "%*s %lf %lf %lf %lf", &x, &y, &w, &h) != 4) return false;
 
-    LISTA formas = get_formas(s);
-    FILA selecionadas = get_selecionadas(s);
+    Lista formas = get_formas(s);
+    Fila selecionadas = get_selecionadas(s);
     FILE *arquivoTxt = get_arquivo_txt(s);
-    LISTA formas_aux = get_formas_aux(s);
+    Lista formas_aux = get_formas_aux(s);
 
     while(!vazia_fila(selecionadas)) {
-        FORMA remove;
+        Forma remove;
         remove_fila(selecionadas, &remove);
     }
 
-    RETANGULO ret = cria_retangulo(-1, x, y, w, h, "red", "none");
-    FORMA retangulo_sel = cria_forma('r', ret);
+    Retangulo ret = cria_retangulo(-1, x, y, w, h, "red", "none");
+    Forma retangulo_sel = cria_forma('r', ret);
     insere_lista(formas_aux, retangulo_sel);
 
     fprintf(arquivoTxt, "[*] sel %lf %lf %lf %lf \nFormas selecionadas:\n\n", x, y, w, h);
     for (int i = 0; i < tamanho_lista(formas); i++){
-        FORMA b = getItem_lista(formas, i);
+        Forma b = get_item_lista(formas, i);
         if (sobrepoe_retangulo(retangulo_sel, b)){
             insere_fila(selecionadas, b);
 
             double xc, yc;
-            getAncora_forma(b, &xc, &yc);
-            CIRCULO circ = cria_circulo(-2, xc, yc, 3.4, "red", "none");
-            FORMA circulo_sel = cria_forma('c', circ);
+            get_ancora_forma(b, &xc, &yc);
+            Circulo circ = cria_circulo(-2, xc, yc, 3.4, "red", "none");
+            Forma circulo_sel = cria_forma('c', circ);
             insere_lista(formas_aux, circulo_sel);
 
-            fprintf(arquivoTxt, "Id: %d\nTipo: %s\n\n", getId_forma(b), traduzTipo(getTipo_forma(b)));
+            fprintf(arquivoTxt, "Id: %d\nTipo: %s\n\n", get_id_forma(b), traduz_tipo(get_tipo_forma(b)));
         }
     }
 
     return true;
 }
 
-static bool comando_dels(const char *linha, SISTEMA s) {
-    LISTA formas = get_formas(s);
-    FILA selecionadas = get_selecionadas(s);
+static bool comando_dels(const char *linha, Sistema s) {
+    Lista formas = get_formas(s);
+    Fila selecionadas = get_selecionadas(s);
     FILE *arquivoTxt = get_arquivo_txt(s);
-    LISTA formas_aux = get_formas_aux(s);
+    Lista formas_aux = get_formas_aux(s);
 
     fprintf(arquivoTxt, "[*] dels\nFormas removidas:\n\n");
 
@@ -320,16 +320,16 @@ static bool comando_dels(const char *linha, SISTEMA s) {
     } 
 
     while (!vazia_fila(selecionadas)) {
-        FORMA f;
+        Forma f;
         remove_fila(selecionadas, &f);
         
         reporta_forma(f, arquivoTxt);
 
         double ax, ay;
-        getAncora_forma(f, &ax, &ay);
-        TEXTO x = cria_texto(-3, ax, ay - 0.4, "red", "red", 'm', "x");
+        get_ancora_forma(f, &ax, &ay);
+        Texto x = cria_texto(-3, ax, ay - 0.4, "red", "red", 'm', "x");
         muda_estilo(x, "cursive", "normal", 7.6);
-        FORMA marca_x = cria_forma('t', x);
+        Forma marca_x = cria_forma('t', x);
         insere_lista(formas_aux, marca_x);
 
         remove_lista(formas, f);
@@ -339,21 +339,21 @@ static bool comando_dels(const char *linha, SISTEMA s) {
     return true;
 }
 
-static bool comando_mcs(const char *linha, SISTEMA s){
-    FILA selecionadas = get_selecionadas(s);
+static bool comando_mcs(const char *linha, Sistema s){
+    Fila selecionadas = get_selecionadas(s);
 
     double dx, dy;
     char corb[32], corp[32];
     if(sscanf(linha, "%*s %lf %lf %s %s", &dx, &dy, corb, corp) != 4) return false;
 
-    FILA selecionadas_copia = copia_fila(selecionadas);
+    Fila selecionadas_copia = copia_fila(selecionadas);
     while (!vazia_fila(selecionadas_copia)){
-        FORMA f;
+        Forma f;
         remove_fila(selecionadas_copia, &f);
 
         desloca_forma(f, dx, dy);
-        setCORB_forma(f, corb);
-        setCORP_forma(f, corp);
+        set_corb_forma(f, corb);
+        set_corp_forma(f, corp);
     }
 
     libera_fila(&selecionadas_copia);
@@ -361,7 +361,7 @@ static bool comando_mcs(const char *linha, SISTEMA s){
     return true;
 }                                 
 
-bool leitura_qry(const char* path_qry, SISTEMA s){
+bool leitura_qry(const char* path_qry, Sistema s){
     FILE *fp = fopen(path_qry, "r");
     if (!fp) return false;
 

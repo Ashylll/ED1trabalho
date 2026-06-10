@@ -8,12 +8,10 @@ typedef struct {
     int inicio, fim;
     int total;
     int tamanho_max; 
-} filaCircular;
+} StFila;
 
-typedef filaCircular* PONT;
-
-FILA cria_fila (int tamanho_max){
-    PONT fila = malloc(sizeof(filaCircular)); 
+Fila cria_fila (int tamanho_max){
+    StFila* fila = malloc(sizeof(StFila)); 
     if (!fila) return NULL;
 
     fila->inicio = 0;
@@ -30,10 +28,10 @@ FILA cria_fila (int tamanho_max){
     return fila;
 }
 
-bool insere_fila(FILA f, ITEM i){
+bool insere_fila(Fila f, ITEM i){
     if (!f) return false;
 
-    PONT fila = (PONT)f;
+    StFila* fila = (StFila*)f;
     if (!fila) return false;
     if (fila->total == fila->tamanho_max) return false;
 
@@ -44,9 +42,9 @@ bool insere_fila(FILA f, ITEM i){
     return true;
 }
 
-bool remove_fila(FILA f, ITEM *fora){
+bool remove_fila(Fila f, ITEM *fora){
     if (!f) return false;
-    PONT fila = (PONT)f;
+    StFila* fila = (StFila*)f;
     if (fila->total == 0) return false;
 
     ITEM removido = fila->itens[fila->inicio];
@@ -61,26 +59,26 @@ bool remove_fila(FILA f, ITEM *fora){
     return true;
 }
 
-bool vazia_fila(FILA f){
+bool vazia_fila(Fila f){
     if (!f) return true;
-    PONT fila = (PONT)f;
+    StFila* fila = (StFila*)f;
 
     return (fila->total == 0);
 }
 
-int tamanho_fila(FILA f){
+int tamanho_fila(Fila f){
     if (!f) return -1;
     if (vazia_fila(f)) return 0;
 
-    PONT fila = (PONT)f;
+    StFila* fila = (StFila*)f;
 
     return fila->total;
 }
 
-bool libera_fila(FILA *f){
+bool libera_fila(Fila *f){
     if (!f || !*f) return false;
 
-    PONT fila = (PONT)*f;
+    StFila* fila = (StFila*)*f;
 
     if (fila->itens){
         free(fila->itens);
@@ -93,9 +91,9 @@ bool libera_fila(FILA *f){
     return true;
 }
 
-ITEM ver_fila(FILA f, char i_f){
+ITEM ver_fila(Fila f, char i_f){
     if (!f || (i_f != 'i' && i_f != 'f')) return NULL;
-    filaCircular *fila = (filaCircular*)f;
+    StFila *fila = (StFila*)f;
 
 
     if (i_f == 'i'){
@@ -105,12 +103,12 @@ ITEM ver_fila(FILA f, char i_f){
     return fila->itens[indice_ultimo];
 }
 
-FILA copia_fila(FILA f){
+Fila copia_fila(Fila f){
     if (!f) return NULL;
-    filaCircular *fila = (filaCircular*)f;
+    StFila *fila = (StFila*)f;
 
-    FILA copia = cria_fila(fila->tamanho_max);
-    FILA aux = cria_fila(fila->tamanho_max);
+    Fila copia = cria_fila(fila->tamanho_max);
+    Fila aux = cria_fila(fila->tamanho_max);
 
     void *item;
 

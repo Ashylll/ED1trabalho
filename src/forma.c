@@ -8,15 +8,15 @@
 #include <math.h>
 #include <string.h>
 
-typedef struct stForma{
+typedef struct StForma{
     char tipo;
     void* handle;
-} stForma;
+} StForma;
 
-FORMA cria_forma(char tipo, void* handle){
+Forma cria_forma(char tipo, void* handle){
     if (!handle || (tipo != 'c' && tipo != 'r' && tipo != 't' && tipo != 'l')) return NULL;
 
-    stForma* forma = malloc(sizeof(stForma));
+    StForma* forma = malloc(sizeof(StForma));
     if (!forma) return NULL;
 
     forma->tipo = tipo;
@@ -25,158 +25,158 @@ FORMA cria_forma(char tipo, void* handle){
     return forma;
 }
 
-void libera_forma(FORMA *f){
+void libera_forma(Forma *f){
     if (!f || !*f) return;
-    stForma *forma = (stForma*)*f;
+    StForma *forma = (StForma*)*f;
 
     void *h = forma->handle;
     switch (forma->tipo){
-        case 'c': libera_circulo((CIRCULO*)&h); break;
-        case 'r': libera_retangulo((RETANGULO*)&h); break;
-        case 't': libera_texto((TEXTO*)&h); break;
-        case 'l': libera_linha((LINHA*)&h); break;
+        case 'c': libera_circulo((Circulo*)&h); break;
+        case 'r': libera_retangulo((Retangulo*)&h); break;
+        case 't': libera_texto((Texto*)&h); break;
+        case 'l': libera_linha((Linha*)&h); break;
     }
     
     free(forma);
     *f = NULL;
 }
 
-int getId_forma(FORMA f){
-    stForma *forma = (stForma*)f;
+int get_id_forma(Forma f){
+    StForma *forma = (StForma*)f;
 
     switch (forma->tipo){
-        case 'c': return getId_circulo(forma->handle);
-        case 'r': return getId_retangulo(forma->handle);
-        case 't': return getId_texto(forma->handle);
-        case 'l': return getId_linha(forma->handle); 
+        case 'c': return get_id_circulo(forma->handle);
+        case 'r': return get_id_retangulo(forma->handle);
+        case 't': return get_id_texto(forma->handle);
+        case 'l': return get_id_linha(forma->handle); 
         default: return -100;
     }
 }
 
-char getTipo_forma(FORMA f){
-    stForma* forma = (stForma*)f;
+char get_tipo_forma(Forma f){
+    StForma* forma = (StForma*)f;
 
     return forma->tipo;
 }
 
-void* getHandle_forma(FORMA f){
+void* get_handle_forma(Forma f){
     if (!f) return NULL;
-    stForma* forma = (stForma*)f;
+    StForma* forma = (StForma*)f;
 
     return forma->handle;
 }
 
-bool getAncora_forma(FORMA f, double *x, double *y){
+bool get_ancora_forma(Forma f, double *x, double *y){
     if (!f || !x || !y) return false;
-    stForma* forma = (stForma*)f;
+    StForma* forma = (StForma*)f;
 
     switch (forma->tipo){
-        case 'c': *x = getX_circulo(forma->handle); *y = getY_circulo(forma->handle); break;
-        case 'r': *x = getX_retangulo(forma->handle); *y = getY_retangulo(forma->handle); break;
-        case 't': *x = getX_texto(forma->handle); *y = getY_texto(forma->handle); break;
-        case 'l': *x = getX1_linha(forma->handle); *y = getY1_linha(forma->handle); break;
+        case 'c': *x = get_x_circulo(forma->handle); *y = get_y_circulo(forma->handle); break;
+        case 'r': *x = get_x_retangulo(forma->handle); *y = get_y_retangulo(forma->handle); break;
+        case 't': *x = get_x_texto(forma->handle); *y = get_y_texto(forma->handle); break;
+        case 'l': *x = get_x1_linha(forma->handle); *y = get_y1_linha(forma->handle); break;
         default: return false;
     }
 
     return true;
 }
 
-bool setAncora_forma(FORMA f, double x, double y){
+bool set_ancora_forma(Forma f, double x, double y){
     if (!f) return false;
 
-    stForma* forma = (stForma*)f;
+    StForma* forma = (StForma*)f;
 
     switch (forma->tipo){
-        case 'c': return setX_circulo(forma->handle, x) && setY_circulo(forma->handle, y);
-        case 'r': return setX_retangulo(forma->handle, x) && setY_retangulo(forma->handle, y);
-        case 't': return setX_texto(forma->handle, x) && setY_texto(forma->handle, y);
-        case 'l': return setAncora_linha(forma->handle, x, y);
+        case 'c': return set_x_circulo(forma->handle, x) && set_y_circulo(forma->handle, y);
+        case 'r': return set_x_retangulo(forma->handle, x) && set_y_retangulo(forma->handle, y);
+        case 't': return set_x_texto(forma->handle, x) && set_y_texto(forma->handle, y);
+        case 'l': return set_ancora_linha(forma->handle, x, y);
         
         default: return false;
     }
 }
 
-void setCORB_forma(FORMA f, char* corb){
+void set_corb_forma(Forma f, char* corb){
     if (!f || !corb) return;
 
-    FORMA figura = getHandle_forma(f);
-    switch (getTipo_forma(f)){
+    Forma figura = get_handle_forma(f);
+    switch (get_tipo_forma(f)){
         case 'c': {
-            setCORB_circulo(figura, corb);
+            set_corb_circulo(figura, corb);
             break;
         }
         case 'r': {
-            setCORB_retangulo(figura, corb);
+            set_corb_retangulo(figura, corb);
             break;
         }
         case 't': {
-            setCORB_texto(figura, corb);
+            set_corb_texto(figura, corb);
             break;
         }
         case 'l': {
-            setCOR_linha(figura, corb);
+            set_cor_linha(figura, corb);
             break;
         }
     }
     return;
 }
 
-void setCORP_forma(FORMA f, char* corp){
+void set_corp_forma(Forma f, char* corp){
     if (!f || !corp) return;
 
-    FORMA figura = getHandle_forma(f);
-    switch (getTipo_forma(f)){
+    Forma figura = get_handle_forma(f);
+    switch (get_tipo_forma(f)){
         case 'c': {
-            setCORP_circulo(figura, corp);
+            set_corp_circulo(figura, corp);
             break;
         }
         case 'r': {
-            setCORP_retangulo(figura, corp);
+            set_corp_retangulo(figura, corp);
             break;
         }
         case 't': {
-            setCORP_texto(figura, corp);
+            set_corp_texto(figura, corp);
             break;
         }
     }
     return;
 }
 
-bool desloca_forma(FORMA f, double dx, double dy){
+bool desloca_forma(Forma f, double dx, double dy){
     if (!f) return false;
 
     double x, y;
 
-    if (!getAncora_forma(f, &x, &y)) return false;
+    if (!get_ancora_forma(f, &x, &y)) return false;
 
-    return setAncora_forma(f, x + dx, y + dy);
+    return set_ancora_forma(f, x + dx, y + dy);
 }
 
-void reporta_forma(FORMA f, FILE *arquivoTxt){
+void reporta_forma(Forma f, FILE *arquivoTxt){
     if (!f || !arquivoTxt) return;
 
-    char tipo = getTipo_forma(f);
+    char tipo = get_tipo_forma(f);
 
     switch (tipo){
         case 'c': {
-            CIRCULO c = getHandle_forma(f);
+            Circulo c = get_handle_forma(f);
             fprintf(arquivoTxt, "Circulo\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nRaio: %.2lf\nCor de borda: %s\nCor de preenchimento: %s\n\n"
-            , getId_circulo(c), getX_circulo(c), getY_circulo(c), getR_circulo(c), getCORB_circulo(c), getCORP_circulo(c));
+            , get_id_circulo(c), get_x_circulo(c), get_y_circulo(c), getR_circulo(c), get_corb_circulo(c), get_corp_circulo(c));
 
             break;
         }
 
         case 'r': {
-            RETANGULO r = getHandle_forma(f);
+            Retangulo r = get_handle_forma(f);
             fprintf(arquivoTxt, "Retângulo\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nLargura: %.2lf\nAltura: %.2lf\nCor de borda: %s\nCor de preenchimento: %s\n\n"
-            , getId_retangulo(r), getX_retangulo(r), getY_retangulo(r), getW_retangulo(r), getH_retangulo(r), getCORB_retangulo(r), getCORP_retangulo(r));
+            , get_id_retangulo(r), get_x_retangulo(r), get_y_retangulo(r), getW_retangulo(r), getH_retangulo(r), get_corb_retangulo(r), get_corp_retangulo(r));
 
             break;
         }
 
         case 't': {
-            TEXTO t = getHandle_forma(f);
-            char a = getA_texto(t);
+            Texto t = get_handle_forma(f);
+            char a = get_posicao_ancora_texto(t);
             char* ancora = "desconhecido";
             switch (a){
                 case 'i': {
@@ -193,15 +193,15 @@ void reporta_forma(FORMA f, FILE *arquivoTxt){
             }
 
             fprintf(arquivoTxt, "Texto\nId: %d\nÂncora (coordenadas): (%.2lf, %.2lf)\nCor de borda: %s\nCor de preenchimento: %s\nPosição da âncora: %s\nConteúdo: %s\n\n"
-            , getId_texto(t), getX_texto(t), getY_texto(t), getCORB_texto(t), getCORP_texto(t), ancora, getTXTO_texto(t));
+            , get_id_texto(t), get_x_texto(t), get_y_texto(t), get_corb_texto(t), get_corp_texto(t), ancora, get_palavra_texto(t));
 
             break;
         }
 
         case 'l': {
-            LINHA l = getHandle_forma(f);
+            Linha l = get_handle_forma(f);
             fprintf(arquivoTxt, "Linha\nId: %d\nCoordenadas:\n  - Âncora (x1, y1): (%.2lf, %.2lf)\n - (x2, y2): (%.2lf, %.2lf)\nCor: %s\n\n"
-            , getId_linha(l), getX1_linha(l), getY1_linha(l), getX2_linha(l), getY2_linha(l), getCOR_linha(l));
+            , get_id_linha(l), get_x1_linha(l), get_y1_linha(l), get_x2_linha(l), get_y2_linha(l), get_cor(l));
         }
     }
 }
@@ -269,16 +269,16 @@ static bool seg_intersect(double x1, double y1,double x2, double y2, double x3, 
     return (t >= 0 && t <= 1 && u >= 0 && u <= 1);
 }
 
-static bool sob_rc(FORMA a, FORMA b){
-    stForma *circulo = (stForma*)a;
-    stForma *retangulo = (stForma*)b;
+static bool sob_rc(Forma a, Forma b){
+    StForma *circulo = (StForma*)a;
+    StForma *retangulo = (StForma*)b;
 
-    double xC = getX_circulo(circulo->handle);
-    double yC = getY_circulo(circulo->handle);
+    double xC = get_x_circulo(circulo->handle);
+    double yC = get_y_circulo(circulo->handle);
     double rC = getR_circulo(circulo->handle);
 
-    double xR = getX_retangulo(retangulo->handle);
-    double yR = getY_retangulo(retangulo->handle);
+    double xR = get_x_retangulo(retangulo->handle);
+    double yR = get_y_retangulo(retangulo->handle);
     double wR = getW_retangulo(retangulo->handle);
     double hR = getH_retangulo(retangulo->handle);
 
@@ -291,16 +291,16 @@ static bool sob_rc(FORMA a, FORMA b){
     return hypot(dx, dy) <= rC;
 }
 
-static bool sob_rr(FORMA a, FORMA b){
-    stForma *retanguloA = (stForma*)a, *retanguloB = (stForma*)b;
+static bool sob_rr(Forma a, Forma b){
+    StForma *retanguloA = (StForma*)a, *retanguloB = (StForma*)b;
 
-    double xA = getX_retangulo(retanguloA->handle);
-    double yA = getY_retangulo(retanguloA->handle);
+    double xA = get_x_retangulo(retanguloA->handle);
+    double yA = get_y_retangulo(retanguloA->handle);
     double wA = getW_retangulo(retanguloA->handle);
     double hA = getH_retangulo(retanguloA->handle);
 
-    double xB = getX_retangulo(retanguloB->handle);
-    double yB = getY_retangulo(retanguloB->handle);
+    double xB = get_x_retangulo(retanguloB->handle);
+    double yB = get_y_retangulo(retanguloB->handle);
     double wB = getW_retangulo(retanguloB->handle);
     double hB = getH_retangulo(retanguloB->handle);
 
@@ -312,18 +312,18 @@ static bool sob_rr(FORMA a, FORMA b){
     return !separado; 
 }
 
-static bool sob_rl(FORMA a, FORMA b){
-    stForma *retangulo = (stForma*)a, *linha = (stForma*)b;
+static bool sob_rl(Forma a, Forma b){
+    StForma *retangulo = (StForma*)a, *linha = (StForma*)b;
 
-    double xR = getX_retangulo(retangulo->handle);
-    double yR = getY_retangulo(retangulo->handle);
+    double xR = get_x_retangulo(retangulo->handle);
+    double yR = get_y_retangulo(retangulo->handle);
     double wR = getW_retangulo(retangulo->handle);
     double hR = getH_retangulo(retangulo->handle);
 
-    double x1 = getX1_linha(linha->handle);
-    double y1 = getY1_linha(linha->handle);
-    double x2 = getX2_linha(linha->handle);
-    double y2 = getY2_linha(linha->handle);
+    double x1 = get_x1_linha(linha->handle);
+    double y1 = get_y1_linha(linha->handle);
+    double x2 = get_x2_linha(linha->handle);
+    double y2 = get_y2_linha(linha->handle);
 
     if (ponto_no_retangulo(x1, y1, xR, yR, wR, hR) || ponto_no_retangulo(x2, y2, xR, yR, wR, hR)) return true;
 
@@ -340,19 +340,19 @@ static bool sob_rl(FORMA a, FORMA b){
     return false;
 }
 
-static bool sob_rt(FORMA a, FORMA b){
-    stForma *retangulo = (stForma*)a;  
-    stForma *texto = (stForma*)b;
+static bool sob_rt(Forma a, Forma b){
+    StForma *retangulo = (StForma*)a;  
+    StForma *texto = (StForma*)b;
 
-    double xR = getX_retangulo(retangulo->handle);
-    double yR = getY_retangulo(retangulo->handle);
+    double xR = get_x_retangulo(retangulo->handle);
+    double yR = get_y_retangulo(retangulo->handle);
     double wR = getW_retangulo(retangulo->handle);
     double hR = getH_retangulo(retangulo->handle);
 
-    double xT = getX_texto(texto->handle);
-    double yT = getY_texto(texto->handle);
-    const char *txt = getTXTO_texto(texto->handle);
-    char ancora = getA_texto(texto->handle);
+    double xT = get_x_texto(texto->handle);
+    double yT = get_y_texto(texto->handle);
+    const char *txt = get_palavra_texto(texto->handle);
+    char ancora = get_posicao_ancora_texto(texto->handle);
 
     double comprimento = 10.0 * (txt ? strlen(txt) : 0);
     double x1, y1 = yT, x2, y2 = yT;
@@ -385,9 +385,9 @@ static bool sob_rt(FORMA a, FORMA b){
     return false;
 }
 
-bool sobrepoe_retangulo(FORMA r, FORMA b){
-    stForma *retangulo = (stForma*)r;
-    stForma *B = (stForma*)b;
+bool sobrepoe_retangulo(Forma r, Forma b){
+    StForma *retangulo = (StForma*)r;
+    StForma *B = (StForma*)b;
 
     
     switch (B->tipo){

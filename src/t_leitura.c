@@ -20,17 +20,17 @@ void teste_leitura_geo(void) {
     fprintf(fp, "t 30 0.0 0.0 black black i Texto de Teste\n");
     fclose(fp);
 
-    SISTEMA s = cria_sistema("log_leitura.txt", "saida_geo.svg", NULL);
+    Sistema s = cria_sistema("log_leitura.txt", "saida_geo.svg", NULL);
     
     bool sucesso = leitura_geo(nome_geo, s);
     TEST_ASSERT_TRUE(sucesso);
 
-    LISTA l = get_formas(s);
+    Lista l = get_formas(s);
     TEST_ASSERT_EQUAL_INT(3, tamanho_lista(l));
 
-    FORMA forma = getItem_lista(l, 0);
-    TEST_ASSERT_EQUAL_CHAR('t', getTipo_forma(forma));
-    TEST_ASSERT_EQUAL_INT(30, getId_forma(forma));
+    Forma forma = get_item_lista(l, 0);
+    TEST_ASSERT_EQUAL_CHAR('t', get_tipo_forma(forma));
+    TEST_ASSERT_EQUAL_INT(30, get_id_forma(forma));
 
     char family[32], weight[32];
     double size;
@@ -47,8 +47,8 @@ void teste_leitura_geo(void) {
 }
 
 void teste_leitura_qry_inp_rmp(void) {
-    SISTEMA s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
-    CIRCULO c = cria_circulo(10, 50.0, 50.0, 5.0, "blue", "red");
+    Sistema s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
+    Circulo c = cria_circulo(10, 50.0, 50.0, 5.0, "blue", "red");
     insere_lista(get_formas(s), cria_forma('c', c));
 
     const char* qry = "teste_pol.qry";
@@ -59,9 +59,9 @@ void teste_leitura_qry_inp_rmp(void) {
 
     leitura_qry(qry, s);
 
-    POLIGONO p = getPoligono(get_poligonos(s), 1);
+    Poligono p = get_poligono(get_poligonos(s), 1);
     TEST_ASSERT_NOT_NULL(p);
-    TEST_ASSERT_TRUE(vazia_fila(getVertices_poligono(p))); 
+    TEST_ASSERT_TRUE(vazia_fila(get_vertices_poligono(p))); 
 
     fecha_sistema(&s);
     remove("log_Teste.txt");
@@ -71,8 +71,8 @@ void teste_leitura_qry_inp_rmp(void) {
 }
 
 void teste_leitura_qry_pol_clp(void) {
-    SISTEMA s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
-    POLIGONO p = cria_poligono(1);
+    Sistema s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
+    Poligono p = cria_poligono(1);
     insere_vertice(p, cria_vertice(0,0));
     insere_vertice(p, cria_vertice(10,10));
     insere_fila(get_poligonos(s), p);
@@ -86,7 +86,7 @@ void teste_leitura_qry_pol_clp(void) {
     leitura_qry(qry, s);
 
     TEST_ASSERT_FALSE(vazia_lista(get_formas(s)));
-    TEST_ASSERT_TRUE(vazia_fila(getVertices_poligono(p)));
+    TEST_ASSERT_TRUE(vazia_fila(get_vertices_poligono(p)));
 
     fecha_sistema(&s);
     remove("log_Teste.txt");
@@ -96,8 +96,8 @@ void teste_leitura_qry_pol_clp(void) {
 }
 
 void teste_leitura_qry_sel_mcs(void) {
-    SISTEMA s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
-    RETANGULO r = cria_retangulo(1, 20, 20, 5, 5, "black", "white");
+    Sistema s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
+    Retangulo r = cria_retangulo(1, 20, 20, 5, 5, "black", "white");
     insere_lista(get_formas(s), cria_forma('r', r));
 
     const char* qry = "teste_sel.qry";
@@ -108,9 +108,9 @@ void teste_leitura_qry_sel_mcs(void) {
 
     leitura_qry(qry, s);
 
-    FORMA figura = getItem_lista(get_formas(s), 0);
+    Forma figura = get_item_lista(get_formas(s), 0);
     double x, y;
-    getAncora_forma(figura, &x, &y);
+    get_ancora_forma(figura, &x, &y);
     
     TEST_ASSERT_EQUAL_FLOAT(25.0, x); 
     TEST_ASSERT_EQUAL_FLOAT(25.0, y); 
@@ -123,8 +123,8 @@ void teste_leitura_qry_sel_mcs(void) {
 }
 
 void teste_leitura_qry_dels(void) {
-    SISTEMA s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
-    RETANGULO r = cria_retangulo(1, 20, 20, 5, 5, "black", "white");
+    Sistema s = cria_sistema("log_teste.txt", "geo.svg", "qry.svg");
+    Retangulo r = cria_retangulo(1, 20, 20, 5, 5, "black", "white");
     insere_lista(get_formas(s), cria_forma('r', r));
 
     const char* qry = "teste_del.qry";

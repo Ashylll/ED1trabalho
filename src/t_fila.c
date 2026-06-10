@@ -9,7 +9,7 @@ void tearDown(void) {}
 #define TAMANHO 100
 
 void teste_cria_fila(void) {
-    FILA f = cria_fila(TAMANHO);
+    Fila f = cria_fila(TAMANHO);
     TEST_ASSERT_NOT_NULL(f);
     TEST_ASSERT_TRUE(vazia_fila(f));
     TEST_ASSERT_EQUAL_INT(0, tamanho_fila(f));
@@ -17,7 +17,7 @@ void teste_cria_fila(void) {
 }
 
 void teste_insere_fila(void) {
-    FILA f = cria_fila(TAMANHO);
+    Fila f = cria_fila(TAMANHO);
     int x = 10;
     
     insere_fila(f, &x);
@@ -29,7 +29,7 @@ void teste_insere_fila(void) {
 }
 
 void teste_remove_fila(void) {
-    FILA f = cria_fila(TAMANHO);
+    Fila f = cria_fila(TAMANHO);
     int x = 10;
     char* c = "fasfa";
     void *removido;
@@ -49,7 +49,7 @@ void teste_remove_fila(void) {
 }
 
 void teste_vazia_fila(void){
-    FILA f = cria_fila(TAMANHO);
+    Fila f = cria_fila(TAMANHO);
     TEST_ASSERT_TRUE(vazia_fila(f));
 
     double a = 2.4;
@@ -61,7 +61,7 @@ void teste_vazia_fila(void){
 }
 
 void teste_tamanho_fila(void) {
-    FILA f = cria_fila(TAMANHO);
+    Fila f = cria_fila(TAMANHO);
     int itens[] = {1, 2, 3, 4, 5};
 
     for(int i = 0; i < 5; i++) {
@@ -77,7 +77,7 @@ void teste_tamanho_fila(void) {
 }
 
 void teste_ver_fila(void){
-    FILA f = cria_fila(TAMANHO);
+    Fila f = cria_fila(TAMANHO);
 
     int itens[] = {2, 4, 6, 8};
 
@@ -96,14 +96,14 @@ void teste_ver_fila(void){
 }
 
 void teste_copia_fila(void){
-    FILA f = cria_fila(TAMANHO);
+    Fila f = cria_fila(TAMANHO);
     double itens[] = {2.4, 4.4, 6.6};
 
     for(int i = 0; i < 3; i++){
         insere_fila(f, &itens[i]);
     }
 
-    FILA f_copia = copia_fila(f);
+    Fila f_copia = copia_fila(f);
 
     TEST_ASSERT_EQUAL_DOUBLE(2.4, *(double*)ver_fila(f_copia, 'i'));
     TEST_ASSERT_EQUAL_DOUBLE(6.6, *(double*)ver_fila(f_copia, 'f'));

@@ -1,25 +1,23 @@
 #include "lista.h"
 #include <stdlib.h>
 
-typedef struct elemento{
+typedef struct StElemento{
     void* chave;
-    struct elemento *ant;
-    struct elemento *prox;
-} ELEMENTO;
-
-typedef ELEMENTO *PONT;
+    struct StElemento *ant;
+    struct StElemento *prox;
+} StElemento;
 
 typedef struct stLista{
-    PONT inicio;
-    PONT fim;
+    StElemento* inicio;
+    StElemento* fim;
     int tamanho;
 } stLista;
 
-static PONT getElemento_lista(LISTA l, int i){
+static StElemento* get_elemento_lista(Lista l, int i){
     if (!l) return NULL;
     stLista *lista = (stLista*)l;
 
-    PONT atual = lista->inicio;
+    StElemento* atual = lista->inicio;
     for (int j = 0; j < i && atual != NULL; j++){
         atual = atual->prox;
     }
@@ -27,7 +25,7 @@ static PONT getElemento_lista(LISTA l, int i){
     return atual;
 }
 
-LISTA cria_lista(void){
+Lista cria_lista(void){
     stLista* lista = malloc(sizeof(stLista));
     if (!lista) return NULL;
 
@@ -38,12 +36,12 @@ LISTA cria_lista(void){
     return lista;
 }
 
-bool libera_lista(LISTA *l){
+bool libera_lista(Lista *l){
     if (!l || !*l) return false;
     stLista* lista = (stLista*)*l;
 
-    PONT atual = lista->inicio;
-    PONT aux;
+    StElemento* atual = lista->inicio;
+    StElemento* aux;
     while (atual != NULL){
         aux = atual->prox;
         free(atual);
@@ -56,11 +54,11 @@ bool libera_lista(LISTA *l){
     return true;
 }
 
-bool insere_lista(LISTA l, ITEM item){
+bool insere_lista(Lista l, ITEM item){
     if (!l) return false;
     stLista* lista = (stLista*)l;
 
-    PONT novo = malloc(sizeof(ELEMENTO));
+    StElemento* novo = malloc(sizeof(StElemento));
     if (!novo) return false;
 
     novo->chave = item;
@@ -76,13 +74,13 @@ bool insere_lista(LISTA l, ITEM item){
     return true;
 }
 
-ITEM removeIndice_lista(LISTA l, int i) {
+ITEM remove_indice_lista(Lista l, int i) {
     if (!l || i < 0) return NULL;
     stLista *lista = (stLista*)l;
     
     if (i >= lista->tamanho) return NULL;
 
-    PONT remove = getElemento_lista(l, i); 
+    StElemento* remove = get_elemento_lista(l, i); 
     if (!remove) return NULL;
 
     if (remove->ant != NULL) {
@@ -104,43 +102,43 @@ ITEM removeIndice_lista(LISTA l, int i) {
     return chave;
 }
 
-void remove_lista(LISTA l, ITEM item){
+void remove_lista(Lista l, ITEM item){
     if (!l || !item) return;
     
     int i = 0;
     while (i < tamanho_lista(l)){
-        if (getItem_lista(l, i) == item){
-            removeIndice_lista(l, i);
+        if (get_item_lista(l, i) == item){
+            remove_indice_lista(l, i);
             break;
         }
         i++;
     }
 }
 
-bool vazia_lista(LISTA l){
+bool vazia_lista(Lista l){
     stLista *lista = (stLista*)l;
 
     return (lista->inicio == NULL);
 }
 
-int tamanho_lista(LISTA l){
+int tamanho_lista(Lista l){
     if (!l) return -1;
     stLista *lista = (stLista*)l;
 
     return lista->tamanho;
 }
 
-ITEM getItem_lista(LISTA l, int i) {
-    PONT no = getElemento_lista(l, i);
+ITEM get_item_lista(Lista l, int i) {
+    StElemento* no = get_elemento_lista(l, i);
     return no ? no->chave : NULL;
 }
 
-void ordena_lista(LISTA l, int (*cmp)(void*, void*)) {
+void ordena_lista(Lista l, int (*cmp)(void*, void*)) {
     stLista *lista = (stLista*)l;
     if (!lista || !lista->inicio) return;
 
     int trocou;
-    PONT atual;
+    StElemento* atual;
     
     do {
         trocou = 0;

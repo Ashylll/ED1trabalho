@@ -12,12 +12,12 @@ void tearDown(void) {}
 
 void teste_escreve_svg(void) {
     const char* nome_arq = "svg_teste.svg";
-    SISTEMA s = cria_sistema("log.txt", nome_arq, NULL);
+    Sistema s = cria_sistema("log.txt", nome_arq, NULL);
     TEST_ASSERT_NOT_NULL(s);
 
-    CIRCULO c = cria_circulo(1, 100.0, 100.0, 20.0, "pink", "pink");
-    FORMA f = cria_forma('c', c);
-    LISTA l = get_formas(s);
+    Circulo c = cria_circulo(1, 100.0, 100.0, 20.0, "pink", "pink");
+    Forma f = cria_forma('c', c);
+    Lista l = get_formas(s);
     insere_lista(l, f);
 
     FILE *fp = get_svg_geo(s);

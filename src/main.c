@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Inicialização do Sistema
-    SISTEMA s = cria_sistema(nome_arq_qry ? out_txt_comb : NULL, out_svg_geo, nome_arq_qry ? out_svg_comb : NULL);
+    Sistema s = cria_sistema(nome_arq_qry ? out_txt_comb : NULL, out_svg_geo, nome_arq_qry ? out_svg_comb : NULL);
 
 
     printf("Processando .geo: %s\n", path_geo);

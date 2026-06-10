@@ -26,6 +26,6 @@ void svg_end(FILE *fp);
 /// @param s sistema
 /// @pre fp != NULL && s != NULL
 /// @return true se a operação foi bem-sucedida; false se não
-bool escreve_svg(FILE *fp, SISTEMA s);
+bool escreve_svg(FILE *fp, Sistema s);
 
 #endif

@@ -7,22 +7,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef void* LISTA;
+typedef void* Lista;
 
-typedef struct stPoligono {
-    FILA vertices;
+typedef struct StPoligono {
+    Fila vertices;
     char *corb, *corp;
-    FILA lados, hachura;
+    Fila lados, hachura;
     int id;
 
-} stPoligono;
+} StPoligono;
 
-typedef struct stVertice {
+typedef struct StVertice {
     double x, y;
-} stVertice;
+} StVertice;
 
-POLIGONO cria_poligono(int id){
-    stPoligono *poligono = malloc(sizeof(stPoligono));
+Poligono cria_poligono(int id){
+    StPoligono *poligono = malloc(sizeof(StPoligono));
     if (!poligono) return NULL;
     if (id < 1 || id > 10) {
         free(poligono);
@@ -38,7 +38,7 @@ POLIGONO cria_poligono(int id){
 
     if (poligono->vertices == NULL || poligono->lados == NULL ||
          poligono->hachura == NULL){
-            libera_poligono((POLIGONO*)&poligono);
+            libera_poligono((Poligono*)&poligono);
             return NULL;
          }
 
@@ -46,28 +46,28 @@ POLIGONO cria_poligono(int id){
     return poligono;
 }
 
-void libera_poligono(POLIGONO *p){
+void libera_poligono(Poligono *p){
     if (!p || !*p) return;
 
-    stPoligono *poligono = (stPoligono*)*p;
+    StPoligono *poligono = (StPoligono*)*p;
     free(poligono->corb);
     free(poligono->corp);
 
     ITEM remove;
-    FILA vertices = getVertices_poligono(*p);
+    Fila vertices = get_vertices_poligono(*p);
     while (!vazia_fila(vertices)){
         remove_fila(vertices, &remove);
         free(remove);
     }
     libera_fila(&(poligono->vertices));
 
-    FILA lados = getLados_poligono(*p);
+    Fila lados = get_lados_poligono(*p);
     while(!vazia_fila(lados)){
         remove_fila(lados, &remove);
     }
     libera_fila(&(poligono->lados));
 
-    FILA hachura = getHachura_poligono(*p);
+    Fila hachura = get_hachura_poligono(*p);
     while (!vazia_fila(hachura)){
         remove_fila(hachura, &remove);
     }
@@ -79,26 +79,26 @@ void libera_poligono(POLIGONO *p){
     return;
 }
 
-int tamanho_poligono(POLIGONO p){
+int tamanho_poligono(Poligono p){
     if (!p) return -1;
 
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
     return tamanho_fila(poligono->vertices);
 }
 
-int getId_poligono(POLIGONO p){
-    stPoligono *poligono = (stPoligono*)p;
+int get_id_poligono(Poligono p){
+    StPoligono *poligono = (StPoligono*)p;
 
     return poligono->id;
 }
 
-POLIGONO getPoligono(FILA f, int id){
-    FILA copia = copia_fila(f);
+Poligono get_poligono(Fila f, int id){
+    Fila copia = copia_fila(f);
 
-    POLIGONO p;
+    Poligono p;
     while(remove_fila(copia, &p)){
-        if(getId_poligono(p) == id){
+        if(get_id_poligono(p) == id){
             libera_fila(&copia);
             return p;
         }
@@ -108,29 +108,29 @@ POLIGONO getPoligono(FILA f, int id){
     return NULL;
 }
 
-FILA getVertices_poligono(POLIGONO p){
+Fila get_vertices_poligono(Poligono p){
     if (!p) return NULL;
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
     return poligono->vertices;
 }
 
-FILA getLados_poligono(POLIGONO p){
+Fila get_lados_poligono(Poligono p){
     if (!p) return NULL;
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
     return poligono->lados;
 }
 
-FILA getHachura_poligono(POLIGONO p){
+Fila get_hachura_poligono(Poligono p){
     if (!p) return NULL;
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
     return poligono->hachura;
 }
 
 VERTICE cria_vertice(double x, double y ){
-    stVertice *vertice = malloc(sizeof(stVertice));
+    StVertice *vertice = malloc(sizeof(StVertice));
     if (!vertice) return NULL;
 
     vertice->x = x;
@@ -142,7 +142,7 @@ VERTICE cria_vertice(double x, double y ){
 void libera_vertice(VERTICE *v){
     if (!v) return;
     
-    stVertice *vertice = (stVertice*)*v;
+    StVertice *vertice = (StVertice*)*v;
 
     free(vertice);
     *v = NULL;
@@ -150,28 +150,28 @@ void libera_vertice(VERTICE *v){
     return;
 }
 
-void insere_vertice(POLIGONO p, VERTICE v){
+void insere_vertice(Poligono p, VERTICE v){
     if (!v || !p) return;
 
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
-    FILA fila_v = poligono->vertices;
+    Fila fila_v = poligono->vertices;
 
     insere_fila(fila_v, v);
 
     return;
 }
 
-void remove_vertice(POLIGONO p, double *x, double *y){
+void remove_vertice(Poligono p, double *x, double *y){
     if (!p) return;
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
     void* v;
     remove_fila(poligono->vertices, &v);
     
     if (x && y){
-    *x = getX_vertice(v);
-    *y = getY_vertice(v);
+    *x = get_x_vertice(v);
+    *y = get_y_vertice(v);
     }
 
     libera_vertice(&v);
@@ -179,21 +179,21 @@ void remove_vertice(POLIGONO p, double *x, double *y){
     return;
 }
 
-double getX_vertice(VERTICE v){
-    stVertice *vertice = (stVertice*)v;
+double get_x_vertice(VERTICE v){
+    StVertice *vertice = (StVertice*)v;
 
     return vertice->x;
 }
 
-double getY_vertice(VERTICE v){
-    stVertice *vertice = (stVertice*)v;
+double get_y_vertice(VERTICE v){
+    StVertice *vertice = (StVertice*)v;
 
     return vertice->y;
 }
 
-void setCORB(POLIGONO p, const char* corb) {
+void set_corb(Poligono p, const char* corb) {
     if (!p || !corb) return;
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
     if (poligono->corb != NULL) {
         free(poligono->corb);
@@ -205,9 +205,9 @@ void setCORB(POLIGONO p, const char* corb) {
     }
 }
 
-void setCORP(POLIGONO p, const char* corp) {
+void set_corp(Poligono p, const char* corp) {
     if (!p || !corp) return;
-    stPoligono *poligono = (stPoligono*)p;
+    StPoligono *poligono = (StPoligono*)p;
 
     if (poligono->corp != NULL) {
         free(poligono->corp);
@@ -219,12 +219,12 @@ void setCORP(POLIGONO p, const char* corp) {
     }
 }
 
-void desenha_poligono(POLIGONO p, int *id, char* corb, LISTA formas){
+void desenha_poligono(Poligono p, int *id, char* corb, Lista formas){
     if (!p) return;
-    stPoligono *poligono = (stPoligono*)p;
-    setCORB(p, corb);
+    StPoligono *poligono = (StPoligono*)p;
+    set_corb(p, corb);
 
-    FILA vertices = copia_fila(poligono->vertices);
+    Fila vertices = copia_fila(poligono->vertices);
 
     VERTICE v_primeiro, v_atual, v_prox;
 
@@ -232,16 +232,16 @@ void desenha_poligono(POLIGONO p, int *id, char* corb, LISTA formas){
     v_atual = v_primeiro;
 
     while (remove_fila(vertices, &v_prox)) { // Cria os segmentos ao remover da fila cópia
-        double vX_atual = getX_vertice(v_atual);
-        double vY_atual = getY_vertice(v_atual);
+        double vX_atual = get_x_vertice(v_atual);
+        double vY_atual = get_y_vertice(v_atual);
 
-        double vX_prox = getX_vertice(v_prox);
-        double vY_prox = getY_vertice(v_prox);
+        double vX_prox = get_x_vertice(v_prox);
+        double vY_prox = get_y_vertice(v_prox);
 
         SEGMENTO s = cria_linha(*id, vX_atual, vY_atual, vX_prox, vY_prox, poligono->corb);
         insere_fila(poligono->lados, s);
 
-        FORMA f = cria_forma('l', s);
+        Forma f = cria_forma('l', s);
         insere_lista(formas, f);
         v_atual = v_prox; 
 
@@ -249,16 +249,16 @@ void desenha_poligono(POLIGONO p, int *id, char* corb, LISTA formas){
     }
 
     // Cria o segmento final (conecta o primeiro vértice com o último)
-    double vX_atual = getX_vertice(v_atual);
-    double vY_atual = getY_vertice(v_atual);
+    double vX_atual = get_x_vertice(v_atual);
+    double vY_atual = get_y_vertice(v_atual);
 
-    double vX_primeiro = getX_vertice(v_primeiro);
-    double vY_primeiro = getY_vertice(v_primeiro);
+    double vX_primeiro = get_x_vertice(v_primeiro);
+    double vY_primeiro = get_y_vertice(v_primeiro);
 
     SEGMENTO s_final = cria_linha(*id, vX_atual, vY_atual, vX_primeiro, vY_primeiro, poligono->corb);
     insere_fila(poligono->lados, s_final);
 
-    FORMA f_final = cria_forma('l', s_final);
+    Forma f_final = cria_forma('l', s_final);
     insere_lista(formas, f_final);
 
     (*id)++;
@@ -269,22 +269,22 @@ void desenha_poligono(POLIGONO p, int *id, char* corb, LISTA formas){
     return;
 }
 
-void boundingBox(FILA vertices, double *ymin, double *xmin, double *ymax, double *xmax){
+void boundingBox(Fila vertices, double *ymin, double *xmin, double *ymax, double *xmax){
     if (!vertices) return;
 
-    FILA aux = copia_fila(vertices);
+    Fila aux = copia_fila(vertices);
     VERTICE vertice;
 
     remove_fila(aux, &vertice);
-    double y = getY_vertice(vertice);
-    double x = getX_vertice(vertice);
+    double y = get_y_vertice(vertice);
+    double x = get_x_vertice(vertice);
     
     *ymin = *ymax = y;
     *xmin = *xmax = x;
     
     while (remove_fila(aux, &vertice)){
-        y = getY_vertice(vertice);
-        x = getX_vertice(vertice);
+        y = get_y_vertice(vertice);
+        x = get_x_vertice(vertice);
 
         if (y < *ymin) *ymin = y;
         else if (y > *ymax) *ymax = y;
@@ -297,15 +297,15 @@ void boundingBox(FILA vertices, double *ymin, double *xmin, double *ymax, double
     libera_fila(&aux);
 }
 
-void calc_intersecao(POLIGONO p, double y_atual, LISTA coordXLista){
-    FILA lados = getLados_poligono(p);
-    FILA aux = copia_fila(lados);
-    LINHA segmento;
+void calc_intersecao(Poligono p, double y_atual, Lista coordXLista){
+    Fila lados = get_lados_poligono(p);
+    Fila aux = copia_fila(lados);
+    Linha segmento;
     while (remove_fila(aux, &segmento)){
-        double x1 = getX1_linha(segmento);
-        double y1 = getY1_linha(segmento);
-        double x2 = getX2_linha(segmento);
-        double y2 = getY2_linha(segmento);
+        double x1 = get_x1_linha(segmento);
+        double y1 = get_y1_linha(segmento);
+        double x2 = get_x2_linha(segmento);
+        double y2 = get_y2_linha(segmento);
 
         if (y1 == y2) continue;
 
@@ -334,34 +334,34 @@ int compara_doubles(void *a, void *b) {
     return 0;
 }
 
-void hachura_poligono(POLIGONO p, int *id, double d, char* corp, LISTA formas){
+void hachura_poligono(Poligono p, int *id, double d, char* corp, Lista formas){
     if (!p || d <= 0) return;
-    stPoligono *poligono = (stPoligono*)p;
-    setCORP(p, corp);
+    StPoligono *poligono = (StPoligono*)p;
+    set_corp(p, corp);
 
     double ymin, ymax, xmin, xmax;
-    boundingBox(getVertices_poligono(p), &ymin, &xmin, &ymax, &xmax);
+    boundingBox(get_vertices_poligono(p), &ymin, &xmin, &ymax, &xmax);
 
     double epsilon = 1e-9;
     double y_atual = ymin + d;
     while (y_atual < (ymax - epsilon)) {
-        LISTA coordXLista = cria_lista();
+        Lista coordXLista = cria_lista();
         calc_intersecao(p, y_atual, coordXLista);
 
         ordena_lista(coordXLista, compara_doubles);
 
         for (int i = 0; i < tamanho_lista(coordXLista); i += 2) {
-            double *x1_ptr = (double*) getItem_lista(coordXLista, i);
-            double *x2_ptr = (double*) getItem_lista(coordXLista, i + 1);
+            double *x1_ptr = (double*) get_item_lista(coordXLista, i);
+            double *x2_ptr = (double*) get_item_lista(coordXLista, i + 1);
         
             if (x1_ptr && x2_ptr) {
                 double x1 = *x1_ptr;
                 double x2 = *x2_ptr;
                 
-                LINHA hachura = cria_linha(*id, x1, y_atual, x2, y_atual, poligono->corp);
+                Linha hachura = cria_linha(*id, x1, y_atual, x2, y_atual, poligono->corp);
                 insere_fila(poligono->hachura, hachura);
 
-                FORMA f = cria_forma('l', hachura);
+                Forma f = cria_forma('l', hachura);
                 insere_lista(formas, f);
 
                 (*id)++;
@@ -369,7 +369,7 @@ void hachura_poligono(POLIGONO p, int *id, double d, char* corp, LISTA formas){
         }
 
         for (int i = 0; i < tamanho_lista(coordXLista); i++) {
-            double *p_x = (double*) getItem_lista(coordXLista, i);
+            double *p_x = (double*) get_item_lista(coordXLista, i);
             if (p_x) free(p_x);
         }
         libera_lista(&coordXLista);

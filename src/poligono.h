@@ -17,59 +17,59 @@
 
 */
 
-typedef void* POLIGONO;
+typedef void* Poligono;
 typedef void* VERTICE;
 typedef void* SEGMENTO;
-typedef void* FILA;
-typedef void* LISTA;
+typedef void* Fila;
+typedef void* Lista;
 
 /// @brief cria um polígono
 /// @param id identificador
 /// @pre id deve pertencer ao intervalo de inteiros [1, 10]
 /// @return ponteiro para o polígono; NULL se falha na criação ou id inválido
-POLIGONO cria_poligono(int id);
+Poligono cria_poligono(int id);
 
 /// @brief libera a memória do polígono
 /// @pre p != NULL
 /// @param p ponteiro para handle do polígono
-void libera_poligono(POLIGONO *p);
+void libera_poligono(Poligono *p);
 
 /// @brief retorna o número de vértices do polígono
 /// @param p polígono
 /// @pre p != NULL
 /// @return número de vértices (inteiro)
-int tamanho_poligono(POLIGONO p);
+int tamanho_poligono(Poligono p);
 
 /// @brief retorna o id do polígono
 /// @param p polígono
 /// @pre p != NULL
 /// @return identificador
-int getId_poligono(POLIGONO p);
+int get_id_poligono(Poligono p);
 
 /// @brief busca polígono por id em uma fila
 /// @param f fila
 /// @param id identificador 
 /// @pre f != NULL && id pertencer ao intervalo de inteiros [1, 10]
 /// @return polígono, se encontrou; NULL se não encontrou
-POLIGONO getPoligono(FILA f, int id);
+Poligono get_poligono(Fila f, int id);
 
 /// @brief retorna a fila de vértices do polígono
 /// @param p polígono
 /// @pre p != NULL
 /// @return fila de vértices
-FILA getVertices_poligono(POLIGONO p);
+Fila get_vertices_poligono(Poligono p);
 
 /// @brief retorna a fila de lados do polígono
 /// @param p polígono
 /// @pre p != NULL
 /// @return fila de lados 
-FILA getLados_poligono(POLIGONO p);
+Fila get_lados_poligono(Poligono p);
 
 /// @brief retorna a fila de hachura do polígono
 /// @param p polígono
 /// @pre p != NULL
 /// @return fila de hachura
-FILA getHachura_poligono(POLIGONO p);
+Fila get_hachura_poligono(Poligono p);
 
 /// @brief cria um vértice (ponto no plano)
 /// @param x coordenada x
@@ -87,26 +87,26 @@ void libera_vertice(VERTICE *v);
 /// @param p pónteiro para o polígono
 /// @param v ponteiro para o vértice
 /// @pre p != NULL && v != NULL
-void insere_vertice(POLIGONO p, VERTICE v);
+void insere_vertice(Poligono p, VERTICE v);
 
 /// @brief remove o vértice mais antigo inserido no polígono e libera sua memória
 /// @param p polígono
 /// @param x ponteiro para receber a coordenda x do vértice removido
 /// @param y ponteiro para receber a coordenada y do vértice removido 
 /// @pre p != NULL
-void remove_vertice(POLIGONO p, double *x, double *y);
+void remove_vertice(Poligono p, double *x, double *y);
 
 /// @brief retorna a coordenada x do vértice
 /// @param v vértice
 /// @pre v != NULL
 /// @return coordenada x
-double getX_vertice (VERTICE v);
+double get_x_vertice (VERTICE v);
 
 /// @brief retorna a coordenada y do vértice
 /// @param v vértice
 /// @pre v != NULL
 /// @return coordenada y
-double getY_vertice (VERTICE v);
+double get_y_vertice (VERTICE v);
 
 /// @brief cria os segmentos dos lados do polígono sequencialmente a partir de um id
 /// @param p polígono
@@ -115,7 +115,7 @@ double getY_vertice (VERTICE v);
 /// @param formas bando de dados de formas para receber os novos segmentos
 /// @details o valor real de id é incrementado de um em um a cada criação de segmento, terminando com o valor do último id + 1
 /// @pre p != NULL && corb != NULL
-void desenha_poligono(POLIGONO p, int *id, char *corb, LISTA formas);
+void desenha_poligono(Poligono p, int *id, char *corb, Lista formas);
 
 /// @brief cria os segmentos da hachura do polígono sequencialmente a partir de um id
 /// @param p polígono
@@ -125,6 +125,6 @@ void desenha_poligono(POLIGONO p, int *id, char *corb, LISTA formas);
 /// @param formas bando de dados de formas para receber os novos segmentos
 /// @details o valor real de id é incrementado de um em um a cada criação de segmento, terminando com o valor do último id + 1
 /// @pre p != NULL && d > 0 && corp != NULL
-void hachura_poligono(POLIGONO p, int *id, double d, char* corp, LISTA formas); 
+void hachura_poligono(Poligono p, int *id, double d, char* corp, Lista formas); 
 
 #endif

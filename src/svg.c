@@ -21,19 +21,19 @@ void svg_end(FILE *fp){
     fprintf(fp, "</svg>\n");
 }
 
-static void svg_escreve_forma(FILE *fp, FORMA f){
+static void svg_escreve_forma(FILE *fp, Forma f){
     if (!fp || !f) return;
 
-    char tipo = getTipo_forma(f);
-    void *hand = getHandle_forma(f);
+    char tipo = get_tipo_forma(f);
+    void *hand = get_handle_forma(f);
 
     switch (tipo){
         case 'c': { 
-            double x = getX_circulo(hand);
-            double y = getY_circulo(hand);
+            double x = get_x_circulo(hand);
+            double y = get_y_circulo(hand);
             double r = getR_circulo(hand);
-            const char *corb = getCORB_circulo(hand);
-            const char *corp = getCORP_circulo(hand);
+            const char *corb = get_corb_circulo(hand);
+            const char *corp = get_corp_circulo(hand);
 
             double opacidade = 0.6;
 
@@ -44,16 +44,16 @@ static void svg_escreve_forma(FILE *fp, FORMA f){
         }
 
         case 'r': { 
-            double x = getX_retangulo(hand);
-            double y = getY_retangulo(hand);
+            double x = get_x_retangulo(hand);
+            double y = get_y_retangulo(hand);
             double w = getW_retangulo(hand);
             double h = getH_retangulo(hand);
-            const char *corb = getCORB_retangulo(hand);
-            const char *corp = getCORP_retangulo(hand);
+            const char *corb = get_corb_retangulo(hand);
+            const char *corp = get_corp_retangulo(hand);
 
             double opacidade = 0.6;
 
-            if (getId_retangulo(hand) == -1){
+            if (get_id_retangulo(hand) == -1){
                 fprintf(fp,
             "<rect style=\"fill:%s;fill-opacity:%.1f;stroke:%s;stroke-dasharray:5;stroke-width:1.0\" x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" />\n"
             , corp, opacidade, corb, x, y, w, h);
@@ -67,11 +67,11 @@ static void svg_escreve_forma(FILE *fp, FORMA f){
         }
 
         case 'l': {
-            double x1 = getX1_linha(hand);
-            double y1 = getY1_linha(hand);
-            double x2 = getX2_linha(hand);
-            double y2 = getY2_linha(hand);
-            const char *cor = getCOR_linha(hand);
+            double x1 = get_x1_linha(hand);
+            double y1 = get_y1_linha(hand);
+            double x2 = get_x2_linha(hand);
+            double y2 = get_y2_linha(hand);
+            const char *cor = get_cor(hand);
 
             double opacidade = 0.8;
 
@@ -82,21 +82,21 @@ static void svg_escreve_forma(FILE *fp, FORMA f){
         }
 
         case 't': {
-            double x = getX_texto(hand);
-            double y = getY_texto(hand);
-            const char *corb = getCORB_texto(hand);  
-            const char *corp = getCORP_texto(hand);   
-            const char *txto = getTXTO_texto(hand);   
-            const char *family = getFFamily_texto(hand);
-            const char *weight = getFWeight_texto(hand);
-            const char a = getA_texto(hand);
+            double x = get_x_texto(hand);
+            double y = get_y_texto(hand);
+            const char *corb = get_corb_texto(hand);  
+            const char *corp = get_corp_texto(hand);   
+            const char *txto = get_palavra_texto(hand);   
+            const char *family = get_family_texto(hand);
+            const char *weight = get_weight_texto(hand);
+            const char a = get_posicao_ancora_texto(hand);
             const char *ancora;
             switch (a){
                 case 'i': ancora = "start"; break;
                 case 'm': ancora = "middle"; break;
                 case 'f': ancora = "end"; break;
             }
-            int size = getFSize_texto(hand);
+            int size = get_size_texto(hand);
 
             double opacidade = 1.0;
 
@@ -114,22 +114,22 @@ static void svg_escreve_forma(FILE *fp, FORMA f){
     }
 }
 
-bool escreve_svg(FILE *fp, SISTEMA s){
+bool escreve_svg(FILE *fp, Sistema s){
     if (!fp || !s) return false;
 
-    LISTA formas = get_formas(s);
+    Lista formas = get_formas(s);
 
     int i = 0;
     while (i < tamanho_lista(formas)){
-        FORMA figura = getItem_lista(formas, i);
+        Forma figura = get_item_lista(formas, i);
         svg_escreve_forma(fp, figura);
         i++;
     }
 
     i = 0;
-    LISTA formas_aux = get_formas_aux(s);
+    Lista formas_aux = get_formas_aux(s);
     while (i < tamanho_lista(formas_aux)){
-        FORMA figura = getItem_lista(formas_aux, i);
+        Forma figura = get_item_lista(formas_aux, i);
         svg_escreve_forma(fp, figura);
         i++;
     }

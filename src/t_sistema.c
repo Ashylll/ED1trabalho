@@ -12,7 +12,7 @@ void teste_cria_e_fecha_sistema(void) {
     const char *geo = "t_geo.svg";
     const char *qry = "t_qry.svg";
 
-    SISTEMA s = cria_sistema(log, geo, qry);
+    Sistema s = cria_sistema(log, geo, qry);
     TEST_ASSERT_NOT_NULL(s);
 
     TEST_ASSERT_NOT_NULL(get_formas(s));
@@ -33,7 +33,7 @@ void teste_cria_e_fecha_sistema(void) {
 }
 
 void teste_sistema_qry_opcional(void) {
-    SISTEMA s = cria_sistema("log.txt", "geo.svg", NULL);
+    Sistema s = cria_sistema("log.txt", "geo.svg", NULL);
     TEST_ASSERT_NOT_NULL(s);
 
     TEST_ASSERT_NULL(get_svg_qry(s));
@@ -47,7 +47,7 @@ void teste_sistema_qry_opcional(void) {
 }
 
 void teste_estilo_texto_sistema(void) {
-    SISTEMA s = cria_sistema("l.txt", "g.svg", NULL);
+    Sistema s = cria_sistema("l.txt", "g.svg", NULL);
     
     char family[32], weight[32];
     double size;
@@ -70,7 +70,7 @@ void teste_estilo_texto_sistema(void) {
 }
 
 void teste_arquivos_estao_abertos_para_escrita(void) {
-    SISTEMA s = cria_sistema("l.txt", "g.svg", NULL);
+    Sistema s = cria_sistema("l.txt", "g.svg", NULL);
     
     FILE *f_txt = get_arquivo_txt(s);
     int resultado = fprintf(f_txt, "Teste de escrita\n");
